@@ -10,4 +10,6 @@
    gap: 10px;
    background: #fbfcfe;
    color: #333333;
+   max-width: 1400px;
+   margin: 0 auto;
 }
