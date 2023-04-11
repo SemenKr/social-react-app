@@ -1,14 +1,13 @@
 import React from 'react';
-import p from './MyPosts.module.css';
 import Post from './Post/Post';
 
 const MyPosts = () => {
 	return (
 		<div>
 			<div>
-				New Post
+				wtf Post
 				<textarea name="" id="" rows="5"></textarea>
-				<button type="submit" class="button">
+				<button type="button">
 					Отправить
 				</button>
 			</div>
