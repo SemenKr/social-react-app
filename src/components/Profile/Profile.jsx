@@ -4,13 +4,16 @@ import MyPosts from './MyPosts/MyPosts';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const Profile = () => {
-    return (
-        <div className={p.main_content}>
-            Main Content
-            <ProfileInfo/>
-            <MyPosts/>
-        </div>
-    );
+	return (
+		<div className={p.mainContent}>
+			<div className={p.mainContent__top}>
+				<img className={p.mainContent__top_img} src="img/profile-bg.jpg" alt="" />
+			</div>
+
+			<ProfileInfo description='Something about me' />
+			<MyPosts />
+		</div>
+	);
 };
 
 export default Profile;

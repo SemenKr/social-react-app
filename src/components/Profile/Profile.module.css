@@ -1,0 +1,12 @@
+.mainContent {
+	border-radius: 15px;
+}
+
+.mainContent .mainContent__top_img {
+	width: 100%;
+	top: 0;
+	left: 0;
+	object-fit: cover;
+	z-index: 0;
+	border-radius: 15px 15px 0 0;
+}

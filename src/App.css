@@ -1,23 +1,23 @@
 /** @format */
 
 .app-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 8fr;
-    grid-template-rows: 70px 1fr;
-    grid-template-areas:
-      'header header'
-      'nav content';
-    gap: 10px;
-    background: #fbfcfe;
-    color: #333333;
-    max-width: 1400px;
-    margin: 0 auto;
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+	grid-template-rows: 70px 1fr;
+	grid-template-areas:
+		"header header"
+		"nav content";
+	gap: 10px;
+	background: #fbfcfe;
+	color: #333333;
+	max-width: 1400px;
+	margin: 0 auto;
 }
 
 .app__content {
-    grid-area: content;
-    background-color: #ffffff;
-    border-radius: 15px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
-    padding: 1rem 2rem;
+	grid-area: content;
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
+	padding: 1rem 2rem;
 }
