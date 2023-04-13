@@ -1,6 +1,4 @@
-/** @format */
-
-.header {
+header {
 	grid-area: header;
 	background-color: #ffffff;
 	padding: 1rem 2rem;

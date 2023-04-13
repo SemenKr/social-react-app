@@ -1,0 +1,45 @@
+.dialogs__wrapper {
+    display: grid;
+    grid-template-columns: 3fr 7fr;
+    height: 100%;
+}
+
+.chat {
+    padding: 1rem 2rem;
+}
+
+.chat img {
+    border-radius: 50%;
+    margin-right: 2rem;
+}
+
+.contacts {
+    border-right: 2px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 2rem;
+
+}
+
+.contact {
+    padding: .2rem 1rem;
+    transition: box-shadow .3s ease-in-out,
+    color .3s ease-in-out;
+}
+
+
+.contact.active,
+.contact:hover {
+    color: #1e74fd;
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
+}
+
+.chat li {
+    display: flex;
+    align-items: flex-start;
+    background: #fbfcfe;
+    border-radius: 15px;
+    border:1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
+    padding: 1rem 1rem;
+    margin-bottom: 1rem;
+}
