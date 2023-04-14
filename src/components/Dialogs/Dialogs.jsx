@@ -1,15 +1,9 @@
 import React from "react";
 import d from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
+import DialogItem from './DialogItem/DialogItem';
 
 
 
-const DialogItem = (props) => {
-	let path = '/messages/' + props.id;
-	return (
-		<li><NavLink className={d.contact} to={path}>{props.name}</NavLink></li>
-	)
-}
 
 const ChatItem = (props) => {
 	const avatars = {
