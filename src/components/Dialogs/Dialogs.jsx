@@ -36,13 +36,16 @@ const Dialogs = (props) => {
 	];
 
 	const chatData = [
-		{id: 1, message: 'Hi World ...'},
-		{id: 2, message: 'Hi Sam ...'},
-		{id: 3, message: 'omg lol ...'},
-		{id: 4, message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia obcaecati ducimus inventore odit exercitationem reprehenderit. Iure ullam aut reprehenderit cupiditate sed incidunt temporibus, molestiae laboriosam doloribus laudantium labore eius eaque?'},
-		{id: 5, message: 'Hi World ...'},
-		{id: 6, message: 'omg lol ...'},
+		{id: 1, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
+		{id: 2, message: 'Hi Sam ...', alt: 'Alt of img', ava: 2, },
+		{id: 3, message: 'omg lol ...', alt: 'Alt of img', ava: 1, },
+		{id: 4, message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia obcaecati ducimus inventore odit exercitationem reprehenderit. Iure ullam aut reprehenderit cupiditate sed incidunt temporibus, molestiae laboriosam doloribus laudantium labore eius eaque?', alt: 'Alt of img', ava: 2, },
+		{id: 5, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
+		{id: 6, message: 'omg lol ...', alt: 'Alt of img', ava: 2, },
 	];
+
+	const dialogItems = dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+	const chatItems = chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 
 
@@ -51,22 +54,13 @@ const Dialogs = (props) => {
 			<div className={d.contacts}>
 				<h3>Contacts</h3>
 				<ul>
-					<DialogItem name={dialogData[0].name} id={dialogData[0].id} />
-					<DialogItem name={dialogData[1].name} id={dialogData[1].id} />
-					<DialogItem name={dialogData[2].name} id={dialogData[2].id} />
-					<DialogItem name={dialogData[3].name} id={dialogData[3].id} />
-					<DialogItem name={dialogData[4].name} id={dialogData[4].id} />
+					{dialogItems}
 				</ul>
 			</div>
 			<div className={d.chat}>
 				<h3>Chat</h3>
 				<ul>
-					<ChatItem ava='1' message={chatData[0].message} alt='User' />
-					<ChatItem ava='2' message={chatData[1].message} alt='User 2' />
-					<ChatItem ava='1' message={chatData[2].message} alt='User' />
-					<ChatItem ava='2' message={chatData[3].message} alt='User 2' />
-					<ChatItem ava='1' message={chatData[4].message} alt='User' />
-
+					{chatItems}
 				</ul>
 			</div>
 		</div>
