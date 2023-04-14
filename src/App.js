@@ -11,27 +11,26 @@ import Music from "./components/Music/Music";
 
 
 const App = () => {
-    return (
-        <BrowserRouter>
+	return (
+		<BrowserRouter>
 
-            <div className="app app-wrapper">
-                <Header/>
-                <NavBar/>
-                {/*<Profile />*/}
-                <div className="app__content">
-                    <Routes>
-                        <Route path='/profile' element={<Profile/>}/>
-                        <Route path='/messages/*' element={<Dialogs/>}/>
-                        <Route path='/news' element={<News/>}/>
-                        <Route path='/music' element={<Music/>}/>
-                    </Routes>
-                </div>
-            </div>
+			<div className="app app-wrapper">
+				<Header />
+				<NavBar />
+				{/*<Profile />*/}
+				<div className="app__content">
+					<Routes>
+						<Route path='/profile' element={<Profile />} />
+						<Route path='/messages/*' element={<Dialogs />} />
+						<Route path='/news' element={<News />} />
+						<Route path='/music' element={<Music />} />
+					</Routes>
+				</div>
+			</div>
 
+		</BrowserRouter>
 
-        </BrowserRouter>
-
-    );
+	);
 }
 
 export default App;
