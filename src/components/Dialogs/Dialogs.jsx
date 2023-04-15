@@ -20,26 +20,9 @@ const ChatItem = (props) => {
 
 const Dialogs = (props) => {
 
-	const dialogData = [
-		{id: 1, name: 'Andrew'},
-		{id: 2, name: 'Alex'},
-		{id: 3, name: 'Nadine'},
-		{id: 4, name: 'Tony'},
-		{id: 5, name: 'Felix'},
-		{id: 6, name: 'Uliana'},
-	];
+	const dialogItems = props.dialogs.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
 
-	const chatData = [
-		{id: 1, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
-		{id: 2, message: 'Hi Sam ...', alt: 'Alt of img', ava: 2, },
-		{id: 3, message: 'omg lol ...', alt: 'Alt of img', ava: 1, },
-		{id: 4, message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia obcaecati ducimus inventore odit exercitationem reprehenderit. Iure ullam aut reprehenderit cupiditate sed incidunt temporibus, molestiae laboriosam doloribus laudantium labore eius eaque?', alt: 'Alt of img', ava: 2, },
-		{id: 5, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
-		{id: 6, message: 'omg lol ...', alt: 'Alt of img', ava: 2, },
-	];
-
-	const dialogItems = dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
-	const chatItems = chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
+	const chatItems = props.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 
 
