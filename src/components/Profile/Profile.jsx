@@ -3,7 +3,8 @@ import p from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = () => {
+const Profile = (props) => {
+
 	return (
 		<div className={p.mainContent}>
 			<div className={p.mainContent__top}>
@@ -11,7 +12,7 @@ const Profile = () => {
 			</div>
 
 			<ProfileInfo description='Something about me' />
-			<MyPosts />
+			<MyPosts posts={props.postsData} />
 		</div>
 	);
 };
