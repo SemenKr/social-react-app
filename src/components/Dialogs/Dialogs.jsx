@@ -20,9 +20,9 @@ const ChatItem = (props) => {
 
 const Dialogs = (props) => {
 
-	const dialogItems = props.dialogs.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+	const dialogItems = props.dialogs.dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
 
-	const chatItems = props.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
+	const chatItems = props.dialogs.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 
 
