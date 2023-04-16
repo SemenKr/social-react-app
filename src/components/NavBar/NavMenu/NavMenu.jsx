@@ -2,8 +2,10 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 
 const NavMenuItem = (props) => {
+
+
 	return (
-		<NavLink to="/profile">{props.name}</NavLink>
+		<NavLink to={props.path}>{props.name}</NavLink>
 	)
 }
 

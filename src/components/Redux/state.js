@@ -2,11 +2,11 @@ const state = {
 	navBar: {
 		navMenu: {
 			links: [
-				{id: 1, name: 'Profile'},
-				{id: 2, name: 'Messages'},
-				{id: 3, name: 'News'},
-				{id: 4, name: 'Music'},
-				{id: 5, name: 'Video'},
+				{id: 1, name: 'Profile', path: '/profile'},
+				{id: 2, name: 'Messages', path: '/messages/*'},
+				{id: 3, name: 'News', path: '/news'},
+				{id: 4, name: 'Music', path: '/music'},
+				{id: 5, name: 'Video', path: '/video'},
 			]
 		},
 	},
