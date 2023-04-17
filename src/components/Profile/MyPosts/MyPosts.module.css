@@ -9,6 +9,7 @@ ul {
 	grid-template-columns: 1fr;
 	column-gap: 1rem;
 	row-gap: 1rem;
+	margin-bottom: 1rem;
 }
 .textField__input {
 	resize: vertical;
@@ -45,6 +46,6 @@ ul {
 .btn:hover {
 	background: #05f;
 	color: #fff;
-	box-shadow: rgba(0, 0, 0, 0.5) 1px 8px 30px 0px;
+	box-shadow: rgba(0, 0, 0, 0.2) 1px 5px 5px 0px;
 	border: 2px #05f solid;
 }
