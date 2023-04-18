@@ -7,18 +7,24 @@ const MyPosts = (props) => {
 
 	const posts = props.posts.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
 	)
-
+	// создаем привязку "ссылку" в переменной newPost
 	const newPost = React.createRef();
+
+	// бере функцию из state которая берет newPostText из state и добавляет state объект с новым постом
 	const addPost = () => {
+		props.addPost();
+	}
+
+	// следит за изменением в textarea и с помощью функции из state добавляет изменения в state
+	const onPostChange = () => {
 		let text = newPost.current.value;
-		props.addPost(text);
-		text = '';
+		props.updateNewPostText(text);
 	}
 
 	return (
 		<div className={p.myPosts}>
 			<div className={p.textField}>
-				<textarea className={p.textField__input} ref={newPost} wrap="soft" id="" rows="5"></textarea>
+				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} wrap="soft" id="" rows="5" />
 				<div className={p.textField__btnWrapper}>
 					<button onClick={addPost} className={p.btn} >Send</button >
 				</div>

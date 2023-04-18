@@ -1,14 +1,19 @@
 .contact {
-	padding: .2rem 1rem;
+	color: #888888;
+	font-size: 15px;
+	font-weight: 600;
+	line-height: 28px;
+	text-decoration: none;
+	display: inline-flex;
+	transition: color 0.3s ease-in-out;
+	padding: 0.2rem 1rem;
 	border-radius: 15px;
-	transition: box-shadow .3s ease-in-out,
-	color .3s ease-in-out;
+	transition: box-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-
 
 .contact[aria-current],
 .contact:hover {
 	color: #1e74fd;
-	outline:1px solid rgba(0, 0, 0, 0.05);
+	outline: 1px solid rgba(0, 0, 0, 0.05);
 	box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
 }
