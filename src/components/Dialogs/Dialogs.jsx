@@ -24,6 +24,18 @@ const Dialogs = (props) => {
 
 	const chatItems = props.dialogs.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
+	const newMessage = React.createRef();
+
+	const addMessage = () => {
+		props.addChatItem()
+	};
+
+	const onChatChange = () => {
+		let text = newMessage.current.value;
+		props.updateNewChatText(text);
+	}
+
+
 
 
 	return (
@@ -39,6 +51,10 @@ const Dialogs = (props) => {
 				<ul>
 					{chatItems}
 				</ul>
+				<div className={d.chat__newMessage}>
+					<textarea value={props.dialogs.newChatMessage} className={d.textField__input} ref={newMessage} onChange={onChatChange} wrap="soft" id="" rows="2" />
+					<button onClick={addMessage} className={d.btn} >Send</button >
+				</div>
 			</div>
 		</div>
 	)

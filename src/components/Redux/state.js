@@ -42,6 +42,7 @@ const state = {
 			{id: 5, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
 			{id: 6, message: 'omg lol ...', alt: 'Alt of img', ava: 2, },
 		],
+		newChatMessage: '',
 	},
 	profilePage: {
 		postsData: [
@@ -70,17 +71,45 @@ const state = {
 				src: 'https://i.pravatar.cc/300?img=4',
 			},
 		],
+		newPostText: ''
 	},
 };
 
-export const addPost = (postMessage) => {
+export const addPost = () => {
 	let newPost = {
 		id: 5,
-		message: postMessage,
+		message: state.profilePage.newPostText,
 		likesCount: 12,
 		src: 'https://i.pravatar.cc/150?img=5',
 	};
 	state.profilePage.postsData.push(newPost);
+	state.profilePage.newPostText = '';
+	renderEntireTree()
+}
+
+export const addChatItem = () => {
+	let newChatItem = {
+		id: 6,
+		message: state.dialogPage.newChatMessage,
+		alt: 'Alt of img',
+		ava: 1,
+	};
+
+	state.dialogPage.chatData.push(newChatItem);
+	state.dialogPage.newChatMessage = '';
+	renderEntireTree()
+}
+
+
+export const updateNewPostText = (newText) => {
+
+	state.profilePage.newPostText = newText
+	renderEntireTree()
+}
+
+export const updateNewChatText = (newText) => {
+
+	state.dialogPage.newChatMessage = newText
 	renderEntireTree()
 }
 

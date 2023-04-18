@@ -40,10 +40,10 @@
 	transition: color 0.3s ease-in-out;
 }
 
-a:hover {
+.navigation__item a:hover {
 	color: #1e74fd;
 }
 
-a[aria-current] {
+.navigation__item a[aria-current] {
 	color: #1e74fd;
 }
