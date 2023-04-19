@@ -24,7 +24,7 @@ const MyPosts = (props) => {
 	return (
 		<div className={p.myPosts}>
 			<div className={p.textField}>
-				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} wrap="soft" id="" rows="5" />
+				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} wrap="soft" id="" rows="5" minLength={5} />
 				<div className={p.textField__btnWrapper}>
 					<button onClick={addPost} className={p.btn} >Send</button >
 				</div>

@@ -1,4 +1,6 @@
-import {renderEntireTree} from '../../render';
+let renderEntireTree = () => {
+	console.log('yo')
+}
 
 const state = {
 	navBar: {
@@ -100,7 +102,6 @@ export const addChatItem = () => {
 	renderEntireTree()
 }
 
-
 export const updateNewPostText = (newText) => {
 
 	state.profilePage.newPostText = newText
@@ -111,6 +112,10 @@ export const updateNewChatText = (newText) => {
 
 	state.dialogPage.newChatMessage = newText
 	renderEntireTree()
+}
+
+export const subscriber = (observe) => {
+	renderEntireTree = observe;
 }
 
 export default state;
