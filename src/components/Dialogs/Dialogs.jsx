@@ -1,6 +1,7 @@
 import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
+import store from '../Redux/state';
 
 
 
@@ -27,12 +28,12 @@ const Dialogs = (props) => {
 	const newMessage = React.createRef();
 
 	const addMessage = () => {
-		props.addChatItem()
+		store.addChatItem()
 	};
 
 	const onChatChange = () => {
 		let text = newMessage.current.value;
-		props.updateNewChatText(text);
+		store.updateNewChatText(text);
 	}
 
 
