@@ -1,7 +1,6 @@
 import React from 'react';
 import Post from './Post/Post';
 import p from './MyPosts.module.css';
-import store from '../../Redux/state';
 
 
 const MyPosts = (props) => {
@@ -14,13 +13,13 @@ const MyPosts = (props) => {
 
 	// бере функцию из state которая берет newPostText из state и добавляет state объект с новым постом
 	const addPost = () => {
-		store.addPost();
+		props.addPost();
 	}
 
 	// следит за изменением в textarea и с помощью функции из state добавляет изменения в state
 	const onPostChange = () => {
 		let text = newPost.current.value;
-		store.updateNewPostText(text);
+		props.updateNewPostText(text);
 	}
 
 	return (

@@ -28,7 +28,7 @@ const Dialogs = (props) => {
 	const newMessage = React.createRef();
 
 	const addMessage = () => {
-		store.addChatItem()
+		props.addChatItem()
 	};
 
 	const onChatChange = () => {
