@@ -5,10 +5,10 @@ import p from './MyPosts.module.css';
 
 const MyPosts = (props) => {
 
-	const posts = props.posts.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
+	let posts = props.posts.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
 	)
 	// создаем привязку "ссылку" в переменной newPost
-	const newPost = React.createRef();
+	let newPost = React.createRef();
 
 	// бере функцию из state которая берет newPostText из state и добавляет state объект с новым постом
 	const addPost = () => {
@@ -24,7 +24,7 @@ const MyPosts = (props) => {
 	return (
 		<div className={p.myPosts}>
 			<div className={p.textField}>
-				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} wrap="soft" id="" rows="5" minLength={5} />
+				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} />
 				<div className={p.textField__btnWrapper}>
 					<button onClick={addPost} className={p.btn} >Send</button >
 				</div>

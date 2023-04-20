@@ -88,7 +88,7 @@ let store = {
 		};
 		this._state.profilePage.postsData.push(newPost);
 		this._state.profilePage.newPostText = '';
-		this._callSubscriber()
+		this._callSubscriber(this._state)
 	},
 	addChatItem() {
 		let newChatItem = {
@@ -100,17 +100,17 @@ let store = {
 
 		this._state.dialogPage.chatData.push(newChatItem);
 		this._state.dialogPage.newChatMessage = '';
-		this._callSubscriber()
+		this._callSubscriber(this._state)
 	},
 	updateNewPostText(newText) {
 
 		this._state.profilePage.newPostText = newText
-		this._callSubscriber()
+		this._callSubscriber(this._state)
 	},
 	updateNewChatText(newText) {
 
 		this._state.dialogPage.newChatMessage = newText
-		this._callSubscriber()
+		this._callSubscriber(this._state)
 	},
 	subscriber(observe) {
 		this._callSubscriber = observe;
