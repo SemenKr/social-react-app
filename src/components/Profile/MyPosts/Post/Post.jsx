@@ -1,7 +1,7 @@
 import React from 'react';
 import p from './Post.module.css';
 
-const Post = props =>
+const Post = (props) =>
 (
 	<div className={p.post}>
 		<div>
