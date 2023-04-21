@@ -70,51 +70,56 @@ let store = {
 					src: 'https://i.pravatar.cc/300?img=4',
 				},
 			],
-			newPostText: ''
+			newPostText: '',
 		},
 	},
-	getState() {
-		return this._state;
-	},
+
 	_callSubscriber() {
 		console.log('yo')
 	},
-	addPost() {
-		let newPost = {
-			id: 5,
-			message: this._state.profilePage.newPostText,
-			likesCount: 12,
-			src: 'https://i.pravatar.cc/150?img=5',
-		};
-		this._state.profilePage.postsData.push(newPost);
-		this._state.profilePage.newPostText = '';
-		this._callSubscriber(this._state)
-	},
-	addChatItem() {
-		let newChatItem = {
-			id: 6,
-			message: this._state.dialogPage.newChatMessage,
-			alt: 'Alt of img',
-			ava: 1,
-		};
 
-		this._state.dialogPage.chatData.push(newChatItem);
-		this._state.dialogPage.newChatMessage = '';
-		this._callSubscriber(this._state)
+	getState() {
+		return this._state;
 	},
-	updateNewPostText(newText) {
 
-		this._state.profilePage.newPostText = newText
-		this._callSubscriber(this._state)
-	},
-	updateNewChatText(newText) {
-
-		this._state.dialogPage.newChatMessage = newText
-		this._callSubscriber(this._state)
-	},
 	subscriber(observe) {
 		this._callSubscriber = observe;
 	},
+
+	dispatcher(action) {
+		if (action.type === 'ADD-POST') {
+			let newPost = {
+				id: 5,
+				message: this._state.profilePage.newPostText,
+				likesCount: 12,
+				src: 'https://i.pravatar.cc/150?img=5',
+			};
+			this._state.profilePage.postsData.push(newPost);
+			this._state.profilePage.newPostText = ' ';
+			this._callSubscriber(this._state);
+
+		} else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+			this._state.profilePage.newPostText = action.newText
+			this._callSubscriber(this._state)
+
+		} else if (action.type === 'ADD-CHAT-ITEM') {
+			let newChatItem = {
+				id: 6,
+				message: this._state.dialogPage.newChatMessage,
+				alt: 'Alt of img',
+				ava: 1,
+			};
+
+			this._state.dialogPage.chatData.push(newChatItem);
+			this._state.dialogPage.newChatMessage = '';
+			this._callSubscriber(this._state)
+
+		} else if (action.type === 'UPDATE-NEW-CHAT-TEXT') {
+			this._state.dialogPage.newChatMessage = action.newText
+			this._callSubscriber(this._state)
+
+		}
+	}
 };
 
 export default store;

@@ -28,12 +28,12 @@ const Dialogs = (props) => {
 	const newMessage = React.createRef();
 
 	const addMessage = () => {
-		props.addChatItem()
+		props.dispatcher({type: 'ADD-CHAT-ITEM'})
 	};
 
 	const onChatChange = () => {
 		let text = newMessage.current.value;
-		props.updateNewChatText(text);
+		props.dispatcher({type: 'UPDATE-NEW-CHAT-TEXT', newText: text});
 	}
 
 

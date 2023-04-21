@@ -12,13 +12,13 @@ const MyPosts = (props) => {
 
 	// бере функцию из state которая берет newPostText из state и добавляет state объект с новым постом
 	const addPost = () => {
-		props.addPost();
+		props.dispatcher({type: 'ADD-POST'});
 	}
 
 	// следит за изменением в textarea и с помощью функции из state добавляет изменения в state
 	const onPostChange = () => {
 		let text = newPost.current.value;
-		props.updateNewPostText(text);
+		props.dispatcher({type: 'UPDATE-NEW-POST-TEXT', newText: text});
 	}
 
 	return (
