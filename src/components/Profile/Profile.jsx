@@ -11,7 +11,7 @@ const Profile = (props) => {
 				<img className={p.mainContent__top_img} src="img/profile-bg.jpg" alt="" />
 			</div>
 			<ProfileInfo description='Something about me' />
-			<MyPosts posts={props.postsData} newPostText={props.newPostText} addPost={props.addPost} updateNewPostText={props.updateNewPostText} />
+			<MyPosts posts={props.postsData.postsData} newPostText={props.postsData.newPostText} dispatcher={props.dispatcher} />
 		</div>
 	);
 };
