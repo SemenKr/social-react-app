@@ -1,6 +1,7 @@
 import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
+import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/state';
 
 
 
@@ -28,12 +29,12 @@ const Dialogs = (props) => {
 	const newMessage = React.createRef();
 
 	const addMessage = () => {
-		props.dispatcher({type: 'ADD-CHAT-ITEM'})
+		props.dispatcher(addChatItemActionCreator())
 	};
 
 	const onChatChange = () => {
 		let text = newMessage.current.value;
-		props.dispatcher({type: 'UPDATE-NEW-CHAT-TEXT', newText: text});
+		props.dispatcher(updateNewChatTextActionCreator(text));
 	}
 
 
