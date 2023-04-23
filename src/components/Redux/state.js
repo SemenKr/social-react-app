@@ -1,4 +1,9 @@
-let store = {
+const UPDATE_NEW_CHAT_TEXT = 'UPDATE-NEW-CHAT-TEXT';
+const ADD_CHAT_ITEM = 'ADD-CHAT-ITEM';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const ADD_POST = 'ADD-POST';
+
+const store = {
 	_state: {
 		navBar: {
 			navMenu: {
@@ -121,6 +126,16 @@ let store = {
 		}
 	}
 };
+
+export const addPostActionCreator = () => ({type: ADD_POST});
+
+export const updateNewPostTextActionCreator = text => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+
+
+export const addChatItemActionCreator = () => ({type: ADD_CHAT_ITEM});
+
+export const updateNewChatTextActionCreator = text => ({type: UPDATE_NEW_CHAT_TEXT, newText: text});
+
 
 export default store;
 window.store = store;
