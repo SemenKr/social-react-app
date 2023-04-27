@@ -1,7 +1,7 @@
 import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
-import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/state';
+import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/dialogs-reducer';
 
 
 
