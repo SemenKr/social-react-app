@@ -3,7 +3,7 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from "react-dom/client";
 import React from "react";
 import App from "./App";
-import store from './components/Redux/state';
+import store from './components/Redux/store';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
