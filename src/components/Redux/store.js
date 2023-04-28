@@ -1,6 +1,6 @@
-import profileReducer from "./profile-reducer";
-import dialogsReducer from "./dialogs-reducer";
-import navBarReducer from "./navBar-reducer";
+// import profileReducer from "./profile-reducer";
+// import dialogsReducer from "./dialogs-reducer";
+// import navBarReducer from "./navBar-reducer";
 
 const store = {
     _state: {
@@ -86,16 +86,16 @@ const store = {
         return this._state;
     },
 
-    subscriber(observe) {
+    subscribe(observe) {
         this._callSubscriber = observe;
     },
 
-    dispatcher(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action);
-        this._state.dialogPage = dialogsReducer(this._state.dialogPage, action);
-        this._state.navBar = navBarReducer(this._state.navBar.action);
-        this._callSubscriber(this._state);
-    }
+    // dispatche(action) {
+    //     this._state.profilePage = profileReducer(this._state.profilePage, action);
+    //     this._state.dialogPage = dialogsReducer(this._state.dialogPage, action);
+    //     this._state.navBar = navBarReducer(this._state.navBar.action);
+    //     this._callSubscriber(this._state);
+    // }
 };
 
 
