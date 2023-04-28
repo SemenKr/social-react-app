@@ -18,7 +18,10 @@ const renderEntireTree = (state) => {
 
 renderEntireTree(store.getState());
 
-store.subscriber(renderEntireTree);
+store.subscriber(() => {
+	let state = store.getState()
+	renderEntireTree(state)
+});
 
 
 // If you want to start measuring performance in your app, pass a function
