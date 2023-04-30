@@ -24,7 +24,7 @@
 	background: #fbfcfe;
 	border-radius: 15px;
 	border: 1px solid rgba(0, 0, 0, 0.05);
-	box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 30px 0px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0 8px 30px 0;
 	padding: 1rem 1rem;
 	margin-bottom: 1rem;
 }
@@ -37,12 +37,16 @@
 	margin-bottom: 1rem;
 }
 
+.chat__message {
+	color: #333333;
+}
+
 .textField__input {
 	resize: vertical;
 	border-radius: 1rem;
 	font-size: 16px;
 	border: 2px #f1f1f1 solid;
-	box-shadow: rgba(70, 70, 70, 0.05) 0px 8px 30px 0px;
+	box-shadow: rgba(70, 70, 70, 0.05) 0 8px 30px 0;
 	padding: 1rem 2rem;
 	color: #474646b4;
 	height: 100px;
@@ -54,12 +58,9 @@
 }
 
 .btn {
-	font-weight: 600;
-	text-align: center;
 	padding: 0.5rem 2rem;
 	border-radius: 30px;
 	line-height: 20px;
-	letter-spacing: 0.4px;
 	display: inline-block;
 	border: 2px #f1f1f1 solid;
 	background-color: #eee;
@@ -73,6 +74,6 @@
 .btn:hover {
 	background: #05f;
 	color: #fff;
-	box-shadow: rgba(0, 0, 0, 0.2) 1px 5px 5px 0px;
+	box-shadow: rgba(0, 0, 0, 0.2) 1px 5px 5px 0;
 	border: 2px #05f solid;
 }
