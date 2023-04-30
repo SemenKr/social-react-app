@@ -8,7 +8,7 @@ const MyPostsContainer = (props) => {
     let state = props.store.getState();
 
 
-    // бере функцию из state которая берет newPostText из state и добавляет state объект с новым постом
+    // берет функцию из state которая берет newPostText из state и добавляет state объект с новым постом
     const addPost = () => {
         props.store.dispatch(addPostActionCreator());
     }

@@ -28,7 +28,7 @@ let initialState = {
             src: 'https://i.pravatar.cc/300?img=4',
         },
     ],
-    newPostText: 'фывфывфы',
+    newPostText: '',
 }
 
 const profileReducer = (state = initialState, action) => {
