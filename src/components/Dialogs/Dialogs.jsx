@@ -1,7 +1,7 @@
 import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
-import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/dialogs-reducer';
+
 
 
 
@@ -21,20 +21,21 @@ const ChatItem = (props) => {
 }
 
 const Dialogs = (props) => {
+	let state = props.dialogs;
 
-	const dialogItems = props.dialogs.dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+	const dialogItems = state.dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
 
-	const chatItems = props.dialogs.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
+	const chatItems = state.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 	const newMessage = React.createRef();
 
 	const addMessage = () => {
-		props.dispatcher(addChatItemActionCreator())
+		props.sendMessage();
 	};
 
-	const onChatChange = () => {
-		let text = newMessage.current.value;
-		props.dispatcher(updateNewChatTextActionCreator(text));
+	const onChatChange = (e) => {
+		let text = e.target.value;
+		props.updateNewChatText(text);
 	}
 
 
@@ -54,7 +55,7 @@ const Dialogs = (props) => {
 					{chatItems}
 				</ul>
 				<div className={d.chat__newMessage}>
-					<textarea value={props.dialogs.newChatMessage} className={d.textField__input} ref={newMessage} onChange={onChatChange} wrap="soft" id="" rows="2" />
+					<textarea value={state.newChatMessage} className={d.textField__input} ref={newMessage} onChange={onChatChange} wrap="soft" id="" rows="2" />
 					<button onClick={addMessage} className={d.btn} >Send</button >
 				</div>
 			</div>
