@@ -6,7 +6,7 @@ import p from './MyPosts.module.css';
 
 const MyPosts = (props) => {
 
-	let posts = props.posts.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
+	let posts = props.posts.postsData.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
 	)
 	// создаем привязку "ссылку" в переменной newPost
 	let newPost = React.createRef();
@@ -25,7 +25,7 @@ const MyPosts = (props) => {
 	return (
 		<div className={p.myPosts}>
 			<div className={p.textField}>
-				<textarea onChange={onPostChange} value={props.newPostText} className={p.textField__input} ref={newPost} />
+				<textarea onChange={onPostChange} value={props.posts.newPostText} className={p.textField__input} ref={newPost} />
 				<div className={p.textField__btnWrapper}>
 					<button onClick={addPost} className={p.btn} >Send</button >
 				</div>
