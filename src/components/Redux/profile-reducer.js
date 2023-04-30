@@ -41,10 +41,10 @@ const profileReducer = (state = initialState, action) => {
                 src: 'https://i.pravatar.cc/150?img=5',
             };
             state.postsData.push(newPost);
-            state.newPostText = ' ';
+            state.newPostText = '';
             return state
         case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText
+            state.newPostText = action.newText;
             return state
         default:
             return state;
