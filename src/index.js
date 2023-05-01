@@ -4,17 +4,14 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import App from "./App";
 import store from './components/Redux/redux-store';
-import StoreContext from "./components/Redux/storeContext";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const renderEntireTree = () => {
+const renderEntireTree = (state) => {
 	root.render(
 		<React.StrictMode>
-			<StoreContext.Provider value={store}>
-				<App />
-			</StoreContext.Provider>
+			<App state={state} dispatch={store.dispatch.bind(store)} store={store} />
 		</React.StrictMode>
 	);
 }
