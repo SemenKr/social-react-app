@@ -9,11 +9,11 @@ import StoreContext from "./components/Redux/storeContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const renderEntireTree = (state) => {
+const renderEntireTree = () => {
 	root.render(
 		<React.StrictMode>
 			<StoreContext.Provider value={store}>
-				<App state={state} dispatch={store.dispatch.bind(store)} store={store} />
+				<App />
 			</StoreContext.Provider>
 		</React.StrictMode>
 	);
