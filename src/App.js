@@ -10,22 +10,20 @@ import Music from "./components/Music/Music";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 
-const App = (props) => {
-    let state = props.store.getState()
+const App = () => {
     return (
         <BrowserRouter>
 
-
             <div className="app app-wrapper">
                 <Header/>
-                <NavBar state={state.navBar}/>
+                <NavBar />
                 <div className="app__content">
                     <Routes>
                         <Route path='/profile'
-                               element={<Profile store={props.store} />}/>
+                               element={<Profile />}/>
 
                         <Route path='/messages/*'
-                               element={<DialogsContainer store={props.store} />}/>
+                               element={<DialogsContainer />}/>
 
                         <Route path='/news' element={<News/>}/>
 
