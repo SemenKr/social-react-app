@@ -11,30 +11,30 @@ import NavBarContainer from "./components/NavBar/NavBarContainer";
 
 
 const App = () => {
-    return (
-        <BrowserRouter>
+	return (
+		<BrowserRouter>
 
-            <div className="app app-wrapper">
-                <Header/>
-                <NavBarContainer />
-                <div className="app__content">
-                    <Routes>
-                        <Route path='/profile'
-                               element={<Profile />}/>
+			<div className="app app-wrapper">
+				<Header />
+				<NavBarContainer />
+				<div className="app__content">
+					<Routes>
+						<Route path='/profile'
+							element={<Profile />} />
 
-                        <Route path='/messages/*'
-                               element={<DialogsContainer />}/>
+						<Route path='/messages/*'
+							element={<DialogsContainer />} />
 
-                        <Route path='/news' element={<News/>}/>
+						<Route path='/news' element={<News />} />
 
-                        <Route path='/music' element={<Music/>}/>
-                    </Routes>
-                </div>
-            </div>
+						<Route path='/music' element={<Music />} />
+					</Routes>
+				</div>
+			</div>
 
-        </BrowserRouter>
+		</BrowserRouter>
 
-    );
+	);
 }
 
 export default App;
