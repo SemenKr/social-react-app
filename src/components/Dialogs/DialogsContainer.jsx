@@ -1,4 +1,3 @@
-import React from "react";
 import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/dialogs-reducer';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
@@ -32,20 +31,20 @@ import {connect} from "react-redux";
 // }
 
 let mapStateToProps = (state) => {
-    return {
-        dialogs: state.dialogPage
-    }
+	return {
+		dialogs: state.dialogPage
+	}
 };
 let mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage: () => {
-            dispatch(addChatItemActionCreator())
-        },
-        updateNewChatText: (text) => {
-            updateNewChatTextActionCreator(text)
-        },
+	return {
+		sendMessage: () => {
+			dispatch(addChatItemActionCreator())
+		},
+		updateNewChatText: (text) => {
+			dispatch(updateNewChatTextActionCreator(text))
+		},
 
-    }
+	}
 }
 
 const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
