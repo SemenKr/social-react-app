@@ -1,0 +1,35 @@
+.users {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.userCard {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.userCard__top {
+    padding-bottom: 20%;
+    background: url("https://www.centarahotelsresorts.com/sites/g/files/yplzxh136/files/2020-08/centara-reserve-1.jpg");
+}
+
+.userCard__bottom {
+    display: flex;
+    padding: 1rem;
+}
+
+.imageWrapper {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    background: #ffffff;
+    margin-top: -35px;
+}
+
+.image {
+    border-radius: 50%;
+    padding: 5px;
+
+}
