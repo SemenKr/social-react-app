@@ -3,40 +3,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET-USERS';
 
 let initialState = {
-     users: [
-        {
-            id: 1,
-            followed: true,
-            fullName: 'Antonina',
-            status: 'smart fitness in my life',
-            location: {city: 'SPB', country: 'russia'},
-            src: 'https://i.pravatar.cc/150?img=1',
-        },
-        {
-            id: 2,
-            followed: true,
-            fullName: 'Andrew',
-            status: 'hard work',
-            location: {city: 'SPB', country: 'russia'},
-            src: 'https://i.pravatar.cc/150?img=2',
-        },
-        {
-            id: 3,
-            followed: false,
-            fullName: 'Nadin',
-            status: 'design in my life',
-            location: {city: 'SPB', country: 'russia'},
-            src: 'https://i.pravatar.cc/150?img=6',
-        },
-        {
-            id: 4,
-            followed: false,
-            fullName: 'Alena',
-            status: 'style',
-            location: {city: 'SPB', country: 'russia'},
-            src: 'https://i.pravatar.cc/150?img=11',
-        },
-    ],
+     users: [],
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -67,7 +34,7 @@ const usersReducer = (state = initialState, action) => {
             }
         case SET_USERS: {
             // для добавления users мы будем брать копию state и в users будем к копии users добавлять users из action
-            return { ...state, users: [ ...state.users, ...action.users] }
+            return { ...state, users: [...action.users] }
         }
         default:
             return state;
