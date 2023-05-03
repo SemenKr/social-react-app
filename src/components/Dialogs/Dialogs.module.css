@@ -16,6 +16,9 @@
 .contacts {
 	border-right: 2px solid rgba(0, 0, 0, 0.05);
 	padding: 1rem 2rem;
+	background-color: #ffffff;
+	border-radius: 15px;
+	box-shadow: rgba(0, 0, 0, 0.05) 0 8px 30px 0;
 }
 
 .chat li {
@@ -63,7 +66,8 @@
 	line-height: 20px;
 	display: inline-block;
 	border: 2px #f1f1f1 solid;
-	background-color: #eee;
+	background-color: #ffffff;
+	box-shadow: rgba(0, 0, 0, 0.05) 0 8px 30px 0;
 	color: #343a40;
 	width: fit-content;
 	cursor: pointer;
