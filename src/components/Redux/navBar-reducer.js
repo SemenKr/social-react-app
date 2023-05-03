@@ -3,7 +3,7 @@ let initialState = {
         links: [
             {id: 1, name: 'Profile', path: '/profile'},
             {id: 2, name: 'Messages', path: '/messages/*'},
-            {id: 3, name: 'News', path: '/news'},
+            {id: 3, name: 'Users', path: '/users'},
             {id: 4, name: 'Music', path: '/music'},
             {id: 5, name: 'Video', path: '/video'},
         ],
