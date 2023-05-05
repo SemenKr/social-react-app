@@ -1,5 +1,4 @@
 .mainContent {
-	background-color: #ffffff;
 	border-radius: 15px;
 }
 
@@ -10,5 +9,4 @@
 	object-fit: cover;
 	z-index: 0;
 	border-radius: 15px 15px 0 0;
-
 }
