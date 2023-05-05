@@ -1,3 +1,4 @@
+@import "./variables.scss";
 
 .app-wrapper {
 	display: grid;
@@ -7,8 +8,7 @@
 		"header header"
 		"nav content";
 	gap: 10px;
-	background: #fbfcfe;
-	color: #333333;
+	color: $main-color-dark-text;
 	max-width: 1400px;
 	margin: 0 auto;
 	padding-top: 1rem;
