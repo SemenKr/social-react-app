@@ -4,26 +4,26 @@ import {followActionCreator, setUsersActionCreator, unfollowActionCreator} from 
 
 // принимает весь state и меняет
 let mapStateToProps = (state) => {
-    return {
-        users: state.usersPage.users
-    }
+	return {
+		users: state.usersPage.users
+	}
 };
 
 // передает дочерней компоненте callbacks
 let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            // диспатчим обьект action
-            dispatch(followActionCreator(userId))
-        },
-        unfollow: (userId) => {
-            // диспатчим обьект action
-            dispatch(unfollowActionCreator(userId))
-        },
-        setUsers: (users) => {
-            dispatch(setUsersActionCreator(users))
-        }
-    }
+	return {
+		follow: (userId) => {
+			// диспатчим обьект action
+			dispatch(followActionCreator(userId))
+		},
+		unfollow: (userId) => {
+			// диспатчим обьект action
+			dispatch(unfollowActionCreator(userId))
+		},
+		setUsers: (users) => {
+			dispatch(setUsersActionCreator(users))
+		}
+	}
 
 }
 
