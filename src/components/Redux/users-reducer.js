@@ -34,7 +34,7 @@ const usersReducer = (state = initialState, action) => {
 			}
 		case SET_USERS: {
 			// для добавления users мы будем брать копию state и в users будем к копии users добавлять users из action
-			return {...state, users: [...action.users]}
+			return {...state, users: action.users}
 		}
 		default:
 			return state;
