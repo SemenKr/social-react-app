@@ -1,43 +1,54 @@
 import React from "react";
 import styles from './users.module.scss';
+import axios from 'axios';
+
+
 
 const Users = (props) => {
 	if (props.users.length === 0) {
-		props.setUsers([
-			{
-				id: 1,
-				followed: true,
-				fullName: 'Antonina',
-				status: 'smart fitness in my life',
-				location: {city: 'SPB', country: 'russia'},
-				src: 'https://i.pravatar.cc/150?img=1',
-			},
-			{
-				id: 2,
-				followed: true,
-				fullName: 'Andrew',
-				status: 'hard work',
-				location: {city: 'SPB', country: 'russia'},
-				src: 'https://i.pravatar.cc/150?img=2',
-			},
-			{
-				id: 3,
-				followed: false,
-				fullName: 'Nadin',
-				status: 'design in my life',
-				location: {city: 'SPB', country: 'russia'},
-				src: 'https://i.pravatar.cc/150?img=6',
-			},
-			{
-				id: 4,
-				followed: false,
-				fullName: 'Alena',
-				status: 'style',
-				location: {city: 'SPB', country: 'russia'},
-				src: 'https://i.pravatar.cc/150?img=11',
-			},
-		]
-		)
+
+
+		axios.get("https://social-network.samuraijs.com/api/1.0/users")
+			.then(response => {
+				debugger
+				props.SetUsers();
+			})
+
+		// props.setUsers([
+		// 	{
+		// 		id: 1,
+		// 		followed: true,
+		// 		fullName: 'Antonina',
+		// 		status: 'smart fitness in my life',
+		// 		location: {city: 'SPB', country: 'russia'},
+		// 		src: 'https://i.pravatar.cc/150?img=1',
+		// 	},
+		// 	{
+		// 		id: 2,
+		// 		followed: true,
+		// 		fullName: 'Andrew',
+		// 		status: 'hard work',
+		// 		location: {city: 'SPB', country: 'russia'},
+		// 		src: 'https://i.pravatar.cc/150?img=2',
+		// 	},
+		// 	{
+		// 		id: 3,
+		// 		followed: false,
+		// 		fullName: 'Nadin',
+		// 		status: 'design in my life',
+		// 		location: {city: 'SPB', country: 'russia'},
+		// 		src: 'https://i.pravatar.cc/150?img=6',
+		// 	},
+		// 	{
+		// 		id: 4,
+		// 		followed: false,
+		// 		fullName: 'Alena',
+		// 		status: 'style',
+		// 		location: {city: 'SPB', country: 'russia'},
+		// 		src: 'https://i.pravatar.cc/150?img=11',
+		// 	},
+		// ]
+		// )
 	}
 
 
