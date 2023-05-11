@@ -15,6 +15,8 @@ class Users extends Component {
 	}
 
 	render() {
+
+
 		return <>
 			<h3>Users</h3>
 			<ul className={styles.users}>
