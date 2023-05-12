@@ -36,11 +36,13 @@ class Users extends Component {
 
 		}
 
-		let currentPage = this.props.currentPage;
-		let currentPageFirst = ((currentPage - 5) < 0) ? 0 : currentPage - 5;
-		let currentPageLast = currentPage + 5;
-		let slicedPages = pages.slice(currentPageFirst, currentPageLast);
 
+
+		let totalPages = pages.length; // Общее количество страниц
+		let currentPage = this.props.currentPage; // Текущая страница
+		let curPF = Math.max(0, Math.min(currentPage - 5, totalPages - 10)); // Номер первой страницы для отображения
+		let curPL = Math.min(totalPages, curPF + 10); // Номер последней страницы для отображения
+		let slicedPages = pages.slice(curPF, curPL); // Массив страниц для отображения
 
 
 		return <>
