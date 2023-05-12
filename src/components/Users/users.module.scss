@@ -1,3 +1,26 @@
+@import "../../variables";
+
+.pagination__list {
+	display: flex;
+	flex-wrap: wrap;
+
+	li {
+		margin-right: 5px;
+	}
+}
+
+.pagination__item {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #b1b1b181;
+
+	&._active {
+		font-weight: bold;
+		background-color: $secondary-color;
+	}
+}
+
 .users {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
