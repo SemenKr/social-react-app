@@ -26,13 +26,8 @@ let Users = (props) => {
 	return (
 		<section className={styles.users}>
 			<h3 className={styles.users__title}>Users</h3>
-			<ol className={styles.pagination__list}>
-				{slicedPages.map((page, index) => {
-					return <li key={index}><button onClick={() => {props.onPageChange(page)}} className={`${styles.pagination__item} ${props.currentPage === page && styles._active}`} >{page}</button></li>
-				})}
 
-			</ol >
-			<ul className={styles.usersList}>
+			<ul className={styles.users__List}>
 				{props.users.map(user => <li className={styles.userCard} key={user.id}>
 					<div className={styles.userCard__top}>
 						<img src={user.photos.large !== null ? user.photos.large : userBG} alt="" />
@@ -62,6 +57,13 @@ let Users = (props) => {
 					</div>
 				</li>)}
 			</ul>
+
+			<ol className={styles.pagination__list}>
+				{slicedPages.map((page, index) => {
+					return <li key={index}><button onClick={() => {props.onPageChange(page)}} className={`${styles.pagination__item} ${props.currentPage === page && styles._active}`} >{page}</button></li>
+				})}
+
+			</ol >
 
 		</section>
 	);
