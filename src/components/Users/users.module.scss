@@ -1,8 +1,18 @@
 @import "../../variables";
 
+.users {
+	padding: 1rem 1rem;
+}
+
+.users__title {
+	margin-bottom: 1rem;
+}
+
 .pagination__list {
 	display: flex;
 	flex-wrap: wrap;
+	margin-bottom: 2rem;
+	justify-content: flex-end;
 
 	li {
 		margin-right: 5px;
@@ -21,7 +31,7 @@
 	}
 }
 
-.users {
+.usersList {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 1rem;
