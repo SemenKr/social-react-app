@@ -48,8 +48,25 @@
 
 .userCard__top {
 	padding-bottom: 20%;
-	background: url("https://www.centarahotelsresorts.com/sites/g/files/yplzxh136/files/2020-08/centara-reserve-1.jpg");
+	// background: url("https://www.centarahotelsresorts.com/sites/g/files/yplzxh136/files/2020-08/centara-reserve-1.jpg");
 	border-radius: 15px 15px 0 0;
+	position: relative;
+	overflow: hidden;
+
+	&::before {
+		content: "";
+		padding-bottom: calc(80 / 140 * 100%); /* тут подбирается %, чтобы соответствовать нужным пропорциям картинки */
+	}
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 1;
+	}
 }
 
 .userCard__bottom {
@@ -63,6 +80,7 @@
 	height: 90px;
 	background: #ffffff;
 	margin-top: -35px;
+	z-index: 2;
 }
 
 .image {

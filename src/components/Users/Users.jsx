@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './users.module.scss';
 import userPhoto from '../../assets/images/user.png'
+import userBG from '../../assets/images/user-bg.jpg'
 
 let Users = (props) => {
 
@@ -33,7 +34,9 @@ let Users = (props) => {
 			</ol >
 			<ul className={styles.usersList}>
 				{props.users.map(user => <li className={styles.userCard} key={user.id}>
-					<div className={styles.userCard__top}></div>
+					<div className={styles.userCard__top}>
+						<img src={user.photos.large !== null ? user.photos.large : userBG} alt="" />
+					</div>
 					<div className={styles.userCard__bottom}>
 						<div className={styles.imageWrapper}><img className={styles.image} src={user.photos.small !== null ? user.photos.small : userPhoto} alt="" /></div>
 						<div className="about">
