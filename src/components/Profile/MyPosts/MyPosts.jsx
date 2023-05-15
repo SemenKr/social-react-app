@@ -6,7 +6,7 @@ import p from './MyPosts.module.scss';
 
 const MyPosts = (props) => {
 
-	let posts = props.posts.postsData.map(post => <li><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
+	let posts = props.posts.postsData.map(post => <li key={post.id} ><Post imgId={post.src} message={post.message} likesCount={post.likesCount} /></li>
 	)
 	// создаем привязку "ссылку" в переменной newPost
 	let newPost = React.createRef();

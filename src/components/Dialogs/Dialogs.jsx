@@ -23,9 +23,9 @@ const ChatItem = (props) => {
 const Dialogs = (props) => {
 	let state = props.dialogs;
 
-	const dialogItems = state.dialogData.map(dialog => <DialogItem name={dialog.name} id={dialog.id} />);
+	const dialogItems = state.dialogData.map(dialog => <DialogItem key={dialog.id} name={dialog.name} id={dialog.id} />);
 
-	const chatItems = state.chatData.map(chatItem => <ChatItem ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
+	const chatItems = state.chatData.map(chatItem => <ChatItem key={chatItem.id} ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 	const newMessage = React.createRef();
 
