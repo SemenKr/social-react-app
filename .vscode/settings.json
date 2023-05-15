@@ -3,5 +3,6 @@
 		"Canimate",
 		"Crect",
 		"Uliana"
-	]
+	],
+	"npm-scripts.showStartNotification": false
 }
