@@ -12,7 +12,7 @@ const ProfileInfo = (props) => {
 	return (
 		<div className={p.info}>
 			<div className={p.info__top}>
-				<img src={props.profile.photos.large !== null ? props.profile.photos.large : userBG} alt="" />
+				<img src={props.profile.photos.large !== null ? props.profile.photos.large : userBG} alt={"avatar"} />
 			</div>
 			<div className={p.info__content}>
 				<div className={p.info__imageWrapper}>
