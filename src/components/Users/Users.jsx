@@ -47,25 +47,30 @@ let Users = (props) => {
 								<p className={styles.p}>{"user.location.city"}</p>
 							</div>
 							{user.followed
-								? <button onClick={() => {
+								? <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
 
+									props.toggleIsFollowing(true, user.id)
 									deleteFollow(user.id)
 										.then(data => {
 
 											if (data.resultCode === 0) {
 												props.unfollow(user.id)
 											}
+											props.toggleIsFollowing(false, user.id)
 										})
 
 								}
 								} className={styles.p}>Unfollow</button>
 
-								: <button onClick={() => {
+								: <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
+
+									props.toggleIsFollowing(true, user.id)
 									postFollow(user.id)
 										.then(data => {
 											if (data.resultCode === 0) {
 												props.follow(user.id)
 											}
+											props.toggleIsFollowing(false, user.id)
 										})
 									props.follow(user.id)
 								}
