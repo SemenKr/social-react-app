@@ -15,6 +15,7 @@ class UsersContainer extends Component {
 
     onPageChange = (pageNumber) => {
         this.props.getUsers(pageNumber, this.props.pageSize )
+        console.log(this.props.totalUsersCount)
     }
 
     render() {
@@ -44,6 +45,7 @@ let mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
         followingInProgress: state.usersPage.followingInProgress,

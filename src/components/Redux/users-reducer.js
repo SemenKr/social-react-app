@@ -73,8 +73,8 @@ const usersReducer = (state = initialState, action) => {
 
 }
 
-export const followSucces = userId => ({type: FOLLOW, userId});
-export const unfollowSucces = userId => ({type: UNFOLLOW, userId});
+export const followSuccess = userId => ({type: FOLLOW, userId});
+export const unfollowSuccess = userId => ({type: UNFOLLOW, userId});
 export const setUsers = users => ({type: SET_USERS, users});
 export const setCurrentPage = currentPage => ({type: SET_CURRENT_PAGE, currentPage});
 export const setTotalUsersCount = totalUsersCount => ({type: SET_TOTAL_USERS_COUNT, count: totalUsersCount});
@@ -90,7 +90,6 @@ export const getUsersThunkCreator = (currentPage, pageSize) => {
                 dispatch(toggleIsFetching(false));
                 dispatch(setUsers(data.items));
                 dispatch(setTotalUsersCount(data.totalCount));
-
             });
     }
 }
@@ -102,7 +101,7 @@ export const unfollowThunkCreator = (userId) => {
             .then(data => {
 
                 if (data.resultCode === 0) {
-                    dispatch(unfollowSucces(userId))
+                    dispatch(unfollowSuccess(userId))
                 }
                 dispatch(toggleIsFollowing(false, userId));
                 dispatch(toggleIsFetching(false))
@@ -117,7 +116,7 @@ export const followThunkCreator = (userId) => {
             .then(data => {
 
                 if (data.resultCode === 0) {
-                    dispatch(followSucces(userId))
+                    dispatch(followSuccess(userId))
                 }
                 dispatch(toggleIsFollowing(false, userId));
                 dispatch(toggleIsFetching(false))
