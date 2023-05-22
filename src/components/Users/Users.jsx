@@ -3,8 +3,6 @@ import styles from './users.module.scss';
 import userPhoto from '../../assets/images/user.png'
 import userBG from '../../assets/images/user-bg.jpg'
 import {NavLink} from "react-router-dom";
-import {deleteFollow, postFollow} from '../../api/api';
-
 
 
 let Users = (props) => {
@@ -47,35 +45,8 @@ let Users = (props) => {
 								<p className={styles.p}>{"user.location.city"}</p>
 							</div>
 							{user.followed
-								? <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-
-									props.toggleIsFollowing(true, user.id)
-									deleteFollow(user.id)
-										.then(data => {
-
-											if (data.resultCode === 0) {
-												props.unfollow(user.id)
-											}
-											props.toggleIsFollowing(false, user.id)
-										})
-
-								}
-								} className={styles.p}>Unfollow</button>
-
-								: <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {
-
-									props.toggleIsFollowing(true, user.id)
-									postFollow(user.id)
-										.then(data => {
-											if (data.resultCode === 0) {
-												props.follow(user.id)
-											}
-											props.toggleIsFollowing(false, user.id)
-										})
-									props.follow(user.id)
-								}
-								} className={styles.p}>Follow</button>}
-
+								? <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {props.unfollow(user.id)}} className={styles.p}>Unfollow</button>
+								: <button  disabled={props.followingInProgress.some(id => id === user.id)} onClick={() => {props.follow(user.id)}} className={styles.p}>Follow</button>}
 						</div>
 
 					</div>
