@@ -1,6 +1,7 @@
 import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
+import {Navigate} from "react-router";
 
 
 
@@ -36,6 +37,10 @@ const Dialogs = (props) => {
 	const onChatChange = (e) => {
 		let text = e.target.value;
 		props.updateNewChatText(text);
+	}
+
+	if (!props.isAuth) {
+	 return  <Navigate to={'/login'} />
 	}
 
 
