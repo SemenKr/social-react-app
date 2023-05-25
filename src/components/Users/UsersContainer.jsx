@@ -6,6 +6,7 @@ import {
     setCurrentPage,
     toggleIsFollowing, getUsersThunkCreator, unfollowThunkCreator, followThunkCreator
 } from "../Redux/users-reducer";
+import {withAuthRedirect} from "../hoc/withAuthRedirect";
 
 class UsersContainer extends Component {
 
@@ -40,6 +41,9 @@ class UsersContainer extends Component {
     }
 }
 
+// создает обертку HOC  с проверкой на авторизацию
+const AuthUsersContainerRedirect = withAuthRedirect(UsersContainer)
+
 // принимает весь state и меняет
 let mapStateToProps = (state) => {
     return {
@@ -58,4 +62,4 @@ export default connect(mapStateToProps, {
     getUsers: getUsersThunkCreator,
     unfollow: unfollowThunkCreator,
     follow : followThunkCreator,
-})(UsersContainer);
+})(AuthUsersContainerRedirect);
