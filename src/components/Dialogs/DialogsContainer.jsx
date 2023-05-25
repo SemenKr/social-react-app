@@ -1,12 +1,12 @@
 import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/dialogs-reducer';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
+import {withAuthRedirect} from "../hoc/withAuthRedirect";
 
 
 let mapStateToProps = (state) => {
 	return {
 		dialogs: state.dialogPage,
-		isAuth: state.auth.isAuth,
 	}
 };
 let mapDispatchToProps = (dispatch) => {
@@ -21,6 +21,8 @@ let mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+const AuthDialogsRedirect = withAuthRedirect(Dialogs)
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthDialogsRedirect)
 
 export default DialogsContainer;
