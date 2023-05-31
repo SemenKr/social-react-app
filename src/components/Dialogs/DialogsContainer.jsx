@@ -21,7 +21,7 @@ let mapDispatchToProps = (dispatch) => {
 
 	}
 }
-
+// создаем HOC compose в который берет Dialogs, обрабатывает с помощью withAuthRedirect, потом результат передает в connect
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
 	withAuthRedirect
