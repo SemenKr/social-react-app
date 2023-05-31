@@ -35,6 +35,8 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => ({
 	profile: state.profilePage.profile,
 });
+
+// при помощи compose ProfileContainer j,рабатывает в withAuthRedirect, потом в withRouter и потом отправляет в connect с пропсами
 export default compose(
 	connect(mapStateToProps, {setUserProfile,getProfileUserThunk}),
 	withRouter,
