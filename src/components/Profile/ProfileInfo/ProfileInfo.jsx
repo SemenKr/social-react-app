@@ -3,6 +3,7 @@ import p from './ProfileInfo.module.scss';
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import userBG from "../../../assets/images/user-bg.jpg";
+import ProfileStatus from "./ProfileStatus";
 
 const ProfileInfo = (props) => {
 
@@ -18,6 +19,7 @@ const ProfileInfo = (props) => {
 				<div className={p.info__imageWrapper}>
 					<img className={p.info__image} src={props.profile.photos.small !== null ? props.profile.photos.small : userPhoto} alt="yo" />
 				</div>
+				<ProfileStatus status={"Hi all"} />
 				<p>{props.profile.fullName}</p>
 				<p>{props.profile.lookingForAJobDescription}</p>
 				<p className={p.info__description}>{props.profile.aboutMe}</p>
