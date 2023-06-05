@@ -28,8 +28,14 @@ class ProfileStatus extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        debugger
-        console.log();
+        // создаем условие для того чтоб выходить из цикла обновлений статуса. и если прошлый статус равен новому обновление прекращается
+        if(prevProps.status !== this.props.status) {
+            this.setState({
+                    status: this.props.status
+            }
+
+            )
+        }
     }
 
     render() {
