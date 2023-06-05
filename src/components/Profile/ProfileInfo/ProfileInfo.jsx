@@ -19,13 +19,11 @@ const ProfileInfo = (props) => {
 				<div className={p.info__imageWrapper}>
 					<img className={p.info__image} src={props.profile.photos.small !== null ? props.profile.photos.small : userPhoto} alt="yo" />
 				</div>
-				<ProfileStatus status={"Hi all"} />
+				<ProfileStatus status={props.status} updateStatus={props.updateStatus} />
 				<p>{props.profile.fullName}</p>
 				<p>{props.profile.lookingForAJobDescription}</p>
 				<p className={p.info__description}>{props.profile.aboutMe}</p>
 			</div>
-
-
 		</div>
 	)
 }
