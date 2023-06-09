@@ -1,0 +1,19 @@
+.fieldWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  input {
+    min-width: 50%;
+    padding: 1rem;
+  }
+}
+
+.fieldWrapper.active {
+  background: #afe59e;
+}
+
+.form__error {
+  color: orangered;
+}
