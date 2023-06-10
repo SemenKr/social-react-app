@@ -2,11 +2,9 @@ import React from "react";
 import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import {Navigate} from "react-router";
-
-
-
-
-
+import {Field, Form, FormSpy} from "react-final-form";
+import styles from "../Login/Login.module.scss";
+import {Button} from "@mui/material";
 
 const ChatItem = (props) => {
 	const avatars = {
@@ -28,23 +26,14 @@ const Dialogs = (props) => {
 
 	const chatItems = state.chatData.map(chatItem => <ChatItem key={chatItem.id} ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
-	const newMessage = React.createRef();
 
-	const addMessage = () => {
-		props.sendMessage();
+	const addMessage = (values) => {
+		props.sendMessage(values.newChatMessage)
 	};
-
-	const onChatChange = (e) => {
-		let text = e.target.value;
-		props.updateNewChatText(text);
-	}
 
 	if (!props.isAuth) {
 	 return  <Navigate to={'/login'} />
 	}
-
-
-
 
 	return (
 		<div className={d.dialogs__wrapper}>
@@ -59,11 +48,50 @@ const Dialogs = (props) => {
 				<ul>
 					{chatItems}
 				</ul>
-				<div className={d.chat__newMessage}>
-					<textarea value={state.newChatMessage} className={d.textField__input} ref={newMessage} onChange={onChatChange} wrap="soft" id="" rows="2" />
-					<button onClick={addMessage} className={d.btn} >Send</button >
-				</div>
+				<AddMessageForm onSubmit={addMessage} state={state}/>
+
 			</div>
+		</div>
+	)
+}
+
+const AddMessageForm = (props) => {
+	const required = values => (values ? undefined : "Required")
+
+	return (
+		<div className={d.chat__newMessage}>
+			<Form onSubmit={props.onSubmit}>
+				{({handleSubmit, values}) => (
+					<form onSubmit={handleSubmit} >
+						<Field name='newChatMessage'
+							   validate={required}
+							   component='textarea'
+							   subscription={{
+								   value: true,
+								   active: true,
+								   touched: true,
+								   error: true,
+							   }}
+						>{({input, meta, placeholder}) => (
+							<div className={`${styles.fieldWrapper} ${meta.active ? styles.active : ''}`}>
+								{/*<label htmlFor="fitstName">Имя</label>*/}
+								<textarea {...input}  className={d.textField__input}  wrap="soft" id="" rows="2" />
+							</div>
+						)}</Field>
+						<FormSpy subscription={{pristine: true}}>
+							{props => (
+								<Button
+									variant="contained"
+									type="submit"
+									disabled={props.pristine}
+								>
+									Send
+								</Button>
+							)}
+						</FormSpy>
+					</form>
+				)}
+			</Form>
 		</div>
 	)
 }

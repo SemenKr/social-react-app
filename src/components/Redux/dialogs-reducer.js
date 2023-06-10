@@ -1,4 +1,3 @@
-const UPDATE_NEW_CHAT_TEXT = 'UPDATE-NEW-CHAT-TEXT';
 const ADD_CHAT_ITEM = 'ADD-CHAT-ITEM';
 
 let initialState = {
@@ -23,28 +22,19 @@ let initialState = {
 		{id: 5, message: 'Hi World ...', alt: 'Alt of img', ava: 1, },
 		{id: 6, message: 'omg lol ...', alt: 'Alt of img', ava: 2, },
 	],
-	newChatMessage: '',
 }
 const dialogsReducer = (state = initialState, action) => {
 	switch (action.type) {
-
-		case UPDATE_NEW_CHAT_TEXT: {
-			return {
-				...state,
-				newChatMessage: action.newText
-			}
-		}
 		case ADD_CHAT_ITEM: {
 			let newChatItem = {
-				id: 6,
-				message: state.newChatMessage,
+				id: Date.now(),
+				message: action.text,
 				alt: 'Alt of img',
 				ava: 1,
 			};
 			return {
 				...state,
 				chatData: [...state.chatData, newChatItem],
-				newChatMessage: '',
 			}
 		}
 
@@ -54,8 +44,5 @@ const dialogsReducer = (state = initialState, action) => {
 	}
 }
 
-export const addChatItemActionCreator = () => ({type: ADD_CHAT_ITEM});
-
-export const updateNewChatTextActionCreator = text => ({type: UPDATE_NEW_CHAT_TEXT, newText: text});
-
+export const addChatItemActionCreator = (text) => ({type: ADD_CHAT_ITEM, text});
 export default dialogsReducer;

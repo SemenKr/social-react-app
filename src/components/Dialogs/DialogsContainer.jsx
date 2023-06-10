@@ -1,4 +1,4 @@
- import {addChatItemActionCreator, updateNewChatTextActionCreator} from '../Redux/dialogs-reducer';
+ import {addChatItemActionCreator} from '../Redux/dialogs-reducer';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
@@ -12,11 +12,8 @@ let mapStateToProps = (state) => {
 };
 let mapDispatchToProps = (dispatch) => {
 	return {
-		sendMessage: () => {
-			dispatch(addChatItemActionCreator())
-		},
-		updateNewChatText: (text) => {
-			dispatch(updateNewChatTextActionCreator(text))
+		sendMessage: (text) => {
+			dispatch(addChatItemActionCreator(text))
 		},
 
 	}
