@@ -3,8 +3,9 @@ import d from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import {Navigate} from "react-router";
 import {Field, Form, FormSpy} from "react-final-form";
-import styles from "../Login/Login.module.scss";
 import {Button} from "@mui/material";
+import {Textarea} from "../ui/Taxtarea";
+import {composeValidators, maxLength, minLength} from "../utils/validators";
 
 const ChatItem = (props) => {
 	const avatars = {
@@ -27,8 +28,10 @@ const Dialogs = (props) => {
 	const chatItems = state.chatData.map(chatItem => <ChatItem key={chatItem.id} ava={chatItem.ava} message={chatItem.message} alt={chatItem.alt} />)
 
 
-	const addMessage = (values) => {
+	const addMessage = (values, form) => {
 		props.sendMessage(values.newChatMessage)
+		form.reset();
+		form.blur();
 	};
 
 	if (!props.isAuth) {
@@ -56,7 +59,6 @@ const Dialogs = (props) => {
 }
 
 const AddMessageForm = (props) => {
-	const required = values => (values ? undefined : "Required")
 
 	return (
 		<div className={d.chat__newMessage}>
@@ -64,20 +66,15 @@ const AddMessageForm = (props) => {
 				{({handleSubmit, values}) => (
 					<form onSubmit={handleSubmit} >
 						<Field name='newChatMessage'
-							   validate={required}
-							   component='textarea'
+							   validate={composeValidators(minLength(1), maxLength(100))}
+							   component={Textarea}
 							   subscription={{
 								   value: true,
 								   active: true,
 								   touched: true,
 								   error: true,
 							   }}
-						>{({input, meta, placeholder}) => (
-							<div className={`${styles.fieldWrapper} ${meta.active ? styles.active : ''}`}>
-								{/*<label htmlFor="fitstName">Имя</label>*/}
-								<textarea {...input}  className={d.textField__input}  wrap="soft" id="" rows="2" />
-							</div>
-						)}</Field>
+						/>
 						<FormSpy subscription={{pristine: true}}>
 							{props => (
 								<Button

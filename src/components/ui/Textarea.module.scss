@@ -1,0 +1,17 @@
+.formControl textarea{
+  width: 100%;
+  resize: vertical;
+  border-radius: 1rem;
+  font-size: 16px;
+  border: 2px #f1f1f1 solid;
+  box-shadow: rgba(70, 70, 70, 0.05) 0 8px 30px 0;
+  padding: 1rem 2rem;
+  color: #474646b4;
+  height: 100px;
+  outline: none;
+}
+
+.formControl.error input,
+.formControl.error textarea {
+  outline: 2px solid red;
+}

@@ -3,10 +3,11 @@ import styles from './Login.module.scss'
 import {Form, Field, FormSpy} from 'react-final-form';
 // import createDecorator from 'final-form-focus';
 import {Button, Container, Grid, TextField} from "@mui/material";
+import {required} from "../utils/validators";
 
 
-const required = values => (values ? undefined : "Required")
-const LoginForm = (props) => {
+// const required = values => (values ? undefined : "Required")
+const LoginForm = () => {
     const onSubmit = (value) => {
         console.log(value);
     };
@@ -19,7 +20,7 @@ const LoginForm = (props) => {
                   }}
                   // decorators={[createDecorator()]}
             >
-                {({handleSubmit, values, submitting}) => (
+                {({handleSubmit,  submitting}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <Field name='Имя'
                                placeholder='Имя'
