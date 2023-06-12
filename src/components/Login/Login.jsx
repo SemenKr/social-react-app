@@ -1,96 +1,93 @@
 import React from "react";
 import styles from './Login.module.scss'
-import {Form, Field, FormSpy} from 'react-final-form';
-// import createDecorator from 'final-form-focus';
-import {Button, Container, Grid, TextField} from "@mui/material";
-import {required} from "../utils/validators";
+import {Form, Field} from 'react-final-form';
+import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
+import {composeValidators, minLength, required} from "../utils/validators";
 
-
-// const required = values => (values ? undefined : "Required")
 const LoginForm = () => {
-    const onSubmit = (value) => {
-        console.log(value);
+    const onSubmit = (values) => {
+        console.log(values);
     };
 
     return (
         <Container maxWidth="sm">
-            <Form onSubmit={onSubmit}
-                  subscription={{
-                      submitting: true,
-                  }}
-                  // decorators={[createDecorator()]}
-            >
-                {({handleSubmit,  submitting}) => (
+            <Form onSubmit={onSubmit}>
+                {({handleSubmit, submitting, pristine}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
-                        <Field name='Имя'
-                               placeholder='Имя'
-                               validate={required}
-                               component='input'
-                               subscription={{
-                                   value: true,
-                                   active: true,
-                                   touched: true,
-                                   error: true,
-                               }}
-                        >{({input, meta, placeholder}) => (
-                            <div className={`${styles.fieldWrapper} ${meta.active ? styles.active : ''}`}>
-                                {/*<label htmlFor="fitstName">Имя</label>*/}
-                                <TextField label="Имя" {...input} placeholder={placeholder} autoComplete="username"/>
-                                {/*{meta.error && meta.touched && <span className={styles.form__error}>{meta.error}</span>}*/}
-                                {/*<input {...input} placeholder={placeholder}/>*/}
-                            </div>
-                        )}</Field>
-                        <Field name='Пароль'
-                               placeholder='Пароль'
-                               validate={required}
-                               component='input'
-                               type='password'
-                               subscription={{
-                                   value: true,
-                                   active: true,
-                                   touched: true,
-                                   error: true,
-                               }}
-                        >{({input, meta, placeholder}) => (
-                            <div className={`${styles.fieldWrapper} ${meta.active ? styles.active : ''}`}>
-                                <TextField label="Пароль" {...input} autoComplete="current-password"
-                                           placeholder={placeholder}/>
-
-                                {/*{meta.error && meta.touched && <span className={styles.form__error}>{meta.error}</span>}*/}
-                                {/*<input {...input} autoComplete="current-password" placeholder={placeholder}/>*/}
-
-                            </div>
-                        )}</Field>
-                        <Field name='Согласие'
-                               validate={required}
-                               component='input'
-                               type='checkbox'
-                        >{({input, meta, placeholder}) => (
-                            <div className={styles.fieldWrapper}>
-                                <label htmlFor="login-form-agree">Согласие</label>
-                                {meta.error && meta.touched && <span className={styles.form__error}>{meta.error}</span>}
-                                <input {...input} placeholder={placeholder} id="login-form-agree"/>
-                            </div>
-                        )}</Field>
+                        <Field
+                            name='name'
+                            validate={composeValidators(required, minLength(5))}
+                        >
+                            {({input, meta}) => (
+                                <div>
+                                    <TextField
+                                        label="Имя"
+                                        {...input}
+                                        autoComplete="username"
+                                        error={meta.error && meta.touched}
+                                        helperText={meta.touched && meta.error}
+                                    />
+                                </div>
+                            )}
+                        </Field>
+                        <Field
+                            name='password'
+                            validate={composeValidators(required, minLength(5))}
+                        >
+                            {({input, meta}) => (
+                                <div>
+                                    <TextField
+                                        label="Пароль"
+                                        {...input}
+                                        type='password'
+                                        autoComplete="current-password"
+                                        error={meta.error && meta.touched}
+                                        helperText={meta.touched && meta.error}
+                                    />
+                                </div>
+                            )}
+                        </Field>
+                        <Field
+                            name='agreement'
+                            type='checkbox'
+                            validate={required}
+                        >
+                            {({input, meta}) => (
+                                <div>
+                                    {meta.touched && meta.error && (
+                                        <span className={styles.form__error}>{meta.error}</span>
+                                    )}
+                                    <Checkbox
+                                        {...input}
+                                        checked={input.value}
+                                        onChange={input.onChange}
+                                    />
+                                    <label htmlFor="login-form-agree">Согласие</label>
+                                </div>
+                            )}
+                        </Field>
                         <Grid container spacing={2}>
                             <Grid item>
-                                <Button variant="contained" color="primary" type="submit" disabled={submitting}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    type="submit"
+                                    disabled={submitting || pristine}
+                                >
                                     Submit
                                 </Button>
                             </Grid>
                             <Grid item>
-                                <FormSpy subscription={{pristine: true}}>
-                                    {props => (
-                                        <Button
-                                            variant="contained"
-                                            type="button"
-                                            disabled={props.pristine}
-                                            onClick={() => props.form.reset()}
-                                        >
-                                            Reset
-                                        </Button>
-                                    )}
-                                </FormSpy>
+                                <Button
+                                    variant="contained"
+                                    type="button"
+                                    disabled={pristine}
+                                    onClick={() => {
+                                        // Сбросить значения полей
+                                    }}
+                                >
+                                    Reset
+                                </Button>
                             </Grid>
                         </Grid>
                     </form>
@@ -100,15 +97,12 @@ const LoginForm = () => {
     )
 }
 
-
 const Login = () => {
     return (
         <>
-            <h1>Вы не зарегестрированы</h1>
-            {/*<LoginForm/>*/}
+            <h1>Вы не зарегистрированы</h1>
             <LoginForm/>
         </>
-
     )
 };
 

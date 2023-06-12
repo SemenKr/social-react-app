@@ -5,7 +5,7 @@ import d from "../../Dialogs/Dialogs.module.css";
 import {Field, Form} from "react-final-form";
 // import styles from "../../Login/Login.module.scss";
 import {composeValidators, maxLength, minLength} from "../../utils/validators";
-import {Textarea} from "../../ui/Taxtarea";
+import {Textarea} from "../../ui/Form-controls";
 import {Button} from "@mui/material";
 
 const AddPostForm = (props) => {

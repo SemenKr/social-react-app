@@ -2,7 +2,7 @@ import React from 'react'
 import {ComponentPreview, Previews} from '@react-buddy/ide-toolbox'
 import {PaletteTree} from './palette'
 import MyPosts from "../components/Profile/MyPosts/MyPosts";
-import {Textarea} from "../components/ui/Taxtarea";
+import {Textarea} from "../components/ui/Form-controls";
 
 const ComponentPreviews = () => {
     return (

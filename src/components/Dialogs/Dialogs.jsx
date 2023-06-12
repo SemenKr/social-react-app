@@ -4,7 +4,7 @@ import DialogItem from './DialogItem/DialogItem';
 import {Navigate} from "react-router";
 import {Field, Form, FormSpy} from "react-final-form";
 import {Button} from "@mui/material";
-import {Textarea} from "../ui/Taxtarea";
+import {Textarea} from "../ui/Form-controls";
 import {composeValidators, maxLength, minLength} from "../utils/validators";
 
 const ChatItem = (props) => {
