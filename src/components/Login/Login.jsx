@@ -3,6 +3,8 @@ import styles from './Login.module.scss'
 import {Form, Field} from 'react-final-form';
 import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
 import {composeValidators, minLength, required} from "../utils/validators";
+import {connect} from "react-redux";
+import {login} from "../Redux/auth-reduce";
 
 const LoginForm = () => {
     const onSubmit = (values) => {
@@ -15,7 +17,7 @@ const LoginForm = () => {
                 {({handleSubmit, submitting, pristine}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <Field
-                            name='name'
+                            name='email'
                             validate={composeValidators(required, minLength(5))}
                         >
                             {({input, meta}) => (
@@ -106,4 +108,4 @@ const Login = () => {
     )
 };
 
-export default Login;
+export default connect(null, {login})(Login);
