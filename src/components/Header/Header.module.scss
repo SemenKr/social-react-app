@@ -12,7 +12,8 @@
 }
 
 .login {
-	a {
+	a,
+	button {
 		font-weight: bold;
 		text-decoration: none;
 		color: $main-color-dark-text;
