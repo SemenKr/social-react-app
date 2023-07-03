@@ -1,14 +1,17 @@
+// Login.js
 import React from "react";
 import styles from './Login.module.scss'
 import {Form, Field} from 'react-final-form';
 import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
 import {composeValidators, minLength, required} from "../utils/validators";
 import {connect} from "react-redux";
-import {login} from "../Redux/auth-reduce";
+import {login, logout} from "../Redux/auth-reduce";
+import {Navigate} from "react-router";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
     const onSubmit = (values) => {
         console.log(values);
+        props.login(values.email, values.password, values.rememberMe);
     };
 
     return (
@@ -96,16 +99,25 @@ const LoginForm = () => {
                 )}
             </Form>
         </Container>
-    )
+    );
 }
 
-const Login = () => {
+const Login = (props) => {
+
+    if (props.isAuth) {
+        return <Navigate to={'/profile'}/>
+    }
     return (
         <>
             <h1>Вы не зарегистрированы</h1>
-            <LoginForm/>
+            <LoginForm login={props.login}/>
         </>
     )
-};
+}
 
-export default connect(null, {login})(Login);
+
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+});
+
+export default connect(mapStateToProps, {login, logout})(Login);

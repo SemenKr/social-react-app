@@ -15,7 +15,6 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				...action.payload,// склеиваем 2 объекта state и data из action.data
-				isAuth: true,
 			}
 		default:
 			return state;
@@ -41,26 +40,26 @@ export const getAuthMeThunkCreator = () => {
 
 export const login = (email, password, rememberMe) => {
 	return (dispatch) => {
-		authAPI.login(email, password, rememberMe)
-			.then(data => {
-				if (data.resultCode === 0) {
-					dispatch(getAuthMeThunkCreator())
+		return authAPI.login(email, password, rememberMe)
+			.then(response => {
+				if (response.data.resultCode === 0) {
+					dispatch(getAuthMeThunkCreator());
 				}
 			});
-	}
+	};
+};
 
-}
+
 
 export const logout = () => {
 	return (dispatch) => {
 		authAPI.logout()
-			.then(data => {
-				if (data.resultCode === 0) {
-					dispatch(getAuthMeThunkCreator(null, null, null, false))
+			.then(response => {
+				if (response.data.resultCode === 0) {
+					dispatch(setAuthUserData(null, null, null, false));
 				}
 			});
-	}
-
+	};
 }
 
 export default authReducer;
