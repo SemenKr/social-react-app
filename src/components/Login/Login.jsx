@@ -7,17 +7,22 @@ import {composeValidators, minLength, required} from "../utils/validators";
 import {connect} from "react-redux";
 import {login, logout} from "../Redux/auth-reduce";
 import {Navigate} from "react-router";
+import {FORM_ERROR} from "final-form";
 
 const LoginForm = (props) => {
-    const onSubmit = (values) => {
-        console.log(values);
-        props.login(values.email, values.password, values.rememberMe);
+    const onSubmit = async (values, form) => {
+        try {
+            await props.login(values.email, values.password, values.rememberMe);
+            form.reset();
+        } catch (error) {
+            return { [FORM_ERROR]: error.message };
+        }
     };
 
     return (
         <Container maxWidth="sm">
             <Form onSubmit={onSubmit}>
-                {({handleSubmit, submitting, pristine, form}) => (
+                {({handleSubmit, submitting, pristine, form, submitError}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <Field
                             name='email'
@@ -71,6 +76,9 @@ const LoginForm = (props) => {
                                 </div>
                             )}
                         </Field>
+                            {submitError && <span  className={styles.form__summaryError}>{submitError}</span>}
+
+
                         <Grid container spacing={2}>
                             <Grid item>
                                 <Button

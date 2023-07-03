@@ -39,13 +39,17 @@ export const getAuthMeThunkCreator = () => {
 }
 
 export const login = (email, password, rememberMe) => {
-	return (dispatch) => {
-		return authAPI.login(email, password, rememberMe)
-			.then(response => {
-				if (response.data.resultCode === 0) {
-					dispatch(getAuthMeThunkCreator());
-				}
-			});
+	return async (dispatch) => {
+		try {
+			const response = await authAPI.login(email, password, rememberMe);
+			if (response.data.resultCode === 0) {
+				dispatch(getAuthMeThunkCreator());
+			} else {
+				throw new Error("Ошибка входа. Проверьте введенные данные.");
+			}
+		} catch (error) {
+			throw error;
+		}
 	};
 };
 
