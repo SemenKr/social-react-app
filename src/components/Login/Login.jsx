@@ -17,7 +17,7 @@ const LoginForm = (props) => {
     return (
         <Container maxWidth="sm">
             <Form onSubmit={onSubmit}>
-                {({handleSubmit, submitting, pristine}) => (
+                {({handleSubmit, submitting, pristine, form}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <Field
                             name='email'
@@ -88,7 +88,7 @@ const LoginForm = (props) => {
                                     type="button"
                                     disabled={pristine}
                                     onClick={() => {
-                                        // Сбросить значения полей
+                                        form.reset()
                                     }}
                                 >
                                     Reset
