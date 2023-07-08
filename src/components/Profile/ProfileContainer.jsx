@@ -36,6 +36,7 @@ function withRouter(Component) {
 }
 
 class ProfileContainer extends React.Component {
+
 	componentDidMount() {
 		let userId = this.props.router.params.userId; // Извлечение значения userId из объекта params
 		if (!userId) {

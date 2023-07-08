@@ -26,7 +26,7 @@ const authReducer = (state = initialState, action) => {
 
 export const setAuthUserData = (id, login, email, isAuth) => ({type: SET_USER_DATA, payload: {id: id, login: login, email: email, isAuth}});
 
-export const getAuthMeThunkCreator = () => {
+export const getAuthUserData = () => {
 	return (dispatch) => {
 		authAPI.getAuthMe()
 			.then(data => {
@@ -43,7 +43,7 @@ export const login = (email, password, rememberMe) => {
 		try {
 			const response = await authAPI.login(email, password, rememberMe);
 			if (response.data.resultCode === 0) {
-				dispatch(getAuthMeThunkCreator());
+				dispatch(getAuthUserData());
 			} else {
 				throw new Error("Ошибка входа. Проверьте введенные данные.");
 			}
