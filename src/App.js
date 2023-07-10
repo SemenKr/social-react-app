@@ -9,7 +9,7 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from "./components/Login/Login";
-import {getInitializeApp, initializedSuccess} from "./components/Redux/app-reduce";
+import {initializeApp} from "./components/Redux/app-reduce";
 import {connect} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {compose} from "redux";
@@ -18,8 +18,7 @@ import {compose} from "redux";
 
 class App extends React.Component {
 	componentDidMount() {
-		this.props.getInitializeApp();
-		this.props.initializedSuccess();
+		this.props.initializeApp();
 	}
 	render() {
 		if (!this.props.initialized) {
@@ -32,13 +31,7 @@ class App extends React.Component {
 					<NavBarContainer/>
 					<div className="app__content">
 						<Routes>
-							<Route
-								path='/profile/:userId'
-								element={<ProfileContainer />} />
-							<Route
-								path='/profile'
-								element={<ProfileContainer />} />
-							<Route />
+							<Route path='/profile/:userId?' element={<ProfileContainer />} />
 							<Route path="/messages/*" element={<DialogsContainer/>}/>
 							<Route path='/news' element={<News/>}/>
 							<Route path='/users' element={<UsersContainer/>}/>
@@ -70,4 +63,4 @@ function withRouter(Component) {
 
 export default compose(
 	withRouter,
-    connect(mapStateToProps, {getInitializeApp, initializedSuccess }))(App)
+    connect(mapStateToProps, {initializeApp }))(App)
