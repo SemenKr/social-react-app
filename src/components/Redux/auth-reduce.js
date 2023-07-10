@@ -36,6 +36,7 @@ export const getAuthUserData = () => {
 				}
 			});
 	}
+
 }
 
 export const login = (email, password, rememberMe) => {
