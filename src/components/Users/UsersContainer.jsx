@@ -8,15 +8,23 @@ import {
 } from "../Redux/users-reducer";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../Redux/users-selectors";
 
 class UsersContainer extends Component {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChange = (pageNumber) => {
-        this.props.getUsers(pageNumber, this.props.pageSize )
+        this.props.requestUsers(pageNumber, this.props.pageSize )
         console.log(this.props.totalUsersCount)
     }
 
@@ -45,19 +53,19 @@ class UsersContainer extends Component {
 // принимает весь state и меняет
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
     }
 };
 
 export default compose(connect(mapStateToProps, {
     setCurrentPage,
     toggleIsFollowing,
-    getUsers: getUsersThunkCreator,
+    requestUsers: getUsersThunkCreator,
     unfollow: unfollowThunkCreator,
     follow : followThunkCreator,
 }),
