@@ -78,9 +78,13 @@ export const getUsersThunkCreator = (currentPage, pageSize) => dispatch => {
 
     userAPI.getUsers(currentPage, pageSize)
         .then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
-            dispatch(setTotalUsersCount(data.totalCount));
+            if (data) {
+                dispatch(toggleIsFetching(false));
+                dispatch(setUsers(data.items || [])); // Add fallback to []
+                dispatch(setTotalUsersCount(data.totalCount || 0)); // Add fallback to 0
+            } else {
+                // handle error
+            }
         });
 }
 
