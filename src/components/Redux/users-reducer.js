@@ -84,32 +84,38 @@ export const getUsersThunkCreator = (currentPage, pageSize) => dispatch => {
         });
 }
 
-export const unfollowThunkCreator = (userId) => dispatch => {
+export const unfollowThunkCreator = userId => async dispatch => {
     dispatch(toggleIsFollowing(true, userId));
     dispatch(toggleIsFetching(true));
 
-    userAPI.deleteFollow(userId)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(updateFollowingStatus(false, userId))
-            }
-            dispatch(toggleIsFollowing(false, userId));
-            dispatch(toggleIsFetching(false));
-        });
-}
+    try {
+        const data = await userAPI.deleteFollow(userId);
 
-export const followThunkCreator = (userId) => dispatch => {
+        if (data.resultCode === 0) {
+            dispatch(updateFollowingStatus(false, userId));
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        dispatch(toggleIsFollowing(false, userId));
+        dispatch(toggleIsFetching(false));
+    }
+};
+
+export const followThunkCreator = (userId) => async dispatch => {
     dispatch(toggleIsFollowing(true, userId));
     dispatch(toggleIsFetching(true));
 
-    userAPI.postFollow(userId)
-        .then(data => {
-            if (data.resultCode === 0) {
-                dispatch(updateFollowingStatus(true, userId))
-            }
-            dispatch(toggleIsFollowing(false, userId));
-            dispatch(toggleIsFetching(false));
-        });
+    try {
+        const data = await userAPI.postFollow(userId);
+
+        if (data.resultCode === 0) {
+            dispatch(updateFollowingStatus(true, userId));
+        }
+    } finally {
+        dispatch(toggleIsFollowing(false, userId));
+        dispatch(toggleIsFetching(false));
+    }
 }
 
 export default usersReducer;
