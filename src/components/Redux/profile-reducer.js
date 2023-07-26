@@ -72,14 +72,13 @@ export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status) => ({type: SET_STATUS, status})
 
 export const getProfileUserThunk = (userId) => {
-	return dispatch => {
-
-		profileAPI.getProfileUser(userId)
-			.then(data => {
-				// debugger;
-				dispatch(setUserProfile(data));
-			});
-
+	return async dispatch => {
+		try	{
+			const data = await profileAPI.getProfileUser(userId);
+			dispatch(setUserProfile(data));
+		} catch (error) {
+			console.error('Failed to get user profile:', error);
+		}
 	}
 }
 
@@ -90,13 +89,11 @@ export const getStatus = userId => (dispatch) => {
 		})
 }
 
-export const updateStatus = status => (dispatch) => {
-	profileAPI.updateStatus(status)
-		.then(response => {
-			if (response.data.resultCode === 0) {
-				dispatch(setStatus(status))
-			}
-		})
+export const updateStatus = status => async (dispatch) => {
+	const response = await profileAPI.updateStatus(status);
+	if (response.data.resultCode === 0) {
+		dispatch(setStatus(status))
+	}
 }
 
 
