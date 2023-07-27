@@ -4,7 +4,7 @@ const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
 
-let initialState = {
+const initialState = {
 	postsData: [
 		{
 			id: 1,
