@@ -23,6 +23,7 @@ let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, 
             <ul className={styles.users__List}>
                 {
                     props.users.map(user => <User user={user}
+                                                  key={user.id}
                                                   followingInProgress={followingInProgress}
                                                   unfollow={unfollow}
                                                   follow={follow}
