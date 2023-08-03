@@ -1,25 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './users.module.scss';
 import User from "./User";
+import Pagination from "../ui/Pagination";
 
 
 let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, ...props}) => {
 
-    let pagesCount = Math.ceil(totalUsersCount / pageSize);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
+    const [currentPage, setCurrentPage] = useState(props.currentPage);
 
-    let totalPages = pages.length; // Общее количество страниц
-    let currentPage = props.currentPage; // Текущая страница
-    let curPF = Math.max(0, Math.min(currentPage - 5, totalPages - 10)); // Номер первой страницы для отображения
-    let curPL = Math.min(totalPages, curPF + 10); // Номер последней страницы для отображения
-    let slicedPages = pages.slice(curPF, curPL); // Массив страниц для отображения
+    // Используем useEffect для синхронизации обоих экземпляров Pagination
+    useEffect(() => {
+        setCurrentPage(props.currentPage);
+    }, [props.currentPage]);
+
+    const onPageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        props.onPageChange(pageNumber);
+    };
 
     return (
         <section className={styles.users}>
             <h3 className={styles.users__title}>Users</h3>
+            <Pagination totalUsersCount={totalUsersCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChange={onPageChange}
+            />
             <ul className={styles.users__List}>
                 {
                     props.users.map(user => <User user={user}
@@ -33,17 +39,11 @@ let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, 
 
             </ul>
 
-            <ol className={styles.pagination__list}>
-                {slicedPages.map((page, index) => {
-                    return <li key={index}>
-                        <button onClick={() => {
-                            props.onPageChange(page)
-                        }}
-                                className={`${styles.pagination__item} ${props.currentPage === page && styles._active}`}>{page}</button>
-                    </li>
-                })}
-
-            </ol>
+            <Pagination totalUsersCount={totalUsersCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChange={onPageChange}
+            />
 
         </section>
     );

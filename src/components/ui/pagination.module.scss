@@ -1,0 +1,26 @@
+@import "../../variables";
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 2rem ;
+  font-size: 20px;
+
+  &__button {
+    border: none;
+    color: $secondary-color;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+.pagination__item {
+  cursor: pointer;
+
+
+  &._active {
+    font-weight: bold;
+    color: $secondary-color;
+  }
+}
