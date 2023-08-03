@@ -1,42 +1,60 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Profile from "./Profile";
-import {connect} from "react-redux";
-import {getProfileUserThunk, getStatus, setUserProfile, updateStatus} from "../Redux/profile-reducer";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {getProfileUserThunk, getStatus, savePhoto, setUserProfile, updateStatus} from "../Redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 
 
-class ProfileContainer extends React.Component {
-
-	componentDidMount() {
-		let userIdFromPath = +this.props.router.params.userId
-		let authorisedUserId = this.props.authorisedUserId
-
-
-		if (userIdFromPath) {
-			this.props.getProfileUserThunk(userIdFromPath)
-			this.props.getStatus(userIdFromPath)
-
+// Функция для получения данных профиля и статуса
+const fetchUserProfileData = (dispatch, userId, authorisedUserId, navigate) => {
+	if (!userId) {
+		if (!authorisedUserId) {
+			navigate("/login");
 		} else {
-
-			if (this.props.isAuth && authorisedUserId) {
-				this.props.getProfileUserThunk(authorisedUserId)
-				this.props.getStatus(authorisedUserId)
-			}
+			dispatch(getProfileUserThunk(authorisedUserId));
+			dispatch(getStatus(authorisedUserId));
 		}
+	} else {
+		dispatch(getProfileUserThunk(userId));
+		dispatch(getStatus(userId));
 	}
+};
+const ProfileContainer = (props) => {
+	// const location = useLocation();
+	// const navigate = useNavigate();
+	const params = useParams();
+	const authorisedUserId = useSelector(state => state.auth.id);
+	const profile = useSelector(state => state.profilePage.profile);
+	const status = useSelector(state => state.profilePage.status);
+	const dispatch = useDispatch();
+	const { userId } = params;
+	console.log(props);
 
-	render() {
-		return (
-			<Profile
-				{...this.props}
-				profile={this.props.profile}
-				status={this.props.status}
-				updateStatus={this.props.updateStatus} />
-		);
-	}
-}
+
+
+	useEffect(() => {
+		const parsedUserId = +userId;
+		fetchUserProfileData(dispatch, parsedUserId, authorisedUserId);
+	}, [dispatch, userId, authorisedUserId]);
+
+	const handleStatusUpdate = (newStatus) => {
+		dispatch(updateStatus(newStatus));
+	};
+
+	return (
+		<Profile
+			profile={profile}
+			status={status}
+			updateStatus={handleStatusUpdate}
+			isOwner={!userId}
+			savePhoto={props.savePhoto}
+		/>
+	);
+};
+
+ withAuthRedirect(ProfileContainer);
 const mapStateToProps = (state) => ({
 	profile: state.profilePage.profile,
 	status: state.profilePage.status,
@@ -60,9 +78,8 @@ function withRouter(Component) {
 	return ComponentWithRouterProp
 }
 
-// при помощи compose ProfileContainer j,рабатывает в withAuthRedirect, потом в withRouter и потом отправляет в connect с пропсами
 export default compose(
 	withRouter,
 	withAuthRedirect,
-	connect(mapStateToProps, {setUserProfile,getProfileUserThunk, getStatus, updateStatus}),
-)(ProfileContainer)
+	connect(mapStateToProps, { setUserProfile, getProfileUserThunk, getStatus, updateStatus, savePhoto }),
+)(ProfileContainer);

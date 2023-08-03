@@ -53,6 +53,37 @@
 	}
 }
 
+.info__loadWrapper {
+	position: relative;
+	overflow: hidden;
+	display: inline-flex;
+	cursor: pointer;
+
+}
+
+.info__loadButton {
+	/* Здесь стилизуйте кнопку по своему вкусу */
+	padding: 10px 20px;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	z-index: 2;
+	position: relative;
+}
+
+.info__loadInput {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	opacity: 0;
+	z-index: -1;
+	cursor: pointer;
+	padding: 1rem;
+}
+
 .info__description {
 	align-self: start;
 	padding: 1rem 2rem;

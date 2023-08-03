@@ -1,8 +1,11 @@
 import {profileAPI} from "../../api/api";
 
+
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
+const SET_PHOTO_SUCCESS = 'SET_PHOTO_SUCCESS';
+
 
 const initialState = {
 	postsData: [
@@ -33,7 +36,7 @@ const initialState = {
 	],
 	newPostText: '',
 	profile: null,
-	status: '',
+	status: 'double click here to change status',
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -58,6 +61,12 @@ const profileReducer = (state = initialState, action) => {
 		case SET_STATUS: {
 			return {...state, status: action.status}
 		}
+		case SET_PHOTO_SUCCESS: {
+			return {
+				...state,
+				profile: {...state.profile, photos: action.photos}
+			};
+		}
 		default:
 			return state;
 
@@ -70,6 +79,11 @@ export const addPostActionCreator = (text) => ({type: ADD_POST, text});
 
 export const setUserProfile = profile => ({type: SET_USER_PROFILE, profile});
 export const setStatus = (status) => ({type: SET_STATUS, status})
+const savePhotoSuccess = (photos) => ({
+	type: SET_PHOTO_SUCCESS,
+	photos // Предполагая, что сервер возвращает объект с ключом "photos"
+});
+
 
 export const getProfileUserThunk = (userId) => {
 	return async dispatch => {
@@ -96,6 +110,13 @@ export const updateStatus = status => async (dispatch) => {
 	}
 }
 
-
+export const savePhoto = (photoFile) => async (dispatch) => {
+	const response = await profileAPI.savePhoto(photoFile);
+	if (response.resultCode === 0) {
+		dispatch(savePhotoSuccess(response.data.photos))
+		debugger
+	}
+	console.log(response.data.photos);
+}
 
 export default profileReducer;
