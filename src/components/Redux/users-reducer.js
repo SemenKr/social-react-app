@@ -72,20 +72,14 @@ export const toggleIsFollowing = (isFetching, userId) => ({
     type: ActionTypes.TOGGLE_IS_FOLLOWING, isFetching, userId
 });
 
-export const getUsersThunkCreator = (currentPage, pageSize) => dispatch => {
+export const getUsersThunkCreator = (currentPage, pageSize) => async dispatch => {
     dispatch(setCurrentPage(currentPage));
     dispatch(toggleIsFetching(true));
-
-    userAPI.getUsers(currentPage, pageSize)
-        .then(data => {
-            if (data) {
-                dispatch(toggleIsFetching(false));
-                dispatch(setUsers(data.items || [])); // Add fallback to []
-                dispatch(setTotalUsersCount(data.totalCount || 0)); // Add fallback to 0
-            } else {
-                // handle error
-            }
-        });
+    const data = await userAPI.getUsers(currentPage, pageSize);
+    const {items, totalCount} = data;
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(items));
+    dispatch(setTotalUsersCount(totalCount));
 }
 
 export const unfollowThunkCreator = userId => async dispatch => {

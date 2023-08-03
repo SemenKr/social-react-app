@@ -19,20 +19,6 @@
 	}
 }
 
-.pagination__item {
-	border-radius: 50%;
-	width: 3rem;
-	height: 3rem;
-	border: 1px solid #b1b1b181;
-	background: $main-whit;
-
-	&._active {
-		font-weight: bold;
-		background-color: $secondary-color;
-		color: $main-whit;
-	}
-}
-
 .users__List {
 	display: grid;
 	grid-template-columns: 1fr 1fr;

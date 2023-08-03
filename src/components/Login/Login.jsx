@@ -9,10 +9,10 @@ import {login, logout} from "../Redux/auth-reduce";
 import {Navigate} from "react-router";
 import {FORM_ERROR} from "final-form";
 
-const LoginForm = (props) => {
+const LoginForm = ({login}) => {
     const onSubmit = async (values, form) => {
         try {
-            await props.login(values.email, values.password, values.rememberMe);
+            await login(values.email, values.password, values.rememberMe);
             form.reset();
         } catch (error) {
             return { [FORM_ERROR]: error.message };
@@ -110,15 +110,15 @@ const LoginForm = (props) => {
     );
 }
 
-const Login = (props) => {
+const Login = ({isAuth, login}) => {
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Navigate to={'/profile'}/>
     }
     return (
         <>
             <h1>Вы не зарегистрированы</h1>
-            <LoginForm login={props.login}/>
+            <LoginForm login={login}/>
         </>
     )
 }
