@@ -32,16 +32,46 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 				</div>
 				{isOwner && <div className={p.info__loadWrapper}>
 
-						<input type={"file"}  onChange={onMainPhotoSelected} id="myFile" name="myfile" />
+					<input type={"file"} onChange={onMainPhotoSelected} id="myFile" name="myfile" />
 
 
 				</div>}
 				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
-				<p>{profile.fullName}</p>
-				<p>{profile.lookingForAJobDescription}</p>
-				<p className={p.info__description}>{profile.aboutMe}</p>
+				<ProfileData profile={profile} />
+
+
 			</div>
 		</div>
+	)
+}
+
+
+
+const ProfileData = ({profile}) => {
+	return (
+		<div>
+			<p>{profile.fullName}</p>
+			<p>{profile.lookingForAJobDescription}</p>
+			<p className="">Looking for a job:  {profile.lookingForAJob ? " yes" : " no"}</p>
+			{profile.lookingForAJob &&
+				<p className="">My prof skills: {profile.lookingForAJobDescription}</p>
+			}
+			{profile.contacts &&
+				<div>Contacts:
+					<ul>
+						{Object.keys(profile.contacts).map((key) => {
+							return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
+						})}
+
+					</ul>
+				</div>
+			}</div>
+	)
+}
+
+const Contact = ({contactTitle, contactValue}) => {
+	return (
+		<li><span>{contactTitle}</span>: {contactValue}</li>
 	)
 }
 
