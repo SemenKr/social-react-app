@@ -4,6 +4,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import ProfileDataForm from './ProfileDataForm';
 
 const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 
@@ -77,13 +78,6 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 	)
 }
 
-const ProfileDataForm = ({profile}) => {
-	return (
-		<div>
-			Form
-		</div>
-	)
-}
 
 const Contact = ({contactTitle, contactValue}) => {
 	return (
