@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import p from './ProfileInfo.module.scss';
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
@@ -6,6 +6,8 @@ import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
+
+	const [editMode, setEditMode] = useState(false)
 
 	if (!profile) {
 		return <Preloader />
@@ -36,8 +38,13 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 
 
 				</div>}
+
 				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
-				<ProfileData profile={profile} />
+
+				{editMode
+					? <ProfileDataForm />
+					: <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => {setEditMode(true)}} />}
+
 
 
 			</div>
@@ -47,9 +54,10 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 
 
 
-const ProfileData = ({profile}) => {
+const ProfileData = ({profile, isOwner, goToEditMode}) => {
 	return (
 		<div>
+			{isOwner && <button onClick={goToEditMode}>Редактировать</button>}
 			<p>{profile.fullName}</p>
 			<p>{profile.lookingForAJobDescription}</p>
 			<p className="">Looking for a job:  {profile.lookingForAJob ? " yes" : " no"}</p>
@@ -66,6 +74,14 @@ const ProfileData = ({profile}) => {
 					</ul>
 				</div>
 			}</div>
+	)
+}
+
+const ProfileDataForm = ({profile}) => {
+	return (
+		<div>
+			Form
+		</div>
 	)
 }
 
