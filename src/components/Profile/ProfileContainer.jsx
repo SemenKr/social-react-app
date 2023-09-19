@@ -30,7 +30,6 @@ const ProfileContainer = (props) => {
 	const status = useSelector(state => state.profilePage.status);
 	const dispatch = useDispatch();
 	const { userId } = params;
-	console.log(props);
 
 
 
