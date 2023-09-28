@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './ProfileDataForm.module.scss'
 import {useForm, Controller, SubmitHandler} from "react-hook-form";
 import {Checkbox, TextareaAutosize, TextField} from "@mui/material";
-import TextFormField from "../../ui/TextFormField";
+import TextFormField from "../../ui/CustomTextField";
+import CustomTextField from "../../ui/CustomTextField";
 
 
 const ProfileDataForm = ({profile}) => {
@@ -34,23 +35,19 @@ const ProfileDataForm = ({profile}) => {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            <Controller
+
+            <CustomTextField
                 name="name"
                 control={control}
                 rules={{
                     required: 'Name is required',
                     validate: isName,
                 }}
-                render={({field}) => (
-                    <TextField
-                        {...field}
-                        label="Name"
-                        variant="outlined"
-                        error={!!errors.name}
-                        helperText={errors.name ? errors.name.message : ''}
-                    />
-                )}
+                label="Name"
+                error={!!errors.name}
+                helperText={errors.name ? errors.name.message : ''}
             />
+
             <p>{profile.lookingForAJobDescription}</p>
             <label htmlFor="lookingForAJob">
                 Looking for a job
@@ -67,27 +64,15 @@ const ProfileDataForm = ({profile}) => {
                 />
             </label>
 
-            <Controller
+            <CustomTextField
                 name="lookingForAJobDescription"
                 control={control}
                 rules={{
-                    required: 'Name is required',
-                    validate: isName,
-                }}
-                render={({field}) => (
-                    <TextField
-                        {...field}
-                        label="Looking for a job description"
-                        variant="outlined"
-                        error={!!errors.name}
-                        helperText={errors.name ? errors.name.message : ''}
-                    />
-                )}
-            />
 
-            <TextFormField
-                name={"lookingForAJobDescription"}
-                control={control}
+                }}
+                label="Looking for a job description"
+                error={!!errors.name}
+                helperText={errors.name ? errors.name.message : ''}
             />
 
             <Controller
