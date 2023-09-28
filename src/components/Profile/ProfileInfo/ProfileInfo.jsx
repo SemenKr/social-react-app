@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+ import React, {useState} from "react";
 import p from './ProfileInfo.module.scss';
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
@@ -43,7 +43,7 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
 				{editMode
-					? <ProfileDataForm />
+					? <ProfileDataForm profile={profile} />
 					: <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => {setEditMode(true)}} />}
 
 
