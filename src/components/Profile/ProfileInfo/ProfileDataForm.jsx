@@ -1,15 +1,13 @@
 import React from 'react';
 import styles from './ProfileDataForm.module.scss'
-import {useForm, Controller, SubmitHandler} from "react-hook-form";
-import {Checkbox, TextareaAutosize, TextField} from "@mui/material";
-import TextFormField from "../../ui/CustomTextField";
+import {useForm, Controller} from "react-hook-form";
+import {Button, Checkbox, TextareaAutosize, } from "@mui/material";
 import CustomTextField from "../../ui/CustomTextField";
 
 
 const ProfileDataForm = ({profile}) => {
 
     const {
-        register,
         handleSubmit,
         watch,
         control,
@@ -43,13 +41,14 @@ const ProfileDataForm = ({profile}) => {
                     required: 'Name is required',
                     validate: isName,
                 }}
-                label="Name"
+                label={profile.fullName ? profile.fullName : "Name"}
+                defaultValue={profile.fullName}
                 error={!!errors.name}
                 helperText={errors.name ? errors.name.message : ''}
             />
 
             <p>{profile.lookingForAJobDescription}</p>
-            <label htmlFor="lookingForAJob">
+            <label htmlFor="lookingForAJob">ь б
                 Looking for a job
                 <Controller
                     name="lookingForAJob"
@@ -80,7 +79,7 @@ const ProfileDataForm = ({profile}) => {
                 name={'aboutMe'}
                 render={({field}) => <TextareaAutosize {...field} placeholder="About Me"/>}
             />
-            <button>Save</button>
+            <Button variant="contained">save</Button>
         </form>
     )
 }
