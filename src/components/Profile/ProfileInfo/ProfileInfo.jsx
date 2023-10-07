@@ -1,4 +1,4 @@
- import React, {useState} from "react";
+import React, { useState } from "react";
 import p from './ProfileInfo.module.scss';
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
@@ -6,23 +6,18 @@ import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileDataForm from './ProfileDataForm';
 
-const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto, saveProfileData,}) => {
+const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, saveProfileData }) => {
+	const [editMode, setEditMode] = useState(false);
 
-	const [editMode, setEditMode] = useState(false)
+	const onMainPhotoSelected = (e) => {
+		if (e.target.files?.length) {
+			savePhoto(e.target.files[0]);
+		}
+	}
 
 	if (!profile) {
 		return <Preloader />
 	}
-
-	const onMainPhotoSelected = (e) => {
-
-		if (e.target.files?.length) {
-			savePhoto(e.target.files[0])
-		}
-		console.log(e.target.files[0]);
-
-	}
-
 
 	return (
 		<div className={p.info}>
@@ -31,37 +26,31 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto, savePro
 			</div>
 			<div className={p.info__content}>
 				<div className={p.info__imageWrapper}>
-					<img className={p.info__image} src={profile.photos.large !== null ? profile.photos.large : userPhoto} alt="yo" />
+					<img className={p.info__image} src={profile.photos.large || userPhoto} alt="yo" />
 				</div>
-				{isOwner && <div className={p.info__loadWrapper}>
-
-					<input type={"file"} onChange={onMainPhotoSelected} id="myFile" name="myfile" />
-
-
-				</div>}
+				{isOwner && (
+					<div className={p.info__loadWrapper}>
+						{/* Input для загрузки фото */}
+						<input type={"file"} onChange={onMainPhotoSelected} id="myFile" name="myfile" />
+					</div>
+				)}
 
 				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
 				{editMode
 					? <ProfileDataForm profile={profile} saveProfileData={saveProfileData} setEditMode={setEditMode} />
-					: <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => {setEditMode(true)}} />}
-
-
-
+					: <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode} />}
 			</div>
 		</div>
 	)
 }
 
-
-
-const ProfileData = ({profile, isOwner, goToEditMode}) => {
-
+const ProfileData = ({ profile, isOwner, setEditMode }) => {
 	return (
 		<div>
-			{isOwner && <button onClick={goToEditMode}>Редактировать</button>}
+			{isOwner && <button onClick={() => setEditMode(true)}>Редактировать</button>}
 			<p>{profile.fullName}</p>
-			<p className="">Looking for a job:  {profile.lookingForAJob ? " yes" : " no"}</p>
+			<p className="">Looking for a job: {profile.lookingForAJob ? " yes" : " no"}</p>
 			{profile.lookingForAJob &&
 				<p className="">My prof skills: {profile.lookingForAJobDescription}</p>
 			}
@@ -73,14 +62,8 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 							.filter(([_, value]) => value)
 							.map(([key, value]) => (
 								<li key={key}>
-									<a
-										className={p.contactLink}
-										href={addPrefixToLink(key, value)}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										{key}
-									</a>
+									{/* Отображение контактов */}
+									<Contact contactTitle={key} contactValue={value} />
 								</li>
 							))}
 					</ul>
@@ -90,28 +73,36 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 	)
 }
 
- function addPrefixToLink(key, value) {
-	 // Определите префиксы для разных типов контактов
-	 const contactPrefixes = {
-		 github: "https://github.com/",
-		 vk: "https://vk.com/",
-		 // Добавьте другие контакты по аналогии
-	 };
-
-	 // Если для данного типа контакта есть префикс, добавляем его
-	 if (contactPrefixes.hasOwnProperty(key)) {
-		 return contactPrefixes[key] + value;
-	 }
-
-	 // Если не нашли соответствующий тип контакта, возвращаем значение без изменений
-	 return value;
- }
-
-
-export const Contact = ({contactTitle, contactValue}) => {
+const Contact = ({ contactTitle, contactValue }) => {
 	return (
-		<li><span>{contactTitle}</span>: {contactValue}</li>
+		<span>
+      <a
+		  className={p.contactLink}
+		  href={addPrefixToLink(contactTitle, contactValue)}
+		  target="_blank"
+		  rel="noopener noreferrer"
+	  >
+        {contactTitle}
+      </a>
+    </span>
 	)
+}
+
+function addPrefixToLink(key, value) {
+	// Префиксы для контактов
+	const contactPrefixes = {
+		github: "https://github.com/",
+		vk: "https://vk.com/",
+		// Добавьте другие контакты по аналогии
+	};
+
+	if (contactPrefixes.hasOwnProperty(key)) {
+		// Если есть префикс для контакта, добавляем его к значению
+		return contactPrefixes[key] + value;
+	}
+
+	// Возвращаем значение без изменений, если префикс не найден
+	return value;
 }
 
 export default ProfileInfo;
