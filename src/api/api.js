@@ -42,6 +42,10 @@ export const profileAPI = {
 		formData.append('image', photoFile)
 		return instance.put(`profile/photo`, formData)
 		.then(res => res.data)
+	},
+	saveProfileData(profileData) {
+		console.log('Api profile' , profileData);
+		return instance.put('profile/', profileData);
 	}
 }
 

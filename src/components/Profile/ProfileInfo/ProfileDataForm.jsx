@@ -1,26 +1,35 @@
 import React from 'react';
 import styles from './ProfileDataForm.module.scss'
 import {useForm, Controller} from "react-hook-form";
-import {Button, Checkbox, TextareaAutosize, } from "@mui/material";
+import {Button, Checkbox } from "@mui/material";
 import CustomTextField from "../../ui/CustomTextField";
 
 
-const ProfileDataForm = ({profile}) => {
+const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
 
     const {
         handleSubmit,
-        watch,
         control,
         formState: {errors},
     } = useForm({
         defaultValues: {
-            name: '',
-            lookingForAJobDescription: '', // Add default value for lookingForAJobDescription
-            aboutMe: '', // Add default value for aboutMe
+            fullName: profile.fullName || '',
+            lookingForAJobDescription: profile.lookingForAJobDescription || '',
+            lookingForAJob: profile.lookingForAJob || false,
+            aboutMe: profile.aboutMe || '',
+            // Далее идут поля контактов, вы можете использовать аналогичный подход для каждого из них
+            contacts: {
+                github: profile.contacts?.github || '',
+                vk: profile.contacts?.vk || '',
+                facebook: profile.contacts?.facebook || '',
+                instagram: profile.contacts?.instagram || '',
+                twitter: profile.contacts?.twitter || '',
+                website: profile.contacts?.website || '',
+                youtube: profile.contacts?.youtube || '',
+                mainLink: profile.contacts?.mainLink || '',
+            },
         }
     })
-
-    console.log(watch('example'))
 
     const isName = (value) => {
         // Your validation logic here
@@ -28,32 +37,32 @@ const ProfileDataForm = ({profile}) => {
     }
 
     const onSubmit = data => {
-        console.log(data);
+        saveProfileData(data)
+        setEditMode(false)
+
+        console.log(' OnSubmit',data);
     }
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 
             <CustomTextField
-                name="name"
+                name="fullName"
                 control={control}
                 rules={{
                     required: 'Name is required',
                     validate: isName,
                 }}
                 label={profile.fullName ? profile.fullName : "Name"}
-                defaultValue={profile.fullName}
-                error={!!errors.name}
-                helperText={errors.name ? errors.name.message : ''}
+                error={!!errors.fullName}
+                helperText={errors.fullName ? errors.fullName.message : ''}
             />
 
-            <p>{profile.lookingForAJobDescription}</p>
-            <label htmlFor="lookingForAJob">ь б
-                Looking for a job
+            <label htmlFor="lookingForAJob">
                 <Controller
                     name="lookingForAJob"
                     control={control}
-                    render={({field}) => (
+                    render={({field }) => (
                         <Checkbox
                             {...field}
                             id="lookingForAJob"
@@ -70,16 +79,37 @@ const ProfileDataForm = ({profile}) => {
 
                 }}
                 label="Looking for a job description"
-                error={!!errors.name}
-                helperText={errors.name ? errors.name.message : ''}
+                error={!!errors.lookingForAJobDescription}
+                helperText={errors.lookingForAJobDescription ? errors.lookingForAJobDescription.message : ''}
             />
 
-            <Controller
-                control={control}
-                name={'aboutMe'}
-                render={({field}) => <TextareaAutosize {...field} placeholder="About Me"/>}
-            />
-            <Button variant="contained">save</Button>
+            {profile.contacts &&
+                <div>Contacts:
+                    <ul>
+                        {Object.keys(profile.contacts).map((key) => {
+                            return (
+                                <li key={key}>
+                                    <CustomTextField
+                                        name={'contacts.' + key}
+                                        control={control}
+                                        rules={{
+
+                                        }}
+                                        label={key}
+                                        error={!!errors.key}
+                                        helperText={errors.key ? errors.key.message : ''}
+                                    />
+                                </li>
+
+                                )
+
+                        })}
+
+                    </ul>
+                </div>
+            }
+
+            <Button type={"submit"} variant="contained">save</Button>
         </form>
     )
 }

@@ -6,7 +6,7 @@ import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileDataForm from './ProfileDataForm';
 
-const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
+const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto, saveProfileData,}) => {
 
 	const [editMode, setEditMode] = useState(false)
 
@@ -43,7 +43,7 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
 
 				{editMode
-					? <ProfileDataForm profile={profile} />
+					? <ProfileDataForm profile={profile} saveProfileData={saveProfileData} setEditMode={setEditMode} />
 					: <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => {setEditMode(true)}} />}
 
 
@@ -56,11 +56,11 @@ const ProfileInfo = ({profile, updateStatus, status, isOwner, savePhoto}) => {
 
 
 const ProfileData = ({profile, isOwner, goToEditMode}) => {
+
 	return (
 		<div>
 			{isOwner && <button onClick={goToEditMode}>Редактировать</button>}
 			<p>{profile.fullName}</p>
-			<p>{profile.lookingForAJobDescription}</p>
 			<p className="">Looking for a job:  {profile.lookingForAJob ? " yes" : " no"}</p>
 			{profile.lookingForAJob &&
 				<p className="">My prof skills: {profile.lookingForAJobDescription}</p>
@@ -74,12 +74,13 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 
 					</ul>
 				</div>
-			}</div>
+			}
+		</div>
 	)
 }
 
 
-const Contact = ({contactTitle, contactValue}) => {
+export const Contact = ({contactTitle, contactValue}) => {
 	return (
 		<li><span>{contactTitle}</span>: {contactValue}</li>
 	)

@@ -5,7 +5,7 @@ const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
 const SET_STATUS = 'SET-STATUS';
 const SET_PHOTO_SUCCESS = 'SET_PHOTO_SUCCESS';
-
+const SET_PROFILE_DATA_SUCCESS = 'SET-PROFILE-DATA-SUCCESS';
 
 const initialState = {
 	postsData: [
@@ -67,6 +67,12 @@ const profileReducer = (state = initialState, action) => {
 				profile: {...state.profile, photos: action.photos}
 			};
 		}
+		case SET_PROFILE_DATA_SUCCESS: {
+			return {
+				...state,
+				profile: {...state.profile, profile: action.profile}
+			};
+		}
 		default:
 			return state;
 
@@ -83,6 +89,8 @@ const savePhotoSuccess = (photos) => ({
 	type: SET_PHOTO_SUCCESS,
 	photos // Предполагая, что сервер возвращает объект с ключом "photos"
 });
+
+export const setProfileData = (profileData) => ({type: SET_PROFILE_DATA_SUCCESS, profileData})
 
 
 export const getProfileUserThunk = (userId) => {
@@ -114,9 +122,20 @@ export const savePhoto = (photoFile) => async (dispatch) => {
 	const response = await profileAPI.savePhoto(photoFile);
 	if (response.resultCode === 0) {
 		dispatch(savePhotoSuccess(response.data.photos))
-		debugger
+
 	}
 	console.log(response.data.photos);
+}
+
+export const saveProfileData = (profileData) => async (dispatch, getState ) => {
+	const userId = getState().auth.id;
+	const response = await profileAPI.saveProfileData(profileData);
+	console.log(' Reducer profile',  profileData);
+
+	if (response.data.resultCode === 0) {
+		 dispatch(getProfileUserThunk(userId))
+
+	}
 }
 
 export default profileReducer;

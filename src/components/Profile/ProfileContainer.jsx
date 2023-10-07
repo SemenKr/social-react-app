@@ -1,7 +1,14 @@
 import React, {useEffect} from 'react';
 import Profile from "./Profile";
 import {connect, useDispatch, useSelector} from "react-redux";
-import {getProfileUserThunk, getStatus, savePhoto, setUserProfile, updateStatus} from "../Redux/profile-reducer";
+import {
+	getProfileUserThunk,
+	getStatus,
+	savePhoto,
+	saveProfileData,
+	setUserProfile,
+	updateStatus
+} from "../Redux/profile-reducer";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
@@ -49,6 +56,7 @@ const ProfileContainer = (props) => {
 			updateStatus={handleStatusUpdate}
 			isOwner={!userId}
 			savePhoto={props.savePhoto}
+			saveProfileData={props.saveProfileData}
 		/>
 	);
 };
@@ -80,5 +88,5 @@ function withRouter(Component) {
 export default compose(
 	withRouter,
 	withAuthRedirect,
-	connect(mapStateToProps, { setUserProfile, getProfileUserThunk, getStatus, updateStatus, savePhoto }),
+	connect(mapStateToProps, { setUserProfile, getProfileUserThunk, getStatus, updateStatus, savePhoto, saveProfileData }),
 )(ProfileContainer);
