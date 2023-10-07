@@ -5,6 +5,22 @@ import userPhoto from "../../../assets/images/user.png";
 import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileDataForm from './ProfileDataForm';
+import {Button} from "@mui/material";
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+	clip: 'rect(0 0 0 0)',
+	clipPath: 'inset(50%)',
+	height: 1,
+	overflow: 'hidden',
+	position: 'absolute',
+	bottom: 0,
+	left: 0,
+	whiteSpace: 'nowrap',
+	width: 1,
+});
+
 
 const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, saveProfileData }) => {
 	const [editMode, setEditMode] = useState(false);
@@ -31,7 +47,10 @@ const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, savePr
 				{isOwner && (
 					<div className={p.info__loadWrapper}>
 						{/* Input для загрузки фото */}
-						<input type={"file"} onChange={onMainPhotoSelected} id="myFile" name="myfile" />
+						<Button component="label" onChange={onMainPhotoSelected} id="myFile" name="myfile" variant="contained" startIcon={<CloudUploadIcon />}>
+							Upload file
+							<VisuallyHiddenInput type="file" />
+						</Button>
 					</div>
 				)}
 
@@ -48,7 +67,7 @@ const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, savePr
 const ProfileData = ({ profile, isOwner, setEditMode }) => {
 	return (
 		<div>
-			{isOwner && <button onClick={() => setEditMode(true)}>Редактировать</button>}
+			{isOwner && <Button onClick={() => setEditMode(true)} variant="contained">Редактировать</Button>}
 			<p>{profile.fullName}</p>
 			<p className="">Looking for a job: {profile.lookingForAJob ? " yes" : " no"}</p>
 			{profile.lookingForAJob &&
