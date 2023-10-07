@@ -65,19 +65,47 @@ const ProfileData = ({profile, isOwner, goToEditMode}) => {
 			{profile.lookingForAJob &&
 				<p className="">My prof skills: {profile.lookingForAJobDescription}</p>
 			}
-			{profile.contacts &&
-				<div>Contacts:
+			{profile.contacts && (
+				<div className={p.contacts}>
+					Contacts:
 					<ul>
-						{Object.keys(profile.contacts).map((key) => {
-							return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
-						})}
-
+						{Object.entries(profile.contacts)
+							.filter(([_, value]) => value)
+							.map(([key, value]) => (
+								<li key={key}>
+									<a
+										className={p.contactLink}
+										href={addPrefixToLink(key, value)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{key}
+									</a>
+								</li>
+							))}
 					</ul>
 				</div>
-			}
+			)}
 		</div>
 	)
 }
+
+ function addPrefixToLink(key, value) {
+	 // Определите префиксы для разных типов контактов
+	 const contactPrefixes = {
+		 github: "https://github.com/",
+		 vk: "https://vk.com/",
+		 // Добавьте другие контакты по аналогии
+	 };
+
+	 // Если для данного типа контакта есть префикс, добавляем его
+	 if (contactPrefixes.hasOwnProperty(key)) {
+		 return contactPrefixes[key] + value;
+	 }
+
+	 // Если не нашли соответствующий тип контакта, возвращаем значение без изменений
+	 return value;
+ }
 
 
 export const Contact = ({contactTitle, contactValue}) => {

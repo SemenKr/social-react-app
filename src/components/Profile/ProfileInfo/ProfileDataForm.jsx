@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './ProfileDataForm.module.scss'
 import {useForm, Controller} from "react-hook-form";
-import {Button, Checkbox } from "@mui/material";
+import {Button, Checkbox, TextField} from "@mui/material";
 import CustomTextField from "../../ui/CustomTextField";
+import * as yup from 'yup';
 
 
 const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
+    // Состояние для отслеживания ошибок в полях контактов
+    const [contactErrors, setContactErrors] = useState({});
 
     const {
         handleSubmit,
@@ -36,7 +39,29 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
         return value.length > 0;
     }
 
-    const onSubmit = data => {
+    const urlValidationSchema = yup.string().url('Invalid URL format');
+
+    const onSubmit = async  data => {
+        // Проверяем ошибки в полях контактов
+        const contactFieldErrors = {};
+
+        for (const key in data.contacts) {
+            const contactValue = data.contacts[key];
+            try {
+                await urlValidationSchema.validate(contactValue);
+            } catch (error) {
+                contactFieldErrors[key] = error.message;
+            }
+        }
+
+        // Устанавливаем ошибки в состояние
+        setContactErrors(contactFieldErrors);
+
+        // Если есть ошибки в полях контактов, не отправляем данные
+        if (Object.keys(contactFieldErrors).length > 0) {
+            return;
+        }
+
         saveProfileData(data)
         setEditMode(false)
 
@@ -87,28 +112,29 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
                 <div>Contacts:
                     <ul>
                         {Object.keys(profile.contacts).map((key) => {
+                            const contactName = 'contacts.' + key;
                             return (
                                 <li key={key}>
-                                    <CustomTextField
-                                        name={'contacts.' + key}
+                                    <Controller
+                                        name={contactName}
                                         control={control}
-                                        rules={{
-
-                                        }}
-                                        label={key}
-                                        error={!!errors.key}
-                                        helperText={errors.key ? errors.key.message : ''}
+                                        defaultValue={profile.contacts[key] || ''} // Устанавливаем значение из profile.contacts
+                                        render={({ field }) => (
+                                            <TextField
+                                                {...field}
+                                                label={key}
+                                                variant="outlined"
+                                                error={!!errors[contactName] || !!contactErrors[key]}
+                                                helperText={errors[contactName] ? errors[contactName].message : contactErrors[key] || ''}
+                                            />
+                                        )}
                                     />
                                 </li>
-
-                                )
-
+                            );
                         })}
-
                     </ul>
                 </div>
             }
-
             <Button type={"submit"} variant="contained">save</Button>
         </form>
     )
