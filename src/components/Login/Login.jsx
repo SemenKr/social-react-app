@@ -9,13 +9,12 @@ import {login, logout} from "../Redux/auth-reduce";
 import {Navigate} from "react-router";
 import {FORM_ERROR} from "final-form";
 
-const LoginForm = ({login}) => {
-    const onSubmit = async (values, form) => {
+const LoginForm = ({login, captchaUrl}) => {
+    const onSubmit = async (values) => {
         try {
-            await login(values.email, values.password, values.rememberMe);
-            form.reset();
+            await login(values.email, values.password, values.rememberMe, values.captcha);
         } catch (error) {
-            return { [FORM_ERROR]: error.message };
+            return {[FORM_ERROR]: error.message};
         }
     };
 
@@ -76,7 +75,23 @@ const LoginForm = ({login}) => {
                                 </div>
                             )}
                         </Field>
-                            {submitError && <span  className={styles.form__summaryError}>{submitError}</span>}
+                        {submitError && <span className={styles.form__summaryError}>{submitError}</span>}
+                        {captchaUrl && <img src={captchaUrl} alt={"Captcha"}/>}
+                        {captchaUrl &&
+                            <Field
+                                name='captcha'
+                                validate={composeValidators(required)}>
+                                {({input, meta}) => (
+                                    <div>
+                                        <TextField
+                                            label="captcha"
+                                            {...input}
+                                            error={meta.error && meta.touched}
+                                            helperText={meta.touched && meta.error}
+                                        />
+                                    </div>
+                                )}
+                            </Field>}
 
 
                         <Grid container spacing={2}>
@@ -102,15 +117,17 @@ const LoginForm = ({login}) => {
                                     Reset
                                 </Button>
                             </Grid>
+
                         </Grid>
                     </form>
                 )}
             </Form>
+
         </Container>
     );
 }
 
-const Login = ({isAuth, login}) => {
+const Login = ({isAuth, login, captchaUrl}) => {
 
     if (isAuth) {
         return <Navigate to={'/profile'}/>
@@ -118,13 +135,14 @@ const Login = ({isAuth, login}) => {
     return (
         <>
             <h1>Вы не зарегистрированы</h1>
-            <LoginForm login={login}/>
+            <LoginForm login={login} captchaUrl={captchaUrl}/>
         </>
     )
 }
 
 
 const mapStateToProps = (state) => ({
+    captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth
 });
 
