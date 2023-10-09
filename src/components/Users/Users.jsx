@@ -38,13 +38,6 @@ let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, 
                 }
 
             </ul>
-
-            <Pagination totalUsersCount={totalUsersCount}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={onPageChange}
-            />
-
         </section>
     );
 
