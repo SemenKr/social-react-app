@@ -18,37 +18,39 @@ import {withAuthRedirect} from "../hoc/withAuthRedirect";
 const fetchUserProfileData = (dispatch, userId, authorisedUserId, navigate) => {
 	if (!userId) {
 		if (!authorisedUserId) {
-			navigate("/login");
+			navigate("/login"); // Перенаправление на страницу входа, если нет userId и не авторизован пользователь
 		} else {
-			dispatch(getProfileUserThunk(authorisedUserId));
+			dispatch(getProfileUserThunk(authorisedUserId)); // Получение профиля и статуса авторизованного пользователя
 			dispatch(getStatus(authorisedUserId));
 		}
 	} else {
-		dispatch(getProfileUserThunk(userId));
+		dispatch(getProfileUserThunk(userId)); // Получение профиля и статуса пользователя с указанным userId
 		dispatch(getStatus(userId));
 	}
 };
 const ProfileContainer = (props) => {
 	// const location = useLocation();
 	// const navigate = useNavigate();
-	const params = useParams();
-	const authorisedUserId = useSelector(state => state.auth.id);
-	const profile = useSelector(state => state.profilePage.profile);
-	const status = useSelector(state => state.profilePage.status);
-	const dispatch = useDispatch();
-	const { userId } = params;
+	// Извлекаем параметры маршрута и другие данные из хуков
+	const params = useParams(); // Параметры маршрута, включая "userId"
+	const authorisedUserId = useSelector(state => state.auth.id); // ID авторизованного пользователя из Redux
+	const profile = useSelector(state => state.profilePage.profile); // Данные профиля из Redux
+	const status = useSelector(state => state.profilePage.status); // Статус из Redux
+	const dispatch = useDispatch(); // Получаем функцию dispatch из Redux
+	const { userId } = params; // Извлекаем userId из параметров маршрута
 
 
-
+	// Эффект для запроса данных профиля и статуса
 	useEffect(() => {
-		const parsedUserId = +userId;
-		fetchUserProfileData(dispatch, parsedUserId, authorisedUserId);
-	}, [dispatch, userId, authorisedUserId]);
+		const parsedUserId = +userId; // Преобразование userId в число
+		fetchUserProfileData(dispatch, parsedUserId, authorisedUserId); // Вызываем функцию для запроса данных
+	}, [dispatch, userId, authorisedUserId]); // Зависимости эффекта
 
+	// Обработчик обновления статуса
 	const handleStatusUpdate = (newStatus) => {
-		dispatch(updateStatus(newStatus));
+		dispatch(updateStatus(newStatus)); // Вызываем action creator для обновления статуса
 	};
-
+	// Рендерим компонент Profile, передавая ему данные и обработчики
 	return (
 		<Profile
 			profile={profile}
@@ -60,8 +62,9 @@ const ProfileContainer = (props) => {
 		/>
 	);
 };
-
+// Применяем HOC для редиректа на страницу входа, если пользователь не авторизован
  withAuthRedirect(ProfileContainer);
+// Функция mapStateToProps для связывания состояния Redux с props
 const mapStateToProps = (state) => ({
 	profile: state.profilePage.profile,
 	status: state.profilePage.status,
@@ -69,22 +72,22 @@ const mapStateToProps = (state) => ({
 	isAuth: state.auth.isAuth
 });
 
-// wrapper to   router's v6 hooks in class component (to use HOC pattern, like in router v5)
+// HOC withRouter, который добавляет props связанные с маршрутизацией
 function withRouter(Component) {
 
 	function ComponentWithRouterProp(props) {
-		let location = useLocation()
-		let navigate = useNavigate()
-		let params = useParams()
+		let location = useLocation(); // Получаем информацию о текущем местоположении
+		let navigate = useNavigate(); // Получаем функцию для навигации
+		let params = useParams(); // Получаем параметры маршрута
 
 		return <Component
 			{...props}
-			router={{location, navigate, params}} />
+			router={{ location, navigate, params }} /> // Передаем связанные с маршрутизацией свойства
 	}
 
 	return ComponentWithRouterProp
 }
-
+// Оборачиваем компонент ProfileContainer в HOC-компоненты и связываем с Redux
 export default compose(
 	withRouter,
 	withAuthRedirect,
