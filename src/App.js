@@ -13,6 +13,7 @@ import { initializeApp } from "./components/Redux/app-reduce";
 import { connect } from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import { compose } from "redux";
+import NotFoundPage from "./components/common/404error/Error404";
 
 function App({ initialized, initializeApp }) {
     // Используем хук useEffect для выполнения инициализации при монтировании компонента.
@@ -38,6 +39,7 @@ function App({ initialized, initializeApp }) {
                     <Route path='/users' element={<UsersContainer />} />
                     <Route path='/music' element={<Music />} />
                     <Route path='/login' element={<Login />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
         </div>
