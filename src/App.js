@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import { compose } from "redux";
 import NotFoundPage from "./components/common/404error/Error404";
+import {Navigate} from "react-router";
 
 function App({ initialized, initializeApp }) {
     // Используем хук useEffect для выполнения инициализации при монтировании компонента.
@@ -33,6 +34,8 @@ function App({ initialized, initializeApp }) {
             <NavBarContainer />
             <div className="app__content">
                 <Routes>
+                    {/* Редирект с "/" на "/profile" */}
+                    <Route path="/" element={<Navigate to="/profile" />} />
                     <Route path='/profile/:userId?' element={<ProfileContainer />} />
                     <Route path="/messages/*" element={<DialogsContainer />} />
                     <Route path='/news' element={<News />} />
