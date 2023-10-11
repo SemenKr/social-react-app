@@ -16,16 +16,18 @@ import {compose} from "redux";
 
 
 class App extends React.Component {
+    // Этот метод вызывается, когда компонент монтируется в DOM.
     componentDidMount() {
-        this.props.initializeApp();
+        this.props.initializeApp();// Инициализируем приложение.
     }
 
     render() {
+        // Если приложение ещё не инициализировано, отображаем индикатор загрузки.
         if (!this.props.initialized) {
             return <Preloader/>
         }
+        // Если приложение инициализировано, отображаем основное содержимое.
         return (
-
             <div className="app-wrapper">
                 <HeaderContainer/>
                 <NavBarContainer/>
@@ -46,22 +48,24 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    initialized: state.app.initialized
+    initialized: state.app.initialized // Сопоставляем свойство initialized из Redux состояния с props.
 })
 
+// Функция withRouter позволяет передавать связанные с маршрутизатором свойства.
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
         // let location = useLocation();
         // let navigate = useNavigate();
-        let params = useParams();
+        let params = useParams();// Получаем параметры из URL.
         return (
-            <Component {...props} router={{params}}/>
+            <Component {...props} router={{params}}/>// Передаем параметры как свойство router.
         );
     }
 
     return ComponentWithRouterProp;
 }
 
+// С помощью compose объединяем withRouter и connect, чтобы применить их к компоненту App.
 export default compose(
     withRouter,
     connect(mapStateToProps, {initializeApp}))(App)
