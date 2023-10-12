@@ -17,15 +17,32 @@ import NotFoundPage from "./components/common/404error/Error404";
 import {Navigate} from "react-router";
 
 function App({ initialized, initializeApp }) {
-    // Используем хук useEffect для выполнения инициализации при монтировании компонента.
     useEffect(() => {
-        initializeApp();
-    }, [initializeApp]); // Зависимость от initializeApp, чтобы запустить инициализацию.
+        // Добавляем слушатель события unhandledrejection
+        window.addEventListener("unhandledrejection", handlePromiseRejection);
 
-    // Если приложение ещё не инициализировано, отображаем индикатор загрузки.
+        // Функция-обработчик необработанных промисов
+        function handlePromiseRejection(event) {
+            const { reason } = event;
+            console.error("Unhandled Promise Rejection:", reason);
+
+            // Опционально: предотвращение появления сообщения об ошибке в консоли браузера
+            event.preventDefault();
+        }
+
+        // Вызываем инициализацию при монтировании компонента
+        initializeApp();
+
+        // Удаляем слушатель события при размонтировании компонента
+        return () => {
+            window.removeEventListener("unhandledrejection", handlePromiseRejection);
+        };
+    }, [initializeApp, initialized]);
+
     if (!initialized) {
         return <Preloader />;
     }
+
 
     // Если приложение инициализировано, отображаем основное содержимое.
     return (
