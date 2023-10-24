@@ -5,7 +5,7 @@ import dialogsReducer from "./dialogs-reducer";
 import usersReducer from "./users-reducer";
 import authReducer from './auth-reduce';
 import thunkMiddleWare from "redux-thunk";
-import appReduce from "./app-reduce";
+import appReduce from "./app-reduce.ts";
 
 let reducers = combineReducers({
 	navBar: navBarReducer,
