@@ -1,6 +1,6 @@
-import { getAuthUserData } from './auth-reduce';
-
 // Определение констант для типов действий
+import { getAuthUserData } from './auth-reduce.ts';
+
 const ActionTypes = {
 	SET_INITIALIZED: 'SET_INITIALIZED', // Тип действия для установки флага initialized
 };

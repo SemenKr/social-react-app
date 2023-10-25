@@ -1,4 +1,4 @@
- import {addChatItemActionCreator} from '../Redux/dialogs-reducer';
+ import {addChatItemActionCreator} from '../Redux/dialogs-reducer.ts';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";

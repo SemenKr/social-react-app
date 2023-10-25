@@ -1,9 +1,9 @@
 import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
 import navBarReducer from "./navBar-reducer";
 import profileReducer from "./profile-reducer";
-import dialogsReducer from "./dialogs-reducer";
+import dialogsReducer from "./dialogs-reducer.ts";
 import usersReducer from "./users-reducer";
-import authReducer from './auth-reduce';
+import authReducer from './auth-reduce.ts';
 import thunkMiddleWare from "redux-thunk";
 import appReduce from "./app-reduce.ts";
 
