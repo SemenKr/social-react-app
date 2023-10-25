@@ -1,5 +1,7 @@
+// Определение константы для типа action
 const ADD_CHAT_ITEM = 'ADD-CHAT-ITEM';
 
+// Определение типов данных для диалогов и чатов
 type DialogType = {
     id: number,
     name: string
@@ -11,6 +13,7 @@ type ChatType = {
     ava: number,
 }
 
+// Начальное состояние стейта
 let initialState = {
     dialogData: [
         {id: 1 as number | null, name: 'Andrew' as string | null},
@@ -40,8 +43,10 @@ let initialState = {
     ] as Array<ChatType>,
 }
 
+// Определение типа для начального стейта
 export type InitialStateDialogsType = typeof initialState
 
+// Редуктор для обработки действий
 const dialogsReducer = (state:InitialStateDialogsType = initialState, action: any): InitialStateDialogsType => {
     switch (action.type) {
         case ADD_CHAT_ITEM: {
@@ -63,6 +68,7 @@ const dialogsReducer = (state:InitialStateDialogsType = initialState, action: an
     }
 }
 
+// Создание action creator для добавления сообщения в чат
 type AddChatItemActionCreatorActionType = {
 	type: typeof ADD_CHAT_ITEM
 	text: string
