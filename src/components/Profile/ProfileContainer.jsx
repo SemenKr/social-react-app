@@ -8,7 +8,7 @@ import {
 	saveProfileData,
 	setUserProfile,
 	updateStatus
-} from "../Redux/profile-reducer";
+} from "../Redux/profile-reducer.ts";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
