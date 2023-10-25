@@ -1,4 +1,28 @@
-let initialState = {
+//Types
+type LinkType = {
+	id: number;
+	name: string;
+	path: string;
+};
+
+type UserType = {
+	id: number;
+	name: string;
+	src: string;
+	alt: string;
+};
+
+type NavMenuType = {
+	links: LinkType[];
+	users: UserType[];
+};
+
+type InitialStateType = {
+	navMenu: NavMenuType;
+};
+
+
+const initialState: InitialStateType = {
 	navMenu: {
 		links: [
 			{id: 1, name: 'Profile', path: '/profile'},
@@ -18,7 +42,7 @@ let initialState = {
 	},
 }
 
-const navBarReducer = (state = initialState, action) => {
+const navBarReducer = (state = initialState, action: any):InitialStateType => {
 	return state
 }
 

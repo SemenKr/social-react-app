@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
-import navBarReducer from "./navBar-reducer";
+import navBarReducer from "./navBar-reducer.ts";
 import profileReducer from "./profile-reducer.ts";
 import dialogsReducer from "./dialogs-reducer.ts";
 import usersReducer from "./users-reducer";
