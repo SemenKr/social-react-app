@@ -5,14 +5,14 @@ import Preloader from '../common/Preloader/Preloader';
 import {
     setCurrentPage,
     toggleIsFollowing, getUsersThunkCreator, unfollowThunkCreator, followThunkCreator
-} from "../Redux/users-reducer";
+} from "../Redux/users-reducer.ts";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
-            getPageSize,
+    getPageSize,
     getTotalUsersCount,
     getUsers
 } from "../Redux/users-selectors";
@@ -26,7 +26,7 @@ class UsersContainer extends Component {
 
     onPageChange = (pageNumber) => {
         const {pageSize} = this.props
-        this.props.requestUsers(pageNumber, pageSize )
+        this.props.requestUsers(pageNumber, pageSize)
     }
 
     render() {
@@ -43,7 +43,7 @@ class UsersContainer extends Component {
                        follow={this.props.follow}
                        isFetching={this.props.isFetching}
                        followingInProgress={this.props.followingInProgress}
-					   toggleIsFollowing={this.props.toggleIsFollowing}
+                       toggleIsFollowing={this.props.toggleIsFollowing}
 
                 />
             </>
@@ -64,11 +64,11 @@ let mapStateToProps = (state) => {
 };
 
 export default compose(connect(mapStateToProps, {
-    setCurrentPage,
-    toggleIsFollowing,
-    requestUsers: getUsersThunkCreator,
-    unfollow: unfollowThunkCreator,
-    follow : followThunkCreator,
-}),
+        setCurrentPage,
+        toggleIsFollowing,
+        requestUsers: getUsersThunkCreator,
+        unfollow: unfollowThunkCreator,
+        follow: followThunkCreator,
+    }),
     withAuthRedirect
 )(UsersContainer)

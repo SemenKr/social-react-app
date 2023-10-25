@@ -1,47 +1,11 @@
 import {profileAPI} from "../../api/api";
-
+import {PhotosType, PostsDataType, ProfileType} from "../../types/types";
 // Определение типов действий (action types)
 const ADD_POST = 'ADD-POST'; // Тип действия для добавления поста
 const SET_USER_PROFILE = 'SET-USER-PROFILE'; // Тип действия для установки профиля пользователя
 const SET_STATUS = 'SET-STATUS'; // Тип действия для установки статуса
 const SET_PHOTO_SUCCESS = 'SET_PHOTO_SUCCESS'; // Тип действия для успешного сохранения фотографии
 const SET_PROFILE_DATA_SUCCESS = 'SET-PROFILE-DATA-SUCCESS'; // Тип действия для успешного сохранения данных профиля
-
-// Type state
-
-type PostsDataType = {
-    id: number
-    message: string
-    likesCount: number
-    src: string
-}
-
-type ProfileType = {
-    aboutMe: string;
-    contacts: {
-        facebook: string;
-        website: string;
-        vk: string;
-        twitter: string;
-        instagram: string;
-        youtube: string;
-        github: string;
-        mainLink: string;
-    };
-    lookingForAJob: boolean;
-    lookingForAJobDescription: string;
-    fullName: string;
-    userId: number;
-    photos: {
-        small: string;
-        large: string;
-    };
-}
-
-type PhotosType = {
-    small: string | null;
-    large: string | null;
-}
 
 // Начальное состояние (initial state) для редюсера
 const initialState = {
