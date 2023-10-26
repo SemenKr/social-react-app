@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import Users from './Users';
+import Users from './Users.tsx';
 import Preloader from '../common/Preloader/Preloader';
 import {
     setCurrentPage,
@@ -16,15 +16,34 @@ import {
     getTotalUsersCount,
     getUsers
 } from "../Redux/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../Redux/redux-store";
 
-class UsersContainer extends Component {
+// Определите интерфейс для пропсов UsersContainer
+interface UsersContainerProps {
+    users: UserType[]
+    pageSize: number;
+    totalUsersCount: number;
+    currentPage: number;
+    isFetching: boolean;
+    followingInProgress: Array<number>;
+
+    setCurrentPage: (page: number) => void;
+    toggleIsFollowing: (isFollowing: boolean) => void;
+    requestUsers: (page: number, pageSize: number) => void;
+    unfollow: (userId: number) => void;
+    follow: (userId: number) => void;
+}
+
+
+class UsersContainer extends Component<UsersContainerProps> {
 
     componentDidMount() {
         const {currentPage, pageSize} = this.props
         this.props.requestUsers(currentPage, pageSize)
     }
 
-    onPageChange = (pageNumber) => {
+    onPageChange = (pageNumber: number) => {
         const {pageSize} = this.props
         this.props.requestUsers(pageNumber, pageSize)
     }
@@ -52,7 +71,7 @@ class UsersContainer extends Component {
 }
 
 // принимает весь state и меняет
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),

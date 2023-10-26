@@ -1,10 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import styles from './users.module.scss';
 import User from "./User";
-import Pagination from "../ui/Pagination";
+import Pagination from "../ui/Pagination.tsx";
+import {UserType} from "../../types/types";
+
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    followingInProgress: Array<number>
+    unfollow: () => void
+    follow: () => void
+    pageNumber: number
+    user: Array<UserType>
+    currentPage: number
+    onPageChange: () => void
+}
 
 
-let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, ...props}) => {
+let Users:FC<PropsType> = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, ...props}) => {
 
     const [currentPage, setCurrentPage] = useState(props.currentPage);
 
@@ -13,7 +26,7 @@ let Users = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, 
         setCurrentPage(props.currentPage);
     }, [props.currentPage]);
 
-    const onPageChange = (pageNumber) => {
+    const onPageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
         props.onPageChange(pageNumber);
     };

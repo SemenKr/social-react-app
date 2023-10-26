@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",            // Версия ECMAScript
+    "module": "commonjs",       // Тип модулей (в данном случае CommonJS)
+    "strict": true,             // Строгий режим
+    "esModuleInterop": true,    // Поддержка импорта модулей CommonJS
+    "forceConsistentCasingInFileNames": true,  // Проверка регистра имен файлов
+    "jsx": "react",             // Поддержка JSX (если вы используете React)
+
+    "moduleResolution": "node", // Разрешение модулей
+
+    "declaration": true,        // Генерация файлов объявлений типов
+    "sourceMap": true,          // Генерация карты исходного кода
+
+    "outDir": "./dist",         // Папка для выходных файлов
+    "rootDir": "./src"          // Корневая папка исходного кода
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],  // Пути к исходным файлам
+  "exclude": ["node_modules"]   // Исключение папки node_modules
+}

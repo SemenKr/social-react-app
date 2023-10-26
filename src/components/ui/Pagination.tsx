@@ -1,11 +1,18 @@
-import React, {useState} from "react";
+import React, {FC, useState} from 'react';
 import style from './pagination.module.scss'
 
+type PropsType = {
+    totalUsersCount: number
+    currentPage: number
+    pageSize: number
+    onPageChange: (page: number) => void
+    partSize?: number
+}
 
-const Pagination = ({totalUsersCount, currentPage, pageSize, onPageChange, partSize = 8 }) => {
+const Pagination:FC<PropsType> = ({totalUsersCount, currentPage, pageSize, onPageChange, partSize = 8 }) => {
 
-    let pagesCount = Math.ceil(totalUsersCount / pageSize);
-    let pages = [];
+    let pagesCount: number = Math.ceil(totalUsersCount / pageSize);
+    let pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++ ) {
         pages.push(i);
     }
@@ -21,7 +28,7 @@ const Pagination = ({totalUsersCount, currentPage, pageSize, onPageChange, partS
             <button className={style.pagination__button} onClick={() => { setPartNumber(partNumber - 1)}} >&laquo;</button>
             }
 
-            {pages.filter(page => page >= leftPartPageNumber && page <= rightPartPageNumber)
+            {pages.filter(page => (page) >= leftPartPageNumber && page <= rightPartPageNumber)
                 .map((page) => {
                     return <span
                         className={`${style.pagination__item} ${currentPage === page && style._active}`}

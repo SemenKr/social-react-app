@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals'; // Импорт функции 
 import ReactDOM from "react-dom/client"; // Импорт ReactDOM для рендеринга компонентов в DOM
 import React from "react"; // Импорт React
 import App from "./App"; // Импорт корневого компонента приложения
-import store from './components/Redux/redux-store'; // Импорт Redux-хранилища
+import store from './components/Redux/redux-store.ts'; // Импорт Redux-хранилища
 import { Provider } from "react-redux"; // Импорт Provider из React Redux для связи Redux со всем приложением
 import { DevSupport } from "@react-buddy/ide-toolbox"; // Импорт DevSupport для разработчика
 import { ComponentPreviews, useInitial } from "./dev"; // Импорт компонентов для предварительного просмотра и функции useInitial

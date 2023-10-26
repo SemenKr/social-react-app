@@ -16,8 +16,15 @@ let reducers = combineReducers({
 	app: appReduce,
 })
 
+type RootReducerType = typeof reducers;
+export type AppStateType = ReturnType<RootReducerType>;
+
+
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, /* preloadedState, */ composeEnhancers(applyMiddleware(thunkMiddleWare)))
 
-window.store = store;
+// @ts-ignore
+window.__store__ = store;
 export default store;
+
