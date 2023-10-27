@@ -56,7 +56,7 @@ function App({initialized, initializeApp}) {
 					<Route path='/profile/:userId?' element={<ProfileContainer />} />
 					<Route path="/messages/*" element={<DialogsContainer />} />
 					<Route path='/news' element={<News />} />
-					<Route path='/users' element={<UsersContainer />} />
+					<Route path='/users' element={<UsersContainer pageTitle={"Samurai"} />} />
 					<Route path='/music' element={<Music />} />
 					<Route path='/login' element={<Login />} />
 					<Route path="*" element={<NotFoundPage />} />
