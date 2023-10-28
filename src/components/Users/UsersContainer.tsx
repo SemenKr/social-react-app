@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import {Component} from "react";
 import {connect} from "react-redux";
 import Users from './Users.tsx';
 import Preloader from '../common/Preloader/Preloader';
 import {
     setCurrentPage,
     toggleIsFollowing, getUsersThunkCreator, unfollowThunkCreator, followThunkCreator
-} from "../Redux/users-reducer.ts";
+} from "../Redux/users-reducer";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
@@ -15,7 +15,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from "../Redux/users-selectors.ts";
+} from "../Redux/users-selectors";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../Redux/redux-store";
 
