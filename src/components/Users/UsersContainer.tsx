@@ -5,7 +5,7 @@ import Preloader from '../common/Preloader/Preloader';
 import {
     setCurrentPage,
     toggleIsFollowing, getUsersThunkCreator, unfollowThunkCreator, followThunkCreator
-} from "../Redux/users-reducer";
+} from "../Redux/users-reducer.ts";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
@@ -15,7 +15,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from "../Redux/users-selectors";
+} from "../Redux/users-selectors.ts";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../Redux/redux-store";
 
