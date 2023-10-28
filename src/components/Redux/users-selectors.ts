@@ -1,13 +1,13 @@
 import {AppStateType} from "./redux-store";
 import { createSelector } from 'reselect'
 // Селектор для получения массива пользователей из состояния
-export const getUsers = (state: AppStateType) => {
+const getUsersSelector = (state: AppStateType) => {
     return state.usersPage.users
 }
 
 // Создание селектора с использованием reselect. Этот селектор фильтрует пользователей (пока просто возвращает все пользователей)
-export const getUsersSelector = createSelector(
-    getUsers,// Селектор для получения пользователей
+export const getUsers = createSelector(
+    getUsersSelector,// Селектор для получения пользователей
     (users) => {
     return users.filter(u => true)  // Фильтрация пользователей (в данном случае, возвращаются все пользователи)
 
