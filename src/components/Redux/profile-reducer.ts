@@ -1,4 +1,4 @@
-import {profileAPI} from "../../api/api";
+import {profileAPI} from "../../api/api.ts";
 import {PhotosType, PostsDataType, ProfileType} from "../../types/types";
 // Определение типов действий (action types)
 const ADD_POST = 'ADD-POST'; // Тип действия для добавления поста

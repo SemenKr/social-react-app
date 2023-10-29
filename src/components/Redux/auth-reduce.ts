@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../../api/api";
+import {authAPI, securityAPI} from "../../api/api.ts";
 
 // Определение констант для типов действий
 const SET_USER_DATA = 'SET_USER_DATA';

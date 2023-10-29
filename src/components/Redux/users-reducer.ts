@@ -1,4 +1,4 @@
-import {userAPI} from "../../api/api";
+import {userAPI} from "../../api/api.ts";
 import {UserType} from "../../types/types";
 import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
