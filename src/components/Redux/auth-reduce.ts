@@ -1,4 +1,4 @@
-import {authAPI, securityAPI} from "../../api/api.ts";
+import {authAPI, ResultCodesEnum, securityAPI} from "../../api/api.ts";
 
 // Определение констант для типов действий
 const SET_USER_DATA = 'SET_USER_DATA';
@@ -63,8 +63,8 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessAc
 export const getAuthUserData = () => {
     return async (dispatch: any) => {
         try {
-            const data = await authAPI.getAuthMe();
-            if (data.resultCode === 0) {
+            const data = await authAPI.getAuthMe()
+            if (data.resultCode === ResultCodesEnum.Success) {
                 const {id, login, email} = data.data;
                 dispatch(setAuthUserData(id, login, email, true));
             }
@@ -78,11 +78,11 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     return async (dispatch: any) => {
         try {
             const response = await authAPI.login(email, password, rememberMe, captcha);
-            if (response.data.resultCode === 0) {
+            if (response.data.resultCode === ResultCodesEnum.Success) {
                 // авторизовались и получаем дополнительные данные
                 dispatch(getAuthUserData());
             } else {
-                if (response.data.resultCode === 10) {
+                if (response.data.resultCode === ResultCodesEnum.CaptchaIsRequired) {
                     dispatch(getCaptchaUrl())
                 }
                 throw new Error("Ошибка входа. Проверьте введенные данные.");
@@ -97,7 +97,7 @@ export const logout = () => {
     return async (dispatch) => {
         try {
             const response = await authAPI.logout();
-            if (response.data.resultCode === 0) {
+            if (response.data.resultCode === ResultCodesEnum.Success) {
                 dispatch(setAuthUserData(null, null, null, false));
             }
         } catch (error) {
