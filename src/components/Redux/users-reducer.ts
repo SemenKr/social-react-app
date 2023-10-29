@@ -122,38 +122,38 @@ export const toggleIsFollowing = (isFetching: boolean, userId: number): ToggleIs
 });
 
 // Асинхронные action creators (thunks) для получения данных о пользователях
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>; //  означает, что ваша thunk возвращает Promise<void>, работает с состоянием типа AppStateType, и принимает действия типа ActionsTypes.
 export const getUsersThunkCreator =
     (currentPage: number, pageSize: number): ThunkType =>
-    async (dispatch: Dispatch<ActionsTypes>) => {
-    dispatch(setCurrentPage(currentPage));
-    dispatch(toggleIsFetching(true));
-    const data = await userAPI.getUsers(currentPage, pageSize);
-    const {items, totalCount} = data;
-    dispatch(toggleIsFetching(false));
-    dispatch(setUsers(items));
-    dispatch(setTotalUsersCount(totalCount));
-}
+        async (dispatch: Dispatch<ActionsTypes>) => {
+            dispatch(setCurrentPage(currentPage));
+            dispatch(toggleIsFetching(true));
+            const data = await userAPI.getUsers(currentPage, pageSize);
+            const {items, totalCount} = data;
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(items));
+            dispatch(setTotalUsersCount(totalCount));
+        }
 // Асинхронный action creator (thunk) для отмены подписки на пользователя
 export const unfollowThunkCreator =
     (userId: number): ThunkType =>
-    async (dispatch: Dispatch<ActionsTypes>) => {
-    dispatch(toggleIsFollowing(true, userId));
-    dispatch(toggleIsFetching(true));
+        async (dispatch: Dispatch<ActionsTypes>) => {
+            dispatch(toggleIsFollowing(true, userId));
+            dispatch(toggleIsFetching(true));
 
-    try {
-        const data = await userAPI.deleteFollow(userId);
+            try {
+                const data = await userAPI.deleteFollow(userId);
 
-        if (data.resultCode === 0) {
-            dispatch(updateFollowingStatus(false, userId));
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
-        dispatch(toggleIsFollowing(false, userId));
-        dispatch(toggleIsFetching(false));
-    }
-};
+                if (data.resultCode === 0) {
+                    dispatch(updateFollowingStatus(false, userId));
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                dispatch(toggleIsFollowing(false, userId));
+                dispatch(toggleIsFetching(false));
+            }
+        };
 // Асинхронный action creator (thunk) для подписки на пользователяType =
 
 export const followThunkCreator =
