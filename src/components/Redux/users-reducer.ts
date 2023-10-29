@@ -1,5 +1,8 @@
 import {userAPI} from "../../api/api";
 import {UserType} from "../../types/types";
+import {Dispatch} from "redux";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 // Определение констант для типов действий (action types)
 const ActionTypes = {
@@ -23,7 +26,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState // Тип для исходного состояния
 
-const usersReducer = (state = initialState, action:any):InitialStateType => {
+const usersReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case ActionTypes.UPDATE_FOLLOWING_STATUS:
             return {
@@ -53,6 +56,14 @@ const usersReducer = (state = initialState, action:any):InitialStateType => {
 };
 
 // Типизация Actions
+type ActionsTypes =
+    UpdateFollowingStatusAction
+    | SetUsersAction
+    | SetCurrentPageAction
+    | SetTotalUsersCountAction
+    | ToggleIsFetchingAction
+    | ToggleIsFollowingAction
+
 interface UpdateFollowingStatusAction {
     type: typeof ActionTypes.UPDATE_FOLLOWING_STATUS;
     isFollowing: boolean;
@@ -86,11 +97,15 @@ interface ToggleIsFollowingAction {
 }
 
 // Создание и экспорт action creators и асинхронных action creators (thunks)
-export const updateFollowingStatus = (isFollowing:boolean, userId:number):UpdateFollowingStatusAction => ({type: ActionTypes.UPDATE_FOLLOWING_STATUS, isFollowing, userId});
+export const updateFollowingStatus = (isFollowing: boolean, userId: number): UpdateFollowingStatusAction => ({
+    type: ActionTypes.UPDATE_FOLLOWING_STATUS,
+    isFollowing,
+    userId
+});
 
-export const setUsers = (users: Array<UserType>):SetUsersAction => ({type: ActionTypes.SET_USERS, users});
+export const setUsers = (users: Array<UserType>): SetUsersAction => ({type: ActionTypes.SET_USERS, users});
 
-export const setCurrentPage = (currentPage: number):SetCurrentPageAction => ({
+export const setCurrentPage = (currentPage: number): SetCurrentPageAction => ({
     type: ActionTypes.SET_CURRENT_PAGE, currentPage
 });
 
@@ -98,16 +113,19 @@ export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountA
     type: ActionTypes.SET_TOTAL_USERS_COUNT, count: totalUsersCount
 });
 
-export const toggleIsFetching = (isFetching:boolean): ToggleIsFetchingAction => ({
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingAction => ({
     type: ActionTypes.TOGGLE_IS_FETCHING, isFetching
 });
 
-export const toggleIsFollowing = (isFetching:boolean, userId:number): ToggleIsFollowingAction => ({
+export const toggleIsFollowing = (isFetching: boolean, userId: number): ToggleIsFollowingAction => ({
     type: ActionTypes.TOGGLE_IS_FOLLOWING, isFetching, userId
 });
 
 // Асинхронные action creators (thunks) для получения данных о пользователях
-export const getUsersThunkCreator = (currentPage:number, pageSize:number) => async (dispatch:any) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+export const getUsersThunkCreator =
+    (currentPage: number, pageSize: number): ThunkType =>
+    async (dispatch: Dispatch<ActionsTypes>) => {
     dispatch(setCurrentPage(currentPage));
     dispatch(toggleIsFetching(true));
     const data = await userAPI.getUsers(currentPage, pageSize);
@@ -117,7 +135,9 @@ export const getUsersThunkCreator = (currentPage:number, pageSize:number) => asy
     dispatch(setTotalUsersCount(totalCount));
 }
 // Асинхронный action creator (thunk) для отмены подписки на пользователя
-export const unfollowThunkCreator = (userId:number) => async (dispatch:any) => {
+export const unfollowThunkCreator =
+    (userId: number): ThunkType =>
+    async (dispatch: Dispatch<ActionsTypes>) => {
     dispatch(toggleIsFollowing(true, userId));
     dispatch(toggleIsFetching(true));
 
@@ -134,21 +154,24 @@ export const unfollowThunkCreator = (userId:number) => async (dispatch:any) => {
         dispatch(toggleIsFetching(false));
     }
 };
-// Асинхронный action creator (thunk) для подписки на пользователя
-export const followThunkCreator = (userId:number) => async (dispatch:any) => {
-    dispatch(toggleIsFollowing(true, userId));
-    dispatch(toggleIsFetching(true));
+// Асинхронный action creator (thunk) для подписки на пользователяType =
 
-    try {
-        const data = await userAPI.postFollow(userId);
+export const followThunkCreator =
+    (userId: number): ThunkType =>
+        async (dispatch: Dispatch<ActionsTypes>) => {
+            dispatch(toggleIsFollowing(true, userId));
+            dispatch(toggleIsFetching(true));
 
-        if (data.resultCode === 0) {
-            dispatch(updateFollowingStatus(true, userId));
+            try {
+                const data = await userAPI.postFollow(userId);
+
+                if (data.resultCode === 0) {
+                    dispatch(updateFollowingStatus(true, userId));
+                }
+            } finally {
+                dispatch(toggleIsFollowing(false, userId));
+                dispatch(toggleIsFetching(false));
+            }
         }
-    } finally {
-        dispatch(toggleIsFollowing(false, userId));
-        dispatch(toggleIsFetching(false));
-    }
-}
 
 export default usersReducer;
