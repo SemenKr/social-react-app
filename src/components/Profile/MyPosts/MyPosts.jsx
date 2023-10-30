@@ -4,7 +4,7 @@ import p from './MyPosts.module.scss';
 import d from "../../Dialogs/Dialogs.module.css";
 import {Field, Form} from "react-final-form";
 // import styles from "../../Login/Login.module.scss";
-import {composeValidators, maxLength, minLength} from "../../utils/validators";
+import {composeValidators, maxLength, minLength} from "../../utils/validators.ts";
 import {Textarea} from "../../ui/Form-controls";
 import {Button} from "@mui/material";
 

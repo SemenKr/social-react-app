@@ -14,7 +14,7 @@ interface ProfileDataFormProps {
 }
 const ProfileDataForm: FC<ProfileDataFormProps> = ({ profile, saveProfileData, setEditMode }) => {
     // Состояние для отслеживания ошибок в полях контактов
-    const [contactErrors, setContactErrors] = useState<Record<string, string>>({});
+    const [contactErrors, setContactErrors] = useState({});
 
     const {
         handleSubmit,

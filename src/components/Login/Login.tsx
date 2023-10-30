@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import styles from './Login.module.scss'
 import {Form, Field} from 'react-final-form';
 import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
-import {composeValidators, minLength, required} from "../utils/validators";
+import {composeValidators, minLength, required} from "../utils/validators.ts";
 import {connect} from "react-redux";
 import {login, logout} from "../Redux/auth-reduce.ts";
 import {Navigate} from "react-router";
