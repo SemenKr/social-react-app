@@ -4,19 +4,19 @@ export type PostsDataType = {
     likesCount: number
     src: string
 }
-
+export type ProfileContactType = {
+    facebook: string;
+    website: string;
+    vk: string;
+    twitter: string;
+    instagram: string;
+    youtube: string;
+    github: string;
+    mainLink: string;
+};
 export type ProfileType = {
     aboutMe: string;
-    contacts: {
-        facebook: string;
-        website: string;
-        vk: string;
-        twitter: string;
-        instagram: string;
-        youtube: string;
-        github: string;
-        mainLink: string;
-    };
+    contacts: ProfileContactType
     lookingForAJob: boolean;
     lookingForAJobDescription: string;
     fullName: string;

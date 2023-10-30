@@ -4,7 +4,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import ProfileDataForm from './ProfileDataForm';
+import ProfileDataForm from './ProfileDataForm.tsx';
 import {Button} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';

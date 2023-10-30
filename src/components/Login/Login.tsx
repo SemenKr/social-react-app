@@ -1,5 +1,5 @@
-// Login.js
-import React from "react";
+// Login.tsx
+import React, {FC} from "react";
 import styles from './Login.module.scss'
 import {Form, Field} from 'react-final-form';
 import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
@@ -8,9 +8,29 @@ import {connect} from "react-redux";
 import {login, logout} from "../Redux/auth-reduce.ts";
 import {Navigate} from "react-router";
 import {FORM_ERROR} from "final-form";
+import {AppStateType} from "../Redux/redux-store";
 
-const LoginForm = ({login, captchaUrl}) => {
-    const onSubmit = async (values) => {
+
+type LoginMapToStateToPropsType = {
+    captchaUrl: string | null
+    isAuth: boolean
+}
+
+type LoginMapDispatchToPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+    logout: () => void
+}
+interface FormData {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+    captcha?: string;
+    // Другие поля вашей формы
+}
+
+
+const LoginForm: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({login, captchaUrl}) => {
+    const onSubmit = async (values: FormData) => {
         try {
             await login(values.email, values.password, values.rememberMe, values.captcha);
         } catch (error) {
@@ -23,7 +43,7 @@ const LoginForm = ({login, captchaUrl}) => {
             <Form onSubmit={onSubmit}>
                 {({handleSubmit, submitting, pristine, form, submitError}) => (
                     <form className={styles.form} onSubmit={handleSubmit}>
-                        <Field
+                        <Field<string>
                             name='email'
                             validate={composeValidators(required, minLength(5))}
                         >
@@ -39,7 +59,7 @@ const LoginForm = ({login, captchaUrl}) => {
                                 </div>
                             )}
                         </Field>
-                        <Field
+                        <Field<string>
                             name='password'
                             validate={composeValidators(required, minLength(5))}
                         >
@@ -56,7 +76,7 @@ const LoginForm = ({login, captchaUrl}) => {
                                 </div>
                             )}
                         </Field>
-                        <Field
+                        <Field<boolean>
                             name='agreement'
                             type='checkbox'
                             validate={required}
@@ -78,7 +98,7 @@ const LoginForm = ({login, captchaUrl}) => {
                         {submitError && <span className={styles.form__summaryError}>{submitError}</span>}
                         {captchaUrl && <img src={captchaUrl} alt={"Captcha"}/>}
                         {captchaUrl &&
-                            <Field
+                            <Field<string>
                                 name='captcha'
                                 validate={composeValidators(required)}>
                                 {({input, meta}) => (
@@ -127,7 +147,7 @@ const LoginForm = ({login, captchaUrl}) => {
     );
 }
 
-const Login = ({isAuth, login, captchaUrl}) => {
+const Login: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({isAuth, login, captchaUrl}) => {
 
     if (isAuth) {
         return <Navigate to={'/profile'}/>
@@ -135,13 +155,13 @@ const Login = ({isAuth, login, captchaUrl}) => {
     return (
         <>
             <h1>Вы не зарегистрированы</h1>
-            <LoginForm login={login} captchaUrl={captchaUrl}/>
+            <LoginForm login={login} isAuth={isAuth} logout={logout} captchaUrl={captchaUrl}/>
         </>
     )
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType): LoginMapToStateToPropsType => ({
     captchaUrl: state.auth.captchaUrl,
     isAuth: state.auth.isAuth
 });

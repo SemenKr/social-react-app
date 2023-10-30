@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import {FC, useState} from 'react';
 import styles from './ProfileDataForm.module.scss'
-import {useForm, Controller} from "react-hook-form";
+import {useForm, Controller, SubmitHandler} from "react-hook-form";
 import {Button, Checkbox, TextField} from "@mui/material";
-import CustomTextField from "../../ui/CustomTextField";
+import CustomTextField from "../../ui/CustomTextField.tsx";
 import * as yup from 'yup';
+import {ProfileType} from "../../../types/types";
 
-
-const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
+// Определите интерфейс для свойств компонента
+interface ProfileDataFormProps {
+    profile: ProfileType;
+    saveProfileData: (data: ProfileType) => void;
+    setEditMode: (editMode: boolean) => void; // Замените на более конкретный тип, если необходимо
+}
+const ProfileDataForm: FC<ProfileDataFormProps> = ({ profile, saveProfileData, setEditMode }) => {
     // Состояние для отслеживания ошибок в полях контактов
-    const [contactErrors, setContactErrors] = useState({});
+    const [contactErrors, setContactErrors] = useState<Record<string, string>>({});
 
     const {
         handleSubmit,
@@ -34,14 +40,12 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
         }
     })
 
-    const isName = (value) => {
-        // Your validation logic here
+    const isName = (value: string) => {
         return value.length > 0;
-    }
+    };
 
     const urlValidationSchema = yup.string().url('Invalid URL format');
-
-    const onSubmit = async  data => {
+    const onSubmit: SubmitHandler<ProfileType> = async (data) => {
         // Проверяем ошибки в полях контактов
         const contactFieldErrors = {};
 
@@ -62,15 +66,14 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
             return;
         }
 
-        saveProfileData(data)
-        setEditMode(false)
+        saveProfileData(data);
+        setEditMode(false);
 
-        console.log(' OnSubmit',data);
-    }
+        console.log('OnSubmit', data);
+    };
 
     return (
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-
             <CustomTextField
                 name="fullName"
                 control={control}
@@ -78,7 +81,7 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
                     required: 'Name is required',
                     validate: isName,
                 }}
-                label={profile.fullName ? profile.fullName : "Name"}
+                label={profile.fullName ? profile.fullName : 'Name'}
                 error={!!errors.fullName}
                 helperText={errors.fullName ? errors.fullName.message : ''}
             />
@@ -87,12 +90,8 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
                 <Controller
                     name="lookingForAJob"
                     control={control}
-                    render={({field }) => (
-                        <Checkbox
-                            {...field}
-                            id="lookingForAJob"
-                            color="primary"
-                        />
+                    render={({ field }) => (
+                        <Checkbox {...field} id="lookingForAJob" color="primary" />
                     )}
                 />
             </label>
@@ -100,25 +99,24 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
             <CustomTextField
                 name="lookingForAJobDescription"
                 control={control}
-                rules={{
-
-                }}
+                rules={{}}
                 label="Looking for a job description"
                 error={!!errors.lookingForAJobDescription}
                 helperText={errors.lookingForAJobDescription ? errors.lookingForAJobDescription.message : ''}
             />
 
-            {profile.contacts &&
-                <div>Contacts:
+            {profile.contacts && (
+                <div>
+                    Contacts:
                     <ul>
                         {Object.keys(profile.contacts).map((key) => {
-                            const contactName = 'contacts.' + key;
+                            const contactName = `contacts.${key}`;
                             return (
                                 <li key={key}>
                                     <Controller
                                         name={contactName}
                                         control={control}
-                                        defaultValue={profile.contacts[key] || ''} // Устанавливаем значение из profile.contacts
+                                        defaultValue={profile.contacts[key] || ''}
                                         render={({ field }) => (
                                             <TextField
                                                 {...field}
@@ -134,10 +132,12 @@ const ProfileDataForm = ({profile, saveProfileData, setEditMode}) => {
                         })}
                     </ul>
                 </div>
-            }
-            <Button type={"submit"} variant="contained">save</Button>
+            )}
+            <Button type="submit" variant="contained">
+                save
+            </Button>
         </form>
-    )
-}
+    );
+};
 
 export default ProfileDataForm;
