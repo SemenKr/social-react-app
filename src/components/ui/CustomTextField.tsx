@@ -1,8 +1,18 @@
-import React from 'react';
-import { Controller} from "react-hook-form";
-import { TextField } from "@mui/material";
+import {FC} from 'react';
+import {Control, Controller, FieldValues, UseFormRegister} from "react-hook-form";
+import {TextField, TextFieldProps} from "@mui/material";
 
-const CustomTextField = ({ name, control, rules, label, defaultValue, error, helperText, ...props }) => {
+interface CustomTextFieldProps {
+    name: string;
+    control: Control<FieldValues>;
+    rules: Parameters<UseFormRegister<any>>[1]; // Тип для rules
+    label: string;
+    defaultValue?: string;
+    error: boolean;
+    helperText?: string;
+}
+
+const CustomTextField: FC<CustomTextFieldProps & TextFieldProps> = ({ name, control, rules, label, defaultValue, error, helperText, ...props }) => {
     return (
         <Controller
             name={name}

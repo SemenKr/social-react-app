@@ -14,13 +14,13 @@ interface ProfileDataFormProps {
 }
 const ProfileDataForm: FC<ProfileDataFormProps> = ({ profile, saveProfileData, setEditMode }) => {
     // Состояние для отслеживания ошибок в полях контактов
-    const [contactErrors, setContactErrors] = useState({});
+    const [contactErrors, setContactErrors] = useState<{ [key: string]: string }>({});
 
     const {
         handleSubmit,
         control,
         formState: {errors},
-    } = useForm({
+    } = useForm<ProfileType>({
         defaultValues: {
             fullName: profile.fullName || '',
             lookingForAJobDescription: profile.lookingForAJobDescription || '',
@@ -110,7 +110,7 @@ const ProfileDataForm: FC<ProfileDataFormProps> = ({ profile, saveProfileData, s
                     Contacts:
                     <ul>
                         {Object.keys(profile.contacts).map((key) => {
-                            const contactName = `contacts.${key}`;
+                            const contactName = `contacts.${key}` as "contacts.github" | "contacts.vk" | "contacts.facebook" | "contacts.instagram" | "contacts.twitter" | "contacts.website" | "contacts.youtube" | "contacts.mainLink";
                             return (
                                 <li key={key}>
                                     <Controller
