@@ -2,10 +2,7 @@ import {Component} from "react";
 import {connect} from "react-redux";
 import Users from './Users.tsx';
 import Preloader from '../common/Preloader/Preloader';
-import {
-    setCurrentPage,
-    toggleIsFollowing, getUsersThunkCreator, unfollowThunkCreator, followThunkCreator
-} from "../Redux/users-reducer.ts";
+import {getUsersThunkCreator, unfollowThunkCreator, followThunkCreator, actions} from "../Redux/users-reducer.ts";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
@@ -90,8 +87,8 @@ let mapStateToProps= (state: AppStateType):MapStateToProps  => {
 // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState>
 export default compose(connect<MapStateToProps, MapDispatchToProps, OwnProps, AppStateType>(
     mapStateToProps, {
-        setCurrentPage,
-        toggleIsFollowing,
+        setCurrentPage: actions.setCurrentPage,
+        toggleIsFollowing: actions.toggleIsFollowing,
         requestUsers: getUsersThunkCreator,
         unfollow: unfollowThunkCreator,
         follow: followThunkCreator,
