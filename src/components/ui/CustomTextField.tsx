@@ -18,7 +18,7 @@ const CustomTextField: FC<CustomTextFieldProps & TextFieldProps> = ({ name, cont
             name={name}
             control={control}
             rules={rules}
-            render={({ field }) => (
+            render={({field}) => (
                 <TextField
                     {...field}
                     label={label}
