@@ -1,5 +1,6 @@
-import { ResultCodesEnum, securityAPI } from "../../api/api.ts";
+import { ResultCodesEnum } from "../../api/api.ts";
 import {authAPI} from "../../api/authAPI.ts";
+import {securityAPI} from "../../api/securityAPI.ts";
 
 // Определение констант для типов действий
 const SET_USER_DATA = 'SET_USER_DATA';
@@ -86,10 +87,10 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 				if (response.data.resultCode === ResultCodesEnum.CaptchaIsRequired) {
 					dispatch(getCaptchaUrl())
 				}
-				throw new Error("Ошибка входа. Проверьте введенные данные.");
 			}
 		} catch (error) {
 			console.error(error);
+			throw error; // Передача исходной ошибки дальше
 		}
 	};
 };
