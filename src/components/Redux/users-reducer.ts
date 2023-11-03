@@ -86,11 +86,12 @@ export const getUsersThunkCreator =
 		async (dispatch: Dispatch<ActionTypes>) => {
 			dispatch(actions.setCurrentPage(currentPage));
 			dispatch(actions.toggleIsFetching(true));
+
 			const data = await userAPI.getUsers(currentPage, pageSize);
-			const { items, totalCount } = data;
+
 			dispatch(actions.toggleIsFetching(false));
-			dispatch(actions.setUsers(items));
-			dispatch(actions.setTotalUsersCount(totalCount));
+			dispatch(actions.setUsers(data.items));
+			dispatch(actions.setTotalUsersCount(data.totalCount));
 		}
 // Асинхронный action creator (thunk) для отмены подписки на пользователя
 export const unfollowThunkCreator =

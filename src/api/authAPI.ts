@@ -1,4 +1,5 @@
-import {instance, ResultCodesEnum} from "./api.ts";
+import {instance, ResponseType} from "./api.ts";
+
 
 interface MyDataType {
 	id: number;
@@ -6,29 +7,19 @@ interface MyDataType {
 	login: string;
 }
 
-export interface MyApiResponseType {
-	resultCode: ResultCodesEnum;
-	messages: Array<string>;
-	data: MyDataType;
-}
-
 export interface LoginApiResponseType {
-	resultCode: ResultCodesEnum;
-	messages: Array<string>;
-	fieldsErrors: Array<string>
-	data:  {
-		userId: number
-	};
+	userId: number
 }
 
 
 export const authAPI = {
     getAuthMe() {
-        return instance.get<MyApiResponseType>('/auth/me')
+        return instance.get<ResponseType<MyDataType>>('/auth/me')
             .then(response => response.data);
     },
     login(email: string, password: string, rememberMe: boolean = false, captcha: null | string = null) {
-        return instance.post<LoginApiResponseType>('/auth/login', {email, password, rememberMe, captcha})
+        return instance.post<ResponseType<LoginApiResponseType>>('/auth/login', {email, password, rememberMe, captcha})
+            .then(res => res.data)
 
     },
     logout() {

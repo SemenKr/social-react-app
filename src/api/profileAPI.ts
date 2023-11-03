@@ -1,9 +1,10 @@
 import {instance} from "./api.ts";
+import { ProfileType} from "src/types/types.ts";
 
 export const profileAPI = {
     getProfileUser(userId: number) {
-        return instance.get(`profile/` + userId)
-            .then(response => response.data);
+        return instance.get<ProfileType>(`profile/` + userId)
+            .then((response: ProfileType )=> response.data);
     },
     getStatus(userId) {
         return instance.get(`profile/status/` + userId).catch((e) => {

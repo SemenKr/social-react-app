@@ -1,5 +1,6 @@
 // Импортируем библиотеку axios для выполнения HTTP-запросов
 import axios from 'axios';
+import {User} from "./userAPI";
 
 // Создаем экземпляр axios с настройками
 export const instance = axios.create({
@@ -20,3 +21,14 @@ export enum ResultCodesEnum {
     CaptchaIsRequired = 10 // Требуется ввод капчи
 }
 
+export type GetItemsType = {
+    items: Array<User>
+    totalCount: number;
+    error: string | null;
+}
+
+export interface ResponseType<D = {}, RC = ResultCodesEnum> {
+    data: D
+    messages: Array<string>
+    resultCode: RC
+}
