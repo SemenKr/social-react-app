@@ -1,4 +1,5 @@
-import { authAPI, ResultCodesEnum, securityAPI } from "../../api/api.ts";
+import { ResultCodesEnum, securityAPI } from "../../api/api.ts";
+import {authAPI} from "../../api/authAPI.ts";
 
 // Определение констант для типов действий
 const SET_USER_DATA = 'SET_USER_DATA';

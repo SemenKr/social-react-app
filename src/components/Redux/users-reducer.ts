@@ -1,8 +1,8 @@
-import { userAPI } from "../../api/api.ts";
 import { UserType } from "../../types/types";
 import { Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { AppStateType, InferActionsTypes } from "./redux-store";
+import {userAPI} from "../../api/userAPI.ts";
 
 
 // Исходное состояние (initial state) редуктора

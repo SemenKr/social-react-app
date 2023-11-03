@@ -1,5 +1,5 @@
-import {profileAPI} from "../../api/api.ts";
 import {PhotosType, PostsDataType, ProfileType} from "../../types/types";
+import {profileAPI} from "../../api/profileAPI.ts";
 // Определение типов действий (action types)
 const ADD_POST = 'ADD-POST'; // Тип действия для добавления поста
 const SET_USER_PROFILE = 'SET-USER-PROFILE'; // Тип действия для установки профиля пользователя

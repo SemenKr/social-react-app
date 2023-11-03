@@ -21,10 +21,11 @@ let reducers = combineReducers({
 type RootReducerType = typeof reducers;
 export type AppStateType = ReturnType<RootReducerType>;
 
+
 // Определяем типы для корневого редуктора и для всего состояния приложения.
 
-type PropertiesTipes<T> = T extends {[key: string]: infer U} ? U : never
-export type InferActionsTypes<T extends {[key: string]: (...arg: any[]) => any}> = ReturnType<PropertiesTipes<T>>
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+export type InferActionsTypes<T extends {[key: string]: (...arg: any[]) => any}> = ReturnType<PropertiesTypes<T>>
 
 // Создаем утилиты для работы с типами действий.
 
