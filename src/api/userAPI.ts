@@ -1,5 +1,5 @@
 // Импорт необходимых зависимостей из другого модуля api.ts
-import { GetItemsType, instance, ResponseType } from "./api.ts";
+import { GetItemsType, instance, APIResponseType } from "./api.ts";
 
 // Определение типа данных для пользователя
 export type User = {
@@ -25,13 +25,13 @@ export const userAPI = {
     // Метод для отправки POST-запроса на подписку за пользователем
     postFollow(userId: number) {
         // Выполнение POST-запроса на подписку
-        return instance.post<ResponseType>(`follow/` + userId, {})
-            .then((response: ResponseType<User>) => response.data);
+        return instance.post<APIResponseType>(`follow/` + userId, {})
+            .then((response: APIResponseType<User>) => response.data);
     },
     // Метод для отправки DELETE-запроса на отписку от пользователя
     deleteFollow(userId: number) {
         // Выполнение DELETE-запроса на отписку
         return instance.delete(`follow/` + userId)
-            .then((response: ResponseType) => response.data) as Promise<ResponseType>;
+            .then((response: APIResponseType) => response.data) as Promise<APIResponseType>;
     },
 }

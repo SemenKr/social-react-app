@@ -1,4 +1,4 @@
-import { instance, ResponseType } from "./api.ts";
+import { instance, APIResponseType } from "./api.ts";
 
 // Определение интерфейса для данных, получаемых при вызове /auth/me
 interface MyDataType {
@@ -16,13 +16,13 @@ export interface LoginApiResponseType {
 export const authAPI = {
     // Метод для выполнения GET-запроса к /auth/me
     getAuthMe() {
-        return instance.get<ResponseType<MyDataType>>('/auth/me')
+        return instance.get<APIResponseType<MyDataType>>('/auth/me')
             .then(response => response.data);
     },
     // Метод для выполнения POST-запроса к /auth/login
     // Принимает параметры email, password, rememberMe (со значением по умолчанию false) и captcha (со значением по умолчанию null)
     login(email: string, password: string, rememberMe: boolean = false, captcha: null | string = null) {
-        return instance.post<ResponseType<LoginApiResponseType>>('/auth/login', {email, password, rememberMe, captcha})
+        return instance.post<APIResponseType<LoginApiResponseType>>('/auth/login', {email, password, rememberMe, captcha})
             .then(res => res.data);
     },
     // Метод для выполнения DELETE-запроса к /auth/login

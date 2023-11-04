@@ -1,18 +1,18 @@
-import {instance} from "./api.ts";
-import { ProfileType} from "src/types/types.ts";
+import {instance, APIResponseType} from "./api.ts";
+import {PhotosType, ProfileType} from "../types/types";
 
 export const profileAPI = {
     getProfileUser(userId: number) {
         return instance.get<ProfileType>(`profile/` + userId)
-            .then((response: ProfileType )=> response.data);
+            .then((response )=> response.data);
     },
     getStatus(userId) {
-        return instance.get(`profile/status/` + userId).catch((e) => {
+        return instance.get<string>(`profile/status/` + userId).catch((e) => {
             console.error('An error occurred:', e);
         });
     },
     updateStatus(status) {
-        return instance.put('profile/status', {status: status});
+        return instance.put<APIResponseType<PhotosType>>('profile/status', {status: status});
     },
     savePhoto(photoFile) {
         const formData = new FormData()

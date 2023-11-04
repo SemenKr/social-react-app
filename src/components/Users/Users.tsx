@@ -13,7 +13,7 @@ type PropsType = {
     pageNumber: number
     user: Array<UserType>
     currentPage: number
-    onPageChange: () => void
+    onPageChange: (pageNumber: number) => void
 }
 
 
