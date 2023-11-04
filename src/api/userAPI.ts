@@ -1,6 +1,7 @@
-import {GetItemsType, instance, ResponseType} from "./api.ts";
+// Импорт необходимых зависимостей из другого модуля api.ts
+import { GetItemsType, instance, ResponseType } from "./api.ts";
 
-
+// Определение типа данных для пользователя
 export type User = {
     name: string;
     id: number;
@@ -12,16 +13,24 @@ export type User = {
     followed: boolean;
 }
 
+// Экспорт объекта userAPI
 export const userAPI = {
+    // Метод для получения списка пользователей
     async getUsers(currentPage: number = 1, pageSize: number = 6): Promise<GetItemsType> {
+        // Выполнение GET-запроса к API для получения пользователей
         let response = await instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize} `);
-        return response.data
+        // Возвращение данных из ответа
+        return response.data;
     },
+    // Метод для отправки POST-запроса на подписку за пользователем
     postFollow(userId: number) {
-        return instance.post(`follow/` + userId, {},)
+        // Выполнение POST-запроса на подписку
+        return instance.post<ResponseType>(`follow/` + userId, {})
             .then((response: ResponseType<User>) => response.data);
     },
+    // Метод для отправки DELETE-запроса на отписку от пользователя
     deleteFollow(userId: number) {
+        // Выполнение DELETE-запроса на отписку
         return instance.delete(`follow/` + userId)
             .then((response: ResponseType) => response.data) as Promise<ResponseType>;
     },
