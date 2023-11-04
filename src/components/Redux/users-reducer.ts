@@ -1,7 +1,6 @@
 import { UserType } from "../../types/types";
 import { Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
-import { AppStateType, InferActionsTypes } from "./redux-store";
+import {BaseThunkType, InferActionsTypes} from "./redux-store";
 import {userAPI} from "../../api/userAPI.ts";
 
 
@@ -18,6 +17,8 @@ const initialState = {
 type InitialStateType = typeof initialState // Тип для исходного состояния
 
 type ActionTypes = InferActionsTypes<typeof actions>
+
+type ThunkType = BaseThunkType<ActionTypes>
 
 // Определение типов для исходного состояния и действий с использованием InferActionsTypes.
 export const actions = {
@@ -76,9 +77,6 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
 };
 
 
-
-// Реализация редуктора, который обрабатывает различные действия.
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>; //  означает, что ваша thunk возвращает Promise<void>, работает с состоянием типа AppStateType, и принимает действия типа ActionsTypes.
 
 // Определение типа для thunks с использованием ThunkAction.
 export const getUsersThunkCreator =
