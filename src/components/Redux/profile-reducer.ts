@@ -1,11 +1,6 @@
 import {PhotosType, PostsDataType, ProfileType} from "../../types/types";
 import {profileAPI} from "../../api/profileAPI.ts";
-// Определение типов действий (action types)
-const ADD_POST = 'ADD-POST'; // Тип действия для добавления поста
-const SET_USER_PROFILE = 'SET-USER-PROFILE'; // Тип действия для установки профиля пользователя
-const SET_STATUS = 'SET-STATUS'; // Тип действия для установки статуса
-const SET_PHOTO_SUCCESS = 'SET_PHOTO_SUCCESS'; // Тип действия для успешного сохранения фотографии
-const SET_PROFILE_DATA_SUCCESS = 'SET-PROFILE-DATA-SUCCESS'; // Тип действия для успешного сохранения данных профиля
+import {BaseThunkType, InferActionsTypes} from "./redux-store";
 
 // Начальное состояние (initial state) для редюсера
 const initialState = {
@@ -17,24 +12,7 @@ const initialState = {
             likesCount: 12,
             src: 'https://i.pravatar.cc/150?img=1',
         },
-        {
-            id: 2,
-            message: 'Приветствую всех, кто зашел на мой блог! Я специализируюсь на теме здоровья и фитнеса, и буду рад делиться с вами своим опытом и знаниями. Надеюсь, что мои статьи помогут вам быть здоровыми и счастливыми!',
-            likesCount: 11111,
-            src: 'https://i.pravatar.cc/300?img=2',
-        },
-        {
-            id: 3,
-            message: 'Привет, друзья! Я очень люблю путешествовать и открывать новые места. В моем блоге я буду рассказывать о своих приключениях и делиться с вами полезными советами о том, как лучше всего планировать свои путешествия.',
-            likesCount: 33,
-            src: 'https://i.pravatar.cc/300?img=3',
-        },
-        {
-            id: 4,
-            message: 'Привет, друзья! Я очень ... места. В моем блоге я буду рассказывать о своих приключениях и делиться с вами полезными советами о том, как лучше всего планировать свои путешествия.',
-            likesCount: 3,
-            src: 'https://i.pravatar.cc/300?img=4',
-        },
+        // Другие посты...
     ] as Array<PostsDataType>,
     newPostText: '' as string | null, // Текст нового поста
     profile: null as ProfileType | null, // Профиль пользователя
@@ -43,52 +21,37 @@ const initialState = {
 
 export type InitialStateType = typeof initialState
 
-// Action creators (Создатели действий)
-type AddPostActionCreatorActionType = {
-    type: typeof ADD_POST,
-    text: string
-}
-export const addPostActionCreator = (text: string): AddPostActionCreatorActionType => ({type: ADD_POST, text});
+type ActionTypes = InferActionsTypes<typeof actions>
 
-type SetUserProfileActionType = {
-    type: typeof SET_USER_PROFILE,
-    profile: ProfileType
-}
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({type: SET_USER_PROFILE, profile});
+type ThunkType = BaseThunkType<ActionTypes>
 
-type SetStatusActionType = {
-    type: typeof SET_STATUS,
-    status: string
+export const actions = {
+    addPostActionCreator: (text: string) => ({type: 'ADD_POST', text} as const),
+    setUserProfile: (profile: ProfileType) => ({type: 'SET_USER_PROFILE', profile} as const),
+    setStatus: (status: string) => ({type: 'SET_STATUS', status} as const),
+    savePhotoSuccess: (photos: PhotosType) => ({type: 'SET_PHOTO_SUCCESS', photos} as const),
 }
-export const setStatus = (status: string): SetStatusActionType => ({type: SET_STATUS, status});
-
-type SavePhotoSuccessActionType = {
-    type: typeof SET_PHOTO_SUCCESS,
-    photos: PhotosType
-}
-export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SET_PHOTO_SUCCESS, photos});
-
 
 // Thunks (Асинхронные действия)
 export const getProfileUserThunk = (userId: number) => async (dispatch: any) => {
     try {
         const data = await profileAPI.getProfileUser(userId);
-        dispatch(setUserProfile(data));
+        dispatch(actions.setUserProfile(data));
     } catch (error) {
         console.error('Failed to get user profile:', error);
     }
 };
 
-export const getStatus = (userId: number) => async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => async (dispatch) => {
     const response: any = await profileAPI.getStatus(userId);
-    dispatch(setStatus(response.data));
+    dispatch(actions.setStatus(response.data));
 };
 
-export const updateStatus = (status: string) => async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType => async (dispatch) => {
     try {
         const response = await profileAPI.updateStatus(status);
         if (response.data.resultCode === 0) {
-            dispatch(setStatus(status));
+            dispatch(actions.setStatus(status));
         } else {
             // Если resultCode не равен 0, обрабатываем ошибку
             console.error('Failed to update status:', response.data.messages);
@@ -107,51 +70,49 @@ export const updateStatus = (status: string) => async (dispatch: any) => {
     }
 };
 
-
-export const savePhoto = (photoFile: string) => async (dispatch: any) => {
+export const savePhoto = (photoFile: File): ThunkType => async (dispatch) => {
     const response = await profileAPI.savePhoto(photoFile);
     if (response.resultCode === 0) {
-        dispatch(savePhotoSuccess(response.data.photos));
+        dispatch(actions.savePhotoSuccess(response.data.photos));
     }
 };
 
-export const saveProfileData = (profileData: ProfileType) => async (dispatch: any, getState: any) => {
+export const saveProfileData = (profileData: ProfileType): ThunkType => async (dispatch, getState) => {
     const userId = getState().auth.id;
     const response = await profileAPI.saveProfileData(profileData);
     if (response.data.resultCode === 0) {
-        dispatch(getProfileUserThunk(userId));
+        if (userId != null) {
+            dispatch(getProfileUserThunk(userId));
+        } else {
+            throw new Error("userId cant be null");
+        }
     }
 };
 
-
 // Редюсер принимает текущее состояние (state) и действие (action), возвращает новое состояние.
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
-        case ADD_POST:
+        case "ADD_POST":
+            // Создаем новый пост
             const newPost = {
-                id: Date.now(),
-                message: action.text,
-                likesCount: 12,
-                src: 'https://i.pravatar.cc/150?img=5',
+                id: Date.now(), // Уникальный идентификатор поста
+                message: action.text, // Текст поста
+                likesCount: 12, // Количество лайков по умолчанию
+                src: 'https://i.pravatar.cc/150?img=5', // URL аватара
             };
             return {
                 ...state,
                 postsData: [...state.postsData, newPost], // Добавление нового поста в массив
                 newPostText: '', // Сброс текста нового поста
             };
-        case SET_USER_PROFILE: // Установка профиля пользователя
+        case "SET_USER_PROFILE": // Установка профиля пользователя
             return {...state, profile: action.profile};
-        case SET_STATUS: // Установка статуса
+        case "SET_STATUS": // Установка статуса
             return {...state, status: action.status};
-        case SET_PHOTO_SUCCESS: // Установка новых фотографий в профиль
+        case "SET_PHOTO_SUCCESS": // Установка новых фотографий в профиль
             return {
                 ...state,
                 profile: {...state.profile, photos: action.photos},
-            };
-        case SET_PROFILE_DATA_SUCCESS: // Установка новых данных профиля
-            return {
-                ...state,
-                profile: {...state.profile, profile: action.profile} as ProfileType,
             };
         default:
             return state;

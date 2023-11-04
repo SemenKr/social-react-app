@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 import Profile from "./Profile";
 import {connect, useDispatch, useSelector} from "react-redux";
 import {
+	actions,
 	getProfileUserThunk,
 	getStatus,
 	savePhoto,
 	saveProfileData,
-	setUserProfile,
 	updateStatus
 } from "../Redux/profile-reducer.ts";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
@@ -91,5 +91,5 @@ function withRouter(Component) {
 export default compose(
 	withRouter,
 	withAuthRedirect,
-	connect(mapStateToProps, { setUserProfile, getProfileUserThunk, getStatus, updateStatus, savePhoto, saveProfileData }),
+	connect(mapStateToProps, { setUserProfile: actions.setUserProfile(), getProfileUserThunk, getStatus, updateStatus, savePhoto, saveProfileData }),
 )(ProfileContainer);
