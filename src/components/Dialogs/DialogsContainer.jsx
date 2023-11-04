@@ -1,4 +1,4 @@
- import {addChatItemActionCreator} from '../Redux/dialogs-reducer.ts';
+ import {actions} from '../Redux/dialogs-reducer.ts';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
@@ -13,7 +13,7 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
 	return {
 		sendMessage: (text) => {
-			dispatch(addChatItemActionCreator(text))
+			dispatch(actions.addChatItemActionCreator(text))
 		},
 
 	}

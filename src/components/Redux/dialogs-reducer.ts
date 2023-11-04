@@ -1,5 +1,8 @@
 // Определение константы для типа action
-const ADD_CHAT_ITEM = 'ADD-CHAT-ITEM';
+import { InferActionsTypes} from "./redux-store";
+
+
+
 
 // Определение типов данных для диалогов и чатов
 type DialogType = {
@@ -46,10 +49,16 @@ let initialState = {
 // Определение типа для начального стейта
 export type InitialStateDialogsType = typeof initialState
 
+type ActionTypes = InferActionsTypes<typeof actions>
+
+export const actions = {
+    addChatItemActionCreator: (text: string) => ({type: 'SN/DIALOGS/ADD_CHAT_ITEM', text} as const),
+}
+
 // Редуктор для обработки действий
-const dialogsReducer = (state:InitialStateDialogsType = initialState, action: any): InitialStateDialogsType => {
+const dialogsReducer = (state:InitialStateDialogsType = initialState, action: ActionTypes): InitialStateDialogsType => {
     switch (action.type) {
-        case ADD_CHAT_ITEM: {
+        case "SN/DIALOGS/ADD_CHAT_ITEM": {
             let newChatItem:ChatType = {
                 id: Date.now(),
                 message: action.text,
@@ -68,10 +77,5 @@ const dialogsReducer = (state:InitialStateDialogsType = initialState, action: an
     }
 }
 
-// Создание action creator для добавления сообщения в чат
-type AddChatItemActionCreatorActionType = {
-	type: typeof ADD_CHAT_ITEM
-	text: string
-}
-export const addChatItemActionCreator = (text: string):AddChatItemActionCreatorActionType => ({type: ADD_CHAT_ITEM, text});
+
 export default dialogsReducer;
