@@ -22,10 +22,13 @@ type RootReducerType = typeof reducers;
 export type AppStateType = ReturnType<RootReducerType>;
 
 
-// Определяем типы для корневого редуктора и для всего состояния приложения.
-
-type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
-export type InferActionsTypes<T extends {[key: string]: (...arg: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+// Тип InferActionsTypes позволяет извлечь типы действий (action types) из объекта, содержащего action creators.
+export type InferActionsTypes<T> = T extends {[key: string]: (...arg: any[]) => infer U} ? U : never
+// Тип InferActionsTypes<T> представляет собой удобный способ извлечения типов действий (action types) из объекта, содержащего создателей действий (action creators). Обычно этот тип используется в Redux-приложениях для автоматического определения типов действий, созданных с помощью action creators.
+// T - это тип объекта, который содержит в себе action creators.
+// { [key: string]: (...args: any[]) => infer U } - это сигнатура типа, описывающая объект, где ключи - это строки (action types), а значения - это функции, которые могут принимать разные аргументы и возвращать некоторый результат, описанный типом U.
+//  infer U - это ключевое слово infer, которое извлекает тип U из типа функции.
+//  Таким образом, InferActionsTypes принимает объект с action creators и возвращает тип, который представляет собой объединение всех возможных типов, возвращаемых этими action creators. Это позволяет легко определять типы для редюсеров и улучшает статическую проверку типов в Redux-приложениях.
 
 // Реализация редуктора, который обрабатывает различные действия.
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>; //  означает, что ваша thunk возвращает Promise<void>, работает с состоянием типа AppStateType, и принимает действия типа ActionsTypes.
