@@ -1,23 +1,21 @@
 // Определение констант для типов действий
 import { getAuthUserData } from './auth-reduce.ts';
+import {InferActionsTypes} from "./redux-store";
 
-const ActionTypes = {
-	SET_INITIALIZED: 'SET_INITIALIZED', // Тип действия для установки флага initialized
-};
 
-// Определение начального состояния приложения
-type initialStateType = {
-	initialized: boolean; // Флаг, указывающий на инициализацию приложения
-};
-
-const initialState: initialStateType = {
+const initialState = {
 	initialized: false, // Начальное состояние: приложение не инициализировано
 };
 
+type initialStateType = typeof initialState
+
+type ActionTypes = InferActionsTypes<typeof actions>
+
+
 // Редуктор приложения
-const appReducer = (state: initialStateType = initialState, action: any): initialStateType => {
+const appReducer = (state: initialStateType = initialState, action: ActionTypes): initialStateType => {
 	switch (action.type) {
-		case ActionTypes.SET_INITIALIZED:
+		case 'SN/APP/SET_INITIALIZED':
 			// Обработка действия SET_INITIALIZED: установка флага initialized в true
 			return { ...state, initialized: true };
 		default:
@@ -25,20 +23,15 @@ const appReducer = (state: initialStateType = initialState, action: any): initia
 	}
 };
 
-// Определение типа действия initializedSuccessActionType
-type initializedSuccessActionType = {
-	type: typeof ActionTypes.SET_INITIALIZED; // Определение типа действия SET_INITIALIZED
+export const actions = {
+	initializedSuccess: () => ({type: 'SN/APP/SET_INITIALIZED',} as const),
 }
 
-// Действие для установки флага initialized в true
-export const initializedSuccess = (): initializedSuccessActionType => ({
-	type: ActionTypes.SET_INITIALIZED,
-});
 
 // Действие для инициализации приложения
 export const initializeApp = () => async (dispatch: any) => {
 	await dispatch(getAuthUserData()); // Вызов функции для получения данных пользователя
-	dispatch(initializedSuccess()); // Вызов действия initializedSuccess для установки флага initialized в true
+	dispatch(actions.initializedSuccess()); // Вызов действия initializedSuccess для установки флага initialized в true
 };
 
 export default appReducer; // Экспорт редуктора

@@ -1,74 +1,57 @@
+// Импорты из других модулей и файлов
 import { ResultCodesEnum } from "../../api/api.ts";
-import {authAPI} from "../../api/authAPI.ts";
-import {securityAPI} from "../../api/securityAPI.ts";
+import { authAPI } from "../../api/authAPI.ts";
+import { securityAPI } from "../../api/securityAPI.ts";
+import { InferActionsTypes } from "./redux-store";
 
-// Определение констант для типов действий
-const SET_USER_DATA = 'SET_USER_DATA';
-const GET_CAPTCHA_URL_SUCCESS = 'GET_CAPTCHA_URL_SUCCESS';
-
-type initialStateType = {
-	id: number | null,
-	login: string | null,
-	email: string | null,
-	isAuth: boolean | false,
-	captchaUrl: string | null, // if null? значит капча не обязательна
+// Исходное состояние для редюсера авторизации
+const initialState = {
+	id: null,           // ID пользователя
+	login: null,         // Логин пользователя
+	email: null,         // Электронная почта пользователя
+	isAuth: false,       // Флаг, указывающий, авторизован ли пользователь
+	captchaUrl: null,   // URL капчи, если она требуется (если null, капча не требуется)
 }
+type initialStateType = typeof initialState
 
-// Исходное состояние для редюсера
-const initialState: initialStateType = {
-	id: null,
-	login: null,
-	email: null,
-	isAuth: false,
-	captchaUrl: null, // if null? значит капча не обязательна
+// Типы действий, которые могут быть выполнены в редюсере
+type ActionTypes = InferActionsTypes<typeof actions>
+
+// Action creators (создатели действий) для установки данных пользователя и URL капчи
+export const actions = {
+	setAuthUserData: (id: number, login: string, email: string, isAuth: boolean) => ({
+		type: 'SET_USER_DATA',
+		payload: { id, login, email, isAuth },
+	} as const),
+	getCaptchaUrlSuccess: (captchaUrl: string) => ({
+		type: 'GET_CAPTCHA_URL_SUCCESS',
+		payload: { captchaUrl },
+	} as const)
 }
 
 // Редюсер для управления состоянием авторизации
-const authReducer = (state = initialState, action): initialStateType => {
+const authReducer = (state = initialState, action: ActionTypes): initialStateType => {
 	switch (action.type) {
-		case SET_USER_DATA:
-		case GET_CAPTCHA_URL_SUCCESS:
+		case 'SET_USER_DATA':
+		case 'GET_CAPTCHA_URL_SUCCESS':
+			// Обновляем состояние, объединяя текущее состояние и данные из action.payload
 			return {
 				...state,
-				...action.payload, // Объединяем текущее состояние и данные из action.payload
+				...action.payload,
 			}
 		default:
 			return state;
 	}
 }
 
-type SetAuthUserDataActionPayloadType = {
-	id: number
-	login: string
-	email: string
-	isAuth: boolean
-}
-type SetAuthUserDataActionType = {
-	type: typeof SET_USER_DATA,
-	payload: SetAuthUserDataActionPayloadType
-}
-// Action creators (создатели действий)
-export const setAuthUserData = (id: number, login: string, email: string, isAuth: boolean): SetAuthUserDataActionType => ({
-	type: SET_USER_DATA,
-	payload: { id, login, email, isAuth }, // Упрощенный синтаксис для создания объекта
-});
-
-type GetCaptchaUrlSuccessActionType = {
-	type: typeof GET_CAPTCHA_URL_SUCCESS
-	payload: { captchaUrl: string }
-}
-export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType => ({
-	type: GET_CAPTCHA_URL_SUCCESS,
-	payload: { captchaUrl },
-})
 // Асинхронные action creators (действия, которые выполняют асинхронные операции)
 export const getAuthUserData = () => {
 	return async (dispatch: any) => {
 		try {
-			const data = await authAPI.getAuthMe()
+			const data = await authAPI.getAuthMe();
 			if (data.resultCode === ResultCodesEnum.Success) {
 				const { id, login, email } = data.data;
-				dispatch(setAuthUserData(id, login, email, true));
+				dispatch(actions.setAuthUserData(id, login, email, true));
 			}
 		} catch (error) {
 			console.error(error);
@@ -81,16 +64,15 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
 		try {
 			const response = await authAPI.login(email, password, rememberMe, captcha);
 			if (response.data.resultCode === ResultCodesEnum.Success) {
-				// авторизовались и получаем дополнительные данные
 				dispatch(getAuthUserData());
 			} else {
 				if (response.data.resultCode === ResultCodesEnum.CaptchaIsRequired) {
-					dispatch(getCaptchaUrl())
+					dispatch(getCaptchaUrl());
 				}
 			}
 		} catch (error) {
 			console.error(error);
-			throw error; // Передача исходной ошибки дальше
+			throw error;
 		}
 	};
 };
@@ -100,7 +82,7 @@ export const logout = () => {
 		try {
 			const response = await authAPI.logout();
 			if (response.data.resultCode === ResultCodesEnum.Success) {
-				dispatch(setAuthUserData(null, null, null, false));
+				dispatch(actions.setAuthUserData(null, null, null, false));
 			}
 		} catch (error) {
 			console.error(error);
@@ -113,7 +95,7 @@ export const getCaptchaUrl = () => {
 		try {
 			const response = await securityAPI.getCaptchaUrl();
 			const captchaUrl = response.data.url;
-			dispatch(getCaptchaUrlSuccess(captchaUrl)); // Вызываем action creator для сохранения URL капчи в состоянии
+			dispatch(actions.getCaptchaUrlSuccess(captchaUrl));
 		} catch (error) {
 			console.error(error);
 		}
