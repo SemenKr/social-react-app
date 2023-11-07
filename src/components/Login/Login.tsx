@@ -32,11 +32,13 @@ interface FormData {
 const LoginForm: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({login, captchaUrl}) => {
     const onSubmit = async (values: FormData) => {
         try {
-            await login(values.email, values.password, values.rememberMe, values.captcha);
+            login(values.email, values.password, values.rememberMe, values.captcha);
+            window.location.reload();
         } catch (error) {
             return {[FORM_ERROR]: error.message};
         }
     };
+
 
     return (
         <Container maxWidth="sm">
@@ -161,9 +163,13 @@ const Login: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({is
 }
 
 
-const mapStateToProps = (state: AppStateType): LoginMapToStateToPropsType => ({
-    captchaUrl: state.auth.captchaUrl,
-    isAuth: state.auth.isAuth
-});
+const mapStateToProps = (state: AppStateType): LoginMapToStateToPropsType => {
+    console.log('mapStateToProps isAuth:', state.auth.isAuth);
+
+    return {
+        captchaUrl: state.auth.captchaUrl,
+        isAuth: state.auth.isAuth
+    };
+};
 
 export default connect(mapStateToProps, {login, logout})(Login);
