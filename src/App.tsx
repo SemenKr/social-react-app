@@ -3,7 +3,7 @@ import './App.scss';
 import {Routes, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import DialogsContainer from "./components/Dialogs/DialogsContainer.tsx";
 import NavBarContainer from "./components/NavBar/NavBarContainer";
 import UsersContainer from "./components/Users/UsersContainer.tsx";
 import ProfileContainer from "./components/Profile/ProfileContainer";

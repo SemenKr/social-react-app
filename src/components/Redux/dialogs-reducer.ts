@@ -52,7 +52,7 @@ export type InitialStateDialogsType = typeof initialState
 type ActionTypes = InferActionsTypes<typeof actions>
 
 export const actions = {
-    addChatItemActionCreator: (text: string) => ({type: 'SN/DIALOGS/ADD_CHAT_ITEM', text} as const),
+    sendMessage: (text: string) => ({type: 'SN/DIALOGS/ADD_CHAT_ITEM', text} as const),
 }
 
 // Редуктор для обработки действий
