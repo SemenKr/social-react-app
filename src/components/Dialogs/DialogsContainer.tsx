@@ -1,9 +1,9 @@
- import {actions} from '../Redux/dialogs-reducer';
+ import {actions} from '../Redux/dialogs-reducer.ts';
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {withAuthRedirect} from "../hoc/withAuthRedirect";
  import {compose} from "redux";
- import {AppStateType} from "../Redux/redux-store";
+ import {AppStateType} from "../Redux/redux-store.ts";
  import {ComponentType} from "react";
 
 
