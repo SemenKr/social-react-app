@@ -2,7 +2,6 @@ import {FC, useEffect, useState} from 'react';
 import styles from './users.module.scss';
 import User from "./User";
 import Pagination from "../ui/Pagination.tsx";
-import {UserType} from "../../types/types";
 
 type PropsType = {
     totalUsersCount: number
@@ -10,8 +9,6 @@ type PropsType = {
     followingInProgress: Array<number>
     unfollow: () => void
     follow: () => void
-    pageNumber: number
-    user: Array<UserType>
     currentPage: number
     onPageChange: (pageNumber: number) => void
 }
