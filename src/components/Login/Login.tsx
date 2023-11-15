@@ -1,175 +1,151 @@
-// Login.tsx
-import  {FC} from "react";
-import styles from './Login.module.scss'
-import {Form, Field} from 'react-final-form';
-import {Button, Checkbox, Container, Grid, TextField} from "@mui/material";
-import {composeValidators, minLength, required} from "../utils/validators.ts";
-import {connect} from "react-redux";
-import {login, logout} from "../Redux/auth-reduce.ts";
-import {Navigate} from "react-router";
-import {FORM_ERROR} from "final-form";
+//
+import React from 'react'
+import {ErrorMessage, Field, Form, Formik} from 'formik'
+import * as Yup from 'yup'
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../Redux/redux-store";
+import {Navigate} from "react-router";
+import {ErrorMessageWrapper, validateEmailField} from "../utils/validators";
+import {login} from "../Redux/auth-reduce";
 
 
-type LoginMapToStateToPropsType = {
-    captchaUrl: string | null
-    isAuth: boolean
-}
-
-type LoginMapDispatchToPropsType = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-    logout: () => void
-}
-interface FormData {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-    captcha?: string;
-    // Другие поля вашей формы
-}
+const validationSchema = Yup.object().shape({
+    password: Yup.string()
+        .min(2, 'Must be longer than 2 characters')
+        .max(15, 'Must be shorter than 15 characters')
+        .required('Required 2')
+})
 
 
-const LoginForm: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({login, captchaUrl}) => {
-    const onSubmit = async (values: FormData) => {
-        try {
-            login(values.email, values.password, values.rememberMe, values.captcha);
-            window.location.reload();
-        } catch (error) {
-            return {[FORM_ERROR]: error.message};
-        }
-    };
+export const LoginPage: React.FC = () => {
 
+    const captchaUrl = useSelector(
+        (state: AppStateType) => state.auth.captchaUrl)
 
-    return (
-        <Container maxWidth="sm">
-            <Form onSubmit={onSubmit}>
-                {({handleSubmit, submitting, pristine, form, submitError}) => (
-                    <form className={styles.form} onSubmit={handleSubmit}>
-                        <Field<string>
-                            name='email'
-                            validate={composeValidators(required, minLength(5))}
-                        >
-                            {({input, meta}) => (
-                                <div>
-                                    <TextField
-                                        label="Имя"
-                                        {...input}
-                                        autoComplete="username"
-                                        error={meta.error && meta.touched}
-                                        helperText={meta.touched && meta.error}
-                                    />
-                                </div>
-                            )}
-                        </Field>
-                        <Field<string>
-                            name='password'
-                            validate={composeValidators(required, minLength(5))}
-                        >
-                            {({input, meta}) => (
-                                <div>
-                                    <TextField
-                                        label="Пароль"
-                                        {...input}
-                                        type='password'
-                                        autoComplete="current-password"
-                                        error={meta.error && meta.touched}
-                                        helperText={meta.touched && meta.error}
-                                    />
-                                </div>
-                            )}
-                        </Field>
-                        <Field<boolean>
-                            name='agreement'
-                            type='checkbox'
-                            validate={required}
-                        >
-                            {({input, meta}) => (
-                                <div>
-                                    {meta.touched && meta.error && (
-                                        <span className={styles.form__error}>{meta.error}</span>
-                                    )}
-                                    <Checkbox
-                                        {...input}
-                                        checked={input.value}
-                                        onChange={input.onChange}
-                                    />
-                                    <label htmlFor="login-form-agree">Согласие</label>
-                                </div>
-                            )}
-                        </Field>
-                        {submitError && <span className={styles.form__summaryError}>{submitError}</span>}
-                        {captchaUrl && <img src={captchaUrl} alt={"Captcha"}/>}
-                        {captchaUrl &&
-                            <Field<string>
-                                name='captcha'
-                                validate={composeValidators(required)}>
-                                {({input, meta}) => (
-                                    <div>
-                                        <TextField
-                                            label="captcha"
-                                            {...input}
-                                            error={meta.error && meta.touched}
-                                            helperText={meta.touched && meta.error}
-                                        />
-                                    </div>
-                                )}
-                            </Field>}
+    const isAuth = useSelector(
+        (state: AppStateType) => state.auth.isAuth)
 
+    const dispatch = useDispatch()
 
-                        <Grid container spacing={2}>
-                            <Grid item>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    type="submit"
-                                    disabled={submitting || pristine}
-                                >
-                                    Submit
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="contained"
-                                    type="button"
-                                    disabled={pristine}
-                                    onClick={() => {
-                                        form.reset()
-                                    }}
-                                >
-                                    Reset
-                                </Button>
-                            </Grid>
-
-                        </Grid>
-                    </form>
-                )}
-            </Form>
-
-        </Container>
-    );
-}
-
-const Login: FC<LoginMapToStateToPropsType & LoginMapDispatchToPropsType> = ({isAuth, login, captchaUrl}) => {
 
     if (isAuth) {
-        return <Navigate to={'/profile'}/>
+        return <Navigate to={'/profile'} />
     }
+
     return (
-        <>
-            <h1>Вы не зарегистрированы</h1>
-            <LoginForm login={login} isAuth={isAuth} logout={logout} captchaUrl={captchaUrl}/>
-        </>
+        <div className={""}>
+            <h2> Login page </h2>
+
+            <Formik
+                initialValues={{
+                    email: '',
+                    password: '',
+                    rememberMe: false,
+                    general: '',
+                    captcha: ''
+                }}
+                validate={validateEmailField}
+                validationSchema={validationSchema}
+
+                onSubmit={(
+                    values,
+                    bagWithMethods) => {
+
+                    let {setStatus, setFieldValue, setSubmitting} = bagWithMethods
+
+                    dispatch(login(
+                        values,
+                        setStatus,
+                        setFieldValue,
+                        setSubmitting))
+                }}
+            >
+                {(propsF) => {
+                    let {status, values, isSubmitting} = propsF
+                    //console.log( status );
+                    //console.log( values.general );
+                    //console.log( propsF.isSubmitting );
+
+                    return (
+                        <Form>
+                            <div>
+
+                                {values.general &&
+                                    <div>
+                                        _.{values.general} - with setFieldValue
+                                    </div>}
+
+                                {status &&
+                                    <div className={""}>
+                                        ..{status}
+                                    </div>}
+
+                                {status && captchaUrl &&
+                                    <div>
+
+                                        <div>
+                                            <img src={captchaUrl} alt={status} />
+                                        </div>
+
+                                        <div>
+                                            <Field
+                                                name={'captcha'}
+                                                type={'text'} />
+                                        </div>
+
+                                    </div>
+                                }
+
+                                <div>
+                                    <Field
+                                        name={'email'}
+                                        type={'text'}
+                                        placeholder={'email'} />
+                                </div>
+                                <ErrorMessage name='email'>
+                                    {ErrorMessageWrapper}
+                                </ErrorMessage>
+
+                                <div className={""}>
+                                    <Field
+                                        name={'password'}
+                                        type={'password'}
+                                        placeholder={'password'} />
+                                </div>
+                                <ErrorMessage name='password'>
+                                    {ErrorMessageWrapper}
+                                </ErrorMessage>
+
+                                <div className={""}>
+                                    <Field
+                                        type={'checkbox'}
+                                        name={'rememberMe'}
+                                        id='rememberMe' />
+                                    <label htmlFor={'rememberMe'}> remember me </label>
+                                </div>
+
+                                <button type={'submit'}
+                                        disabled={isSubmitting}
+                                        className={""}
+                                >{isSubmitting ? 'Please wait...' : 'Submit'}</button>
+                                <br /><br />
+
+                            </div>
+                        </Form>
+                    )
+                }
+                }
+            </Formik>
+
+        </div>
     )
 }
 
 
-const mapStateToProps = (state: AppStateType): LoginMapToStateToPropsType => {
-    console.log('mapStateToProps isAuth:', state.auth.isAuth);
+//region Description
+// так пишем если ошибку вывести без красного шрифта
+// <ErrorMessage name="email" component="div" />
 
-    return {
-        captchaUrl: state.auth.captchaUrl,
-        isAuth: state.auth.isAuth
-    };
-};
+// lel = {errors, touched, isValid, dirty, status} = props;
+//endregion
 
-export default connect(mapStateToProps, {login, logout})(Login);

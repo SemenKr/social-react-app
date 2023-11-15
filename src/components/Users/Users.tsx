@@ -1,59 +1,137 @@
-import {FC, useEffect, useState} from 'react';
-import styles from './users.module.scss';
+import {FC, useEffect} from "react";
+import {useDispatch, useSelector} from 'react-redux'
+import {
+   getCurrentPage, getFollowingInProgress,
+   getPageSize,
+   getTotalUsersCount,
+   getUsersFilter,
+   getUsersSuperSelector
+} from "../Redux/users-selectors";
+import {useSearchParams} from "react-router-dom";
+import {FilterUsersReducerType, follow, requestUsers, unfollow} from "../Redux/users-reducer";
 import User from "./User";
-import Pagination from "../ui/Pagination.tsx";
+import Paginator from "../../Paginator/Paginator";
+import UsersSearchForm from "./UsersSearchForm";
 import {UserType} from "../../types/types";
 
-type PropsType = {
-    totalUsersCount: number
-    pageSize: number
-    followingInProgress: Array<number>
-    unfollow: () => void
-    follow: () => void
-    pageNumber: number
-    user: Array<UserType>
-    currentPage: number
-    onPageChange: (pageNumber: number) => void
+
+export const Users: FC = () => {
+
+   const users = useSelector(getUsersSuperSelector)
+   const totalUsersCount = useSelector(getTotalUsersCount)
+   const currentPage = useSelector(getCurrentPage)
+   const pageSize = useSelector(getPageSize)
+   const filter = useSelector(getUsersFilter)
+   const followingInProgress = useSelector(getFollowingInProgress)
+
+   const dispatch = useDispatch()
+
+   const [searchParams, setSearchParams] = useSearchParams()
+
+
+   useEffect(() => {
+
+      const result: any = {}
+      // @ts-ignore
+      for (const [key, value] of searchParams.entries()) {
+         let value2: any = +value
+         if (isNaN(value2)) {
+            value2 = value
+         }
+         if (value === 'true') {
+            value2 = true
+         } else if (value === 'false') {
+            value2 = false
+         }
+         result[key] = value2
+      }
+
+      let actualPage = result.page || currentPage
+      let term = result.term || filter.term
+
+      let friend = result.friend || filter.friend
+      if (result.friend === false) {
+         friend = result.friend
+      }
+
+      const actualFilter = {friend, term}
+
+      dispatch(requestUsers(actualPage, pageSize, actualFilter))
+
+      // eslint-disable-next-line
+   }, [])
+
+
+   useEffect(() => {
+
+      const term = filter.term
+      const friend = filter.friend
+
+      let urlQuery =
+          (term === '' ? '' : `&term=${term}`)
+          + (friend === null ? '' : `&friend=${friend}`)
+          + (currentPage === 1 ? '' : `&page=${currentPage}`)
+
+      setSearchParams(urlQuery)
+
+      // eslint-disable-next-line
+   }, [filter, currentPage])
+
+
+   const onPageChanged = (pageNumber: number) => {
+      dispatch(requestUsers(pageNumber, pageSize, filter))
+   }
+
+   const onFilterChanged = (filter: FilterUsersReducerType) => {
+      dispatch(requestUsers(1, pageSize, filter))
+   }
+
+   const followTransit = (userId: number) => {
+      dispatch(follow(userId))
+   }
+
+   const unfollowTransit = (userId: number) => {
+      dispatch(unfollow(userId))
+   }
+
+
+   return (
+       <div>
+
+          <div>
+             <UsersSearchForm onFilterChanged={onFilterChanged} />
+          </div>
+
+          <Paginator currentPage={currentPage}
+                     onPageChanged={onPageChanged}
+                     totalItemsCount={totalUsersCount}
+                     pageSize={pageSize}
+          />
+
+          <div>
+             {users.map((user: UserType) =>
+                 <User key={user.id}
+                       user={user}
+                       followingInProgress={followingInProgress}
+                       follow={followTransit}
+                       unfollow={unfollowTransit}
+                 />)
+             }
+          </div>
+
+       </div>)
 }
 
 
-let Users:FC<PropsType> = ({totalUsersCount, pageSize, followingInProgress, unfollow, follow, ...props}) => {
+//region Description
+// const urlAtStartRender1 = searchParams.toString()
+//
+// const [urlAtStartRender, setUrlAtStartRender] = useState('')
+// //и в зависимости urlAtStartRender ставить
+// // и если не в useEffect сетать то будет бесконечнный циклк
+// // и нужно что бы исполльзоваласт в хуке
+// let sss2 = urlAtStartRender
+// setUrlAtStartRender(urlAtStartRender1)
 
-    const [currentPage, setCurrentPage] = useState(props.currentPage);
 
-    // Используем useEffect для синхронизации обоих экземпляров Pagination
-    useEffect(() => {
-        setCurrentPage(props.currentPage);
-    }, [props.currentPage]);
 
-    const onPageChange = (pageNumber: number) => {
-        setCurrentPage(pageNumber);
-        props.onPageChange(pageNumber);
-    };
-
-    return (
-        <section className={styles.users}>
-            <h3 className={styles.users__title}>Users</h3>
-            <Pagination totalUsersCount={totalUsersCount}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={onPageChange}
-            />
-            <ul className={styles.users__List}>
-                {
-                    props.users.map(user => <User user={user}
-                                                  key={user.id}
-                                                  followingInProgress={followingInProgress}
-                                                  unfollow={unfollow}
-                                                  follow={follow}
-                        />
-                    )
-                }
-
-            </ul>
-        </section>
-    );
-
-};
-
-export default Users;

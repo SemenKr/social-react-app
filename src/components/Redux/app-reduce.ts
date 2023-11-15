@@ -1,5 +1,5 @@
 // Определение констант для типов действий
-import { getAuthUserData } from './auth-reduce.ts';
+import { getAuthUserData } from './auth-reduce';
 import {InferActionsTypes} from "./redux-store";
 
 

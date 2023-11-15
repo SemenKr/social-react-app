@@ -5,7 +5,7 @@ import {Navigate} from "react-router";
 import {Field, Form, FormSpy} from "react-final-form";
 import {Button} from "@mui/material";
 import {Textarea} from "../ui/Form-controls";
-import {composeValidators, maxLength, minLength} from "../utils/validators.ts";
+import {composeValidators, maxLength, minLength} from "../utils/validators.tsx";
 
 const ChatItem = (props) => {
 	const avatars = {

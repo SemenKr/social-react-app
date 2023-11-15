@@ -1,5 +1,5 @@
 import {PhotosType, PostsDataType, ProfileType} from "../../types/types";
-import {profileAPI} from "../../api/profileAPI.ts";
+import {profileAPI} from "../../api/profileAPI";
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
 
 // Начальное состояние (initial state) для редюсера
@@ -33,7 +33,7 @@ export const actions = {
 }
 
 // Thunks (Асинхронные действия)
-export const getProfileUserThunk = (userId: number) => async (dispatch: any) => {
+export const getProfileUserThunk = (userId: number): ThunkType => async (dispatch: any) => {
     try {
         const data = await profileAPI.getProfileUser(userId);
         dispatch(actions.setUserProfile(data));
@@ -54,15 +54,15 @@ export const updateStatus = (status: string): ThunkType => async (dispatch) => {
             dispatch(actions.setStatus(status));
         } else {
             // Если resultCode не равен 0, обрабатываем ошибку
-            console.error('Failed to update status:', response.data.messages);
+            const error = response.data.messages.length > 0 ? response.data.messages[0] : 'Unknown error';
+            console.error('Failed to update status:', error);
         }
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error while updating status:', error.message);
 
         if (error.response) {
             // Если есть ответ от сервера, проверяем статус ошибки HTTP
-            console.error('HTTP Status:', error.response.status);
-            console.error('HTTP Status Text:', error.response.statusText);
+            console.error('HTTP Status:', (error.response as any).status);
         } else {
             // В случае, если нет ответа от сервера
             console.error('No response from server');
@@ -70,21 +70,27 @@ export const updateStatus = (status: string): ThunkType => async (dispatch) => {
     }
 };
 
-export const savePhoto = (photoFile: File): ThunkType => async (dispatch) => {
+
+export const savePhoto = (photoFile: File): ThunkType => async (dispatch, getState) => {
     const response = await profileAPI.savePhoto(photoFile);
     if (response.resultCode === 0) {
-        dispatch(actions.savePhotoSuccess(response.data.photos));
+        const userId = getState().auth.id;
+        if (userId) {
+            dispatch(actions.savePhotoSuccess(response.data.photos));
+        }
     }
 };
 
-export const saveProfileData = (profileData: ProfileType): ThunkType => async (dispatch, getState) => {
-    const userId = getState().auth.id;
+
+export const saveProfileData = (
+    profileData: ProfileType): ThunkType => async (dispatch, getState) => {
     const response = await profileAPI.saveProfileData(profileData);
     if (response.data.resultCode === 0) {
-        if (userId != null) {
-            dispatch(getProfileUserThunk(userId));
+        const userId = getState().auth.id;
+        if (userId) {
+            await dispatch(getProfileUserThunk(userId));
         } else {
-            throw new Error("userId cant be null");
+            throw new Error('userId can\'t be null')
         }
     }
 };
@@ -112,7 +118,7 @@ const profileReducer = (state = initialState, action: ActionTypes): InitialState
         case "SET_PHOTO_SUCCESS": // Установка новых фотографий в профиль
             return {
                 ...state,
-                profile: {...state.profile, photos: action.photos},
+                profile: {...state.profile, photos: action.photos} as ProfileType,
             };
         default:
             return state;

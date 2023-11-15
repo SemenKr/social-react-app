@@ -1,28 +1,36 @@
-import React, {useEffect} from "react";
+import {useEffect} from "react";
 import './App.scss';
 import {Routes, Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import DialogsContainer from "./components/Dialogs/DialogsContainer.tsx";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import NavBarContainer from "./components/NavBar/NavBarContainer";
-import UsersContainer from "./components/Users/UsersContainer.tsx";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from './components/Header/HeaderContainer';
-import Login from "./components/Login/Login.tsx";
-import {initializeApp} from "./components/Redux/app-reduce.ts";
+import {initializeApp} from "./components/Redux/app-reduce";
 import {connect} from "react-redux";
 import Preloader from "./components/common/Preloader/Preloader";
 import {compose} from "redux";
 import NotFoundPage from "./components/common/404error/Error404";
 import {Navigate} from "react-router";
+import {AppStateType} from "./components/Redux/redux-store";
+import {UserPage} from "./components/Users/UsersContainer";
+import {LoginPage} from "./components/Login/Login";
 
-function App({initialized, initializeApp}) {
+//const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+//const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+//
+// type MapPropsType = ReturnType<typeof mapStateToProps>
+//
+// type DispatchPropsType = { initializeApp: () => void }
+
+function App({initialized, initializeApp}: { initialized: boolean; initializeApp: () => void }) {
 	useEffect(() => {
 		// Добавляем слушатель события unhandledrejection
 		window.addEventListener("unhandledrejection", handlePromiseRejection);
 
 		// Функция-обработчик необработанных промисов
-		function handlePromiseRejection(event) {
+		function handlePromiseRejection(event: PromiseRejectionEvent) {
 			const {reason} = event;
 			console.error("Unhandled Promise Rejection:", reason);
 
@@ -56,9 +64,9 @@ function App({initialized, initializeApp}) {
 					<Route path='/profile/:userId?' element={<ProfileContainer />} />
 					<Route path="/messages/*" element={<DialogsContainer />} />
 					<Route path='/news' element={<News />} />
-					<Route path='/users' element={<UsersContainer pageTitle={"Samurai"} />} />
+					<Route path='/users' element={<UserPage pageTitle={"Samurai"} />} />
 					<Route path='/music' element={<Music />} />
-					<Route path='/login' element={<Login />} />
+					<Route path='/login' element={<LoginPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
 			</div>
@@ -66,7 +74,7 @@ function App({initialized, initializeApp}) {
 	);
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
 	initialized: state.app.initialized // Сопоставляем свойство initialized из Redux состояния с props.
 });
 

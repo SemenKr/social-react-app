@@ -1,14 +1,14 @@
 import {Action, applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
-import navBarReducer from "./navBar-reducer.ts";
-import profileReducer from "./profile-reducer.ts";
-import dialogsReducer from "./dialogs-reducer.ts";
-import usersReducer from "./users-reducer.ts";
-import authReducer from './auth-reduce.ts';
+import navBarReducer from "./navBar-reducer";
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import usersReducer from "./users-reducer";
+import authReducer from './auth-reduce';
 import thunkMiddleWare, {ThunkAction} from "redux-thunk";
-import appReduce from "./app-reduce.ts";
+import appReduce from "./app-reduce";
 
 // Импортируем необходимые зависимости для настройки Redux.
-let reducers = combineReducers({
+let rootReducers = combineReducers({
     navBar: navBarReducer,
     profilePage: profileReducer,
     dialogPage: dialogsReducer,
@@ -18,8 +18,8 @@ let reducers = combineReducers({
 })
 
 // Создаем корневой редуктор, объединяя редукторы для каждой части состояния.
-type RootReducerType = typeof reducers;
-export type AppStateType = ReturnType<RootReducerType>;
+type RootReducersType = typeof rootReducers;
+export type AppStateType = ReturnType<RootReducersType>;
 
 
 // Тип InferActionsTypes позволяет извлечь типы действий (action types) из объекта, содержащего action creators.
@@ -31,15 +31,16 @@ export type InferActionsTypes<T> = T extends {[key: string]: (...arg: any[]) => 
 //  Таким образом, InferActionsTypes принимает объект с action creators и возвращает тип, который представляет собой объединение всех возможных типов, возвращаемых этими action creators. Это позволяет легко определять типы для редюсеров и улучшает статическую проверку типов в Redux-приложениях.
 
 // Реализация редуктора, который обрабатывает различные действия.
-export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>; //  означает, что ваша thunk возвращает Promise<void>, работает с состоянием типа AppStateType, и принимает действия типа ActionsTypes.
-
+export type BaseThunkType<ActionTypes extends Action,
+    ReturnType = Promise<void>> = ThunkAction<ReturnType,
+    AppStateType, unknown, ActionTypes>
 
 // Создаем утилиты для работы с типами действий.
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Определяем расширение для Redux DevTools (если доступно).
-const store = createStore(reducers, /* preloadedState, */ composeEnhancers(applyMiddleware(thunkMiddleWare)))
+const store = createStore(rootReducers, /* preloadedState, */ composeEnhancers(applyMiddleware(thunkMiddleWare)))
 // Создаем Redux-хранилище, передавая корневой редуктор, DevTools расширение и middleware redux-thunk.
 // @ts-ignore
 window.__store__ = store;

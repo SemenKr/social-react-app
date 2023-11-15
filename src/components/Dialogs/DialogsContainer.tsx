@@ -1,5 +1,5 @@
 // Импортируем действия из dialogs-reducer.ts
-import {actions} from '../Redux/dialogs-reducer.ts';
+import {actions} from '../Redux/dialogs-reducer';
 
 // Импортируем компонент Dialogs
 import Dialogs from "./Dialogs";
