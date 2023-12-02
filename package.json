@@ -1,7 +1,7 @@
 {
-	"name": "ReactKamasutra",
+	"name": "",
 	"version": "1.1.0",
-	"homepage": "https://maxim-saharov.github.io/ReactKamasutra",
+	"homepage": "",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "^7.18.6",
