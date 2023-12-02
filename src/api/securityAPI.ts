@@ -7,9 +7,9 @@ type GetCaptchaURLResponseType = {
 
 export const securityAPI = {
     // Функция для получения URL капчи
-    getCaptchaUrl() {
-        return instance.get<GetCaptchaURLResponseType>(`/security/get-captcha-url`)
-            .then(res=>res.data)
+    async getCaptchaUrl() {
+        let res = await instance.get<GetCaptchaURLResponseType>(`/security/get-captcha-url`);
+        return res.data;
     }
 
 }

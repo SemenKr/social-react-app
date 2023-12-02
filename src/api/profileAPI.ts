@@ -1,4 +1,4 @@
-import { instance, APIResponseType } from "./api"; // Уберите расширение файла из импорта
+import { instance, APIResponseType } from "./api";
 import { PhotosType, ProfileType } from "../types/types";
 
 export const profileAPI = {
@@ -16,11 +16,12 @@ export const profileAPI = {
     updateStatus(status: string) { // Добавлен тип для status
         return instance.put<APIResponseType<PhotosType>>('profile/status', { status });
     },
-    savePhoto(photoFile: File) { // Добавлен тип для photoFile
+    async savePhoto(photoFile: any) { // Добавлен тип для photoFile
+        // @ts-ignore
         const formData = new FormData();
         formData.append('image', photoFile);
-        return instance.put(`profile/photo`, formData)
-            .then((res) => res.data);
+        const res = await instance.put(`profile/photo`, formData);
+        return res.data;
     },
     saveProfileData(profileData: any) { // Добавлен тип для profileData
         console.log('API профиля', profileData);
