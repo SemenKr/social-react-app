@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, {ChangeEvent, useState} from "react";
 import p from './ProfileInfo.module.scss';
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/user.png";
 import userBG from "../../../assets/images/user-bg.jpg";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
-import ProfileDataForm from './ProfileDataForm.tsx';
+import ProfileDataForm from './ProfileDataForm';
 import {Button} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {ProfileType} from "../../../types/types";
 
+interface ProfileInfoProps {
+	profile: ProfileType | null;
+	updateStatus: (status: string) => void;
+	status: string;
+	isOwner: boolean;
+	savePhoto: (file: File) => void;
+	saveProfileData: (data: any) => void; // Replace any with your actual data type
+}
+
+interface ContactProps {
+	contactTitle: string;
+	contactValue: string;
+}
 const VisuallyHiddenInput = styled('input')({
 	clip: 'rect(0 0 0 0)',
 	clipPath: 'inset(50%)',
@@ -21,13 +35,12 @@ const VisuallyHiddenInput = styled('input')({
 	width: 1,
 });
 
-
-const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, saveProfileData }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, updateStatus, status, isOwner, savePhoto, saveProfileData }) => {
 	const [editMode, setEditMode] = useState(false);
 
-	const onMainPhotoSelected = (e) => {
-		if (e.target.files?.length) {
-			savePhoto(e.target.files[0]);
+	const onMainPhotoSelected = (event: ChangeEvent<HTMLInputElement>) => {
+		if (event.target.files?.length) {
+			savePhoto(event.target.files[0]);
 		}
 	}
 
@@ -47,35 +60,47 @@ const ProfileInfo = ({ profile, updateStatus, status, isOwner, savePhoto, savePr
 				{isOwner && (
 					<div className={p.info__loadWrapper}>
 						{/* Input для загрузки фото */}
-						<Button component="label" onChange={onMainPhotoSelected} id="myFile" name="myfile" variant="contained" startIcon={<CloudUploadIcon />}>
-							Upload file
-							<VisuallyHiddenInput type="file" />
-						</Button>
+						<label htmlFor="myFile">
+							<Button component="span" variant="contained" startIcon={<CloudUploadIcon/>}>
+								Upload file
+							</Button>
+						</label>
+						<VisuallyHiddenInput id="myFile" name="myfile" type="file" onChange={onMainPhotoSelected}/>
+
+
 					</div>
 				)}
 
-				<ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
+				<ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
 
 				{editMode
-					? <ProfileDataForm profile={profile} saveProfileData={saveProfileData} setEditMode={setEditMode} />
+					? <ProfileDataForm profile={profile} handleSubmit={saveProfileData} goToViewMode={setEditMode} />
 					: <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode} />}
 			</div>
 		</div>
 	)
 }
 
-const ProfileData = ({ profile, isOwner, setEditMode }) => {
+type ProfileDataPropsType = {
+
+	profile: ProfileType
+	isOwner: boolean
+	setEditMode: React.Dispatch<React.SetStateAction<boolean>>;
+
+}
+
+const ProfileData: React.FC<ProfileDataPropsType> = ({ profile, isOwner, setEditMode }) => {
 	return (
 		<div>
 			{isOwner && <Button onClick={() => setEditMode(true)} variant="contained">Редактировать</Button>}
-			<p>{profile.fullName}</p>
-			<p className="">Looking for a job: {profile.lookingForAJob ? " yes" : " no"}</p>
-			{profile.lookingForAJob &&
-				<p className="">My prof skills: {profile.lookingForAJobDescription}</p>
+			<p>{profile?.fullName}</p>
+			<p className="">Ищу работу: {profile?.lookingForAJob ? " да" : " нет"}</p>
+			{profile?.lookingForAJob &&
+				<p className="">Мои профессиональные навыки: {profile.lookingForAJobDescription}</p>
 			}
-			{profile.contacts && (
+			{profile?.contacts && (
 				<div className={p.contacts}>
-					Contacts:
+					Контакты:
 					<ul>
 						{Object.entries(profile.contacts)
 							.filter(([_, value]) => value)
@@ -89,10 +114,10 @@ const ProfileData = ({ profile, isOwner, setEditMode }) => {
 				</div>
 			)}
 		</div>
-	)
-}
+	);
+};
 
-const Contact = ({ contactTitle, contactValue }) => {
+const Contact: React.FC<ContactProps> = ({ contactTitle, contactValue }) => {
 	return (
 		<span>
       <a
@@ -107,9 +132,9 @@ const Contact = ({ contactTitle, contactValue }) => {
 	)
 }
 
-function addPrefixToLink(key, value) {
+function addPrefixToLink(key: string, value: string) {
 	// Префиксы для контактов
-	const contactPrefixes = {
+	const contactPrefixes: { [key: string]: string } = {
 		github: "https://github.com/",
 		vk: "https://vk.com/",
 		// Добавьте другие контакты по аналогии

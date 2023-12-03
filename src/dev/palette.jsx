@@ -1,12 +1,7 @@
-import React from "react"
-import {Fragment} from "react"
-import {
-    Category,
-    Component,
-    Variant,
-    Palette,
-} from "@react-buddy/ide-toolbox"
+import React, {Fragment} from "react"
+import {Category, Component, Palette, Variant,} from "@react-buddy/ide-toolbox"
 import MUIPalette from "@react-buddy/palette-mui";
+import AntdPalette from "@react-buddy/palette-antd";
 
 export const PaletteTree = () => (
     <Palette>
@@ -18,6 +13,7 @@ export const PaletteTree = () => (
             </Component>
         </Category>
         <MUIPalette/>
+        <AntdPalette/>
     </Palette>
 )
 

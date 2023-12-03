@@ -14,15 +14,13 @@
 		"@mui/styled-engine": "^5.14.18",
 		"@mui/system": "^5.14.18",
 		"@react-buddy/ide-toolbox": "^2.4.0",
+		"@react-buddy/palette-antd": "^4.18.1",
 		"@react-buddy/palette-mui": "^5.0.2",
 		"@testing-library/dom": "^8.14.0",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",
 		"@testing-library/user-event": "^14.2.1",
 		"@types/jest": "^28.1.1",
-		"@types/node": "^17.0.44",
-		"@types/react": "^18.0.12",
-		"@types/react-dom": "^18.0.5",
 		"antd": "^4.21.4",
 		"axios": "^0.26.1",
 		"classnames": "^2.3.1",
@@ -69,10 +67,19 @@
 		]
 	},
 	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@types/node": "^20.10.2",
+		"@types/node-sass": "^4.11.7",
+		"@types/react": "^18.2.41",
+		"@types/react-dom": "^18.2.17",
 		"@typescript-eslint/eslint-plugin": "^5.30.0",
 		"@typescript-eslint/parser": "^5.28.0",
+		"css-loader": "^6.8.1",
 		"gh-pages": "^4.0.0",
+		"node-sass": "^7.0.3",
+		"sass": "^1.69.5",
+		"style-loader": "^3.3.3",
 		"typescript": "^5.3.2",
-		"typescript-plugin-css-modules": "^3.4.0"
+		"typescript-plugin-css-modules": "^5.0.2"
 	}
 }
